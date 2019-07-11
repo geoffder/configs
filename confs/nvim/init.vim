@@ -1,11 +1,11 @@
-" vim-plug 
+" vim-plug
 call plug#begin('~/.config/nvim/plugged')
 
 " general
 Plug 'tmhedberg/SimpylFold'
-Plug 'scrooloose/nerdtree' 
+Plug 'scrooloose/nerdtree'
 Plug 'Valloric/YouCompleteMe'
-Plug 'vim-syntastic/syntastic'
+Plug 'w0rp/ale'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
@@ -19,7 +19,6 @@ Plug 'morhetz/gruvbox'
 
 " python
 Plug 'kh3phr3n/python-syntax'
-Plug 'nvie/vim-flake8'
 
 " elixir
 Plug 'elixir-editors/vim-elixir'
@@ -54,9 +53,31 @@ nnoremap <space> za
 
 " NERDtree
 map <C-n> :NERDTreeToggle<CR>
+" NERDtree at startup if no arguments (ex. a file) given
+autocmd VimEnter * if !argc() | NERDTree | endif
+"autocmd BufEnter * if !argc() | NERDTreeMirror | endif
 
 " YouCompleteMe (autocomplete)
 let g:ycm_autoclose_preview_window_after_completion = 1
+
+" Start in GitRepos (parent of code directories)
+cd ~/GitRepos
+
+" ALE (Asynchronous Linting Engine)
+let g:ale_elixir_elixir_ls_release = '/home/geoff/.config/nvim/elixir-ls/rel'
+let g:ale_linters_explicit = 1
+let g:ale_lint_on_text_changed = 'always'
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'python': ['trim_whitespace'],
+\   'elixir': ['remove_trailing_lines', 'trim_whitespace']
+\}
+let g:ale_linters = {
+\   'python': ['flake8'],
+\   'elixir': ['elixir-ls']
+\}
+
 
 "" Language Specific
 " python
@@ -64,6 +85,3 @@ let g:python_highlight_all = 1
 
 " elixir
 autocmd BufWritePost *.exs,*.ex silent :!mix format %
-
-" Start in GitRepos (parent of code directories)
-cd ~/GitRepos
