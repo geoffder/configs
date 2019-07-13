@@ -63,7 +63,8 @@ floating_modifier $mod
 hide_edge_borders smart
 
 # start a terminal
-bindsym $mod+Return exec /usr/bin/rxvt -e zsh
+set $terminal kitty
+bindsym $mod+Return exec $terminal -e zsh
 
 # start a web browser
 bindsym $mod+Shift+Return exec /usr/bin/sensible-browser
@@ -178,9 +179,9 @@ bindsym $mod+Escape exec gnome-screensaver-command --lock
 # ##### My Shortcuts #####
 # File Browsing
 bindsym $mod+n exec nautilus
-bindsym $mod+m exec urxvt -e ranger
+bindsym $mod+m exec $terminal -e ranger
 # Code Related
-bindsym $mod+v exec urxvt -e nvim
+bindsym $mod+v exec $terminal -e nvim
 bindsym $mod+Shift+v exec code
 bindsym $mod+l exec /opt/clion-2019.1.4/bin/clion.sh
 bindsym $mod+g exec gitkraken
