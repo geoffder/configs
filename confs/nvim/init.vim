@@ -44,7 +44,17 @@ cd ~/GitRepos
 au FocusLost * silent! wa
 " Write buffer when switching to another buffer
 set autowrite
-
+" buffer screen updates instead of constantly updating
+set lazyredraw
+" always show at least X lines above and below cursor
+set scrolloff=1
+set display+=lastline
+" allow backspacing through anything in normal mode
+set backspace=indent,eol,start
+" longer command history
+set history=1000
+" don't look in ALL files for autocompletion
+set complete-=i
 
 " ##### A E S T H E T I C S #####
 "syntax highlighting
