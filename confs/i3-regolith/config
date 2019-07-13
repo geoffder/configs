@@ -2,8 +2,6 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-#font pango:Fira Code 13
-#font pango:Fira Code, FontAwesome 13
 # This defines which key super maps to on your keyboard.
 # Alt key is Mod1, and Windows key is Mod4
 set $mod Mod4
@@ -65,8 +63,7 @@ floating_modifier $mod
 hide_edge_borders smart
 
 # start a terminal
-#bindsym $mod+Return exec /usr/bin/st
-bindsym $mod+Return exec /usr/bin/rxvt
+bindsym $mod+Return exec /usr/bin/rxvt -e zsh
 
 # start a web browser
 bindsym $mod+Shift+Return exec /usr/bin/sensible-browser
@@ -177,19 +174,23 @@ bindsym $mod+Shift+e exit
 # lock the screen
 bindsym $mod+Escape exec gnome-screensaver-command --lock
 
-# shortcuts for common system configuration tasks
-bindsym $mod+c exec gnome-control-center
 
-# my shortcuts
+# ##### My Shortcuts #####
+# File Browsing
 bindsym $mod+n exec nautilus
-bindsym $mod+d exec discord
+bindsym $mod+m exec urxvt -e ranger
+# Code Related
 bindsym $mod+v exec urxvt -e nvim
 bindsym $mod+Shift+v exec code
-bindsym $mod+g exec gitkraken
-# next time install CLion with snap...
 bindsym $mod+l exec /opt/clion-2019.1.4/bin/clion.sh
-bindsym $mod+m exec urxvt -e ranger
+bindsym $mod+g exec gitkraken
+# Other OS stuff
+bindsym $mod+Shift+m exec gnome-system-monitor
+bindsym $mod+c exec gnome-control-center
 bindsym --release $mod+Shift+s exec gnome-screenshot -a -c
+# Leisure
+bindsym $mod+d exec discord
+
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
