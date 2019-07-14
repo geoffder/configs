@@ -11,6 +11,7 @@ if __name__ == '__main__':
     files = [
         home + '.Xresources',
         home + '.zshrc',
+        home + '.i3/nvim_workspace.json',
         home + '.config/i3-regolith/config',
         home + '.config/nvim/init.vim',
         home + '.config/ranger/rc.conf',

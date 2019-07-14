@@ -17,6 +17,7 @@ Plug 'jiangmiao/auto-pairs'
 " ## utility
 Plug 'airblade/vim-gitgutter'
 Plug 'tmhedberg/SimpylFold'
+Plug 'Konfekt/FastFold'
 Plug 'scrooloose/nerdtree'
 
 " ## colors / themeing
@@ -55,9 +56,12 @@ set backspace=indent,eol,start
 set history=1000
 " don't look in ALL files for autocompletion
 set complete-=i
+" waiting for keycode lag time (defaults 1000, 50)
+set timeoutlen=1000
+set ttimeoutlen=50
 
 " ##### A E S T H E T I C S #####
-"syntax highlighting
+" syntax highlighting
 colorscheme monokai_pro
 syntax on
 " background colour
@@ -83,23 +87,25 @@ autocmd FileType tagbar, nerdtree setlocal signcolumn=no
 set updatetime=200
 
 
-" ## SimplyFold / folding hot-key
+" ## SimplyFold / FastFold / folding hot-key
 nnoremap <space> za
+" prevent auto-folding on save
+let g:fastfold_savehook = 0
 
 
 " ## NERDtree
 map <C-n> :NERDTreeToggle<CR>
 " NERDtree at startup if no arguments (ex. a file) given
 autocmd VimEnter * if !argc() | NERDTree | endif
-"autocmd BufEnter * if !argc() | NERDTreeMirror | endif
 
 
 " ## deoplete
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#disable_auto_complete = 0
+call deoplete#custom#option('auto_complete_delay', 150)
+call deoplete#custom#option('auto_refresh_delay', 40)
 " <TAB>: completion (for top result)
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" jedi (python) settings
-let g:deoplete#sources#jedi#enable_typeinfo = 0
 
 
 " ## ALE (Asynchronous Linting Engine)
@@ -114,7 +120,7 @@ let g:ale_fixers = {
 \}
 let g:ale_linters = {
 \   'python': ['flake8'],
-\   'elixir': [ 'elixir-ls', 'credo', 'mix']
+\   'elixir': [ 'credo', 'mix']
 \}
 
 
@@ -141,9 +147,11 @@ let g:ale_linters = {
 
 " ## PYTHON
 let g:python_highlight_all = 1
+" deoplete python
+let g:deoplete#sources#jedi#enable_typeinfo = 0
 
 " ## ELIXIR
-autocmd BufWritePost *.exs,*.ex silent :!mix format %
+"autocmd BufWritePost *.exs,*.ex silent :!mix format %
 let g:ale_elixir_elixir_ls_config = {
 \   'elixirLS': {
 \     'dialyzerEnabled': v:false,
