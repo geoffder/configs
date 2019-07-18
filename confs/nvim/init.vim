@@ -8,13 +8,6 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'w0rp/ale'
 
-" testing...
-"Plug 'neomake/neomake'
-"Plug 'autozimu/LanguageClient-neovim', {
-"    \ 'branch': 'next',
-"    \ 'do': 'bash install.sh',
-"    \ }
-
 " ## auto-insertion
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
@@ -132,25 +125,6 @@ let g:ale_linters = {
 \}
 
 
-" Required for operations modifying multiple buffers like rename.
-"set hidden
-"
-"let g:LanguageClient_serverCommands = {
-"\  'elixir': [
-"\    '/home/geoff/.config/nvim/plugged/vim-elixirls/elixir-ls/release/language_server.sh',
-"\  ],
-"\ }
-
-"nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-
-" NeoMake
-" Full config: when writing or reading a buffer, and on changes in insert and
-" normal mode (after 1s; no delay when writing).
-"call neomake#configure#automake('nrwi', 500)
-"let g:neomake_python_enabled_makers = ['flake8']
-"let g:neomake_elixir_enabled_makers = ['mix', 'credo', 'elixirc', 'elixir-ls']
-
-
 " ###### Language Specific ######
 
 " ## PYTHON
@@ -159,7 +133,7 @@ let g:python_host_prog = '/home/geoff/miniconda3/bin/python'
 let g:python3_host_prog = '/home/geoff/miniconda3/bin/python3'
 let g:python_highlight_all = 1
 " ALE python environments
-"let g:ale_python_flake8_executable = '/home/geoff/miniconda3/bin/flake8'
+let g:ale_python_flake8_executable = '/home/geoff/miniconda3/bin/flake8'
 " deoplete python
 let g:deoplete#sources#jedi#enable_typeinfo = 0
 
