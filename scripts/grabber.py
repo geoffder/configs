@@ -7,7 +7,7 @@ if __name__ == '__main__':
     home = '/home/geoff/'
     copydir = home+'GitRepos/configs/confs/'
 
-    # [path, fname] for each config to copy
+    # full path for each config to copy
     files = [
         home + '.Xresources',
         home + '.zshrc',
