@@ -1,14 +1,19 @@
+" clear all autocommands (should wrap things in augroups though soon)
+autocmd!
+
 " ##### vim-plug manager #####
 call plug#begin('~/.config/nvim/plugged')
 
 " ## Auto-Completion and Linting
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'w0rp/ale'
+
+" testing...
+"Plug 'neomake/neomake'
 "Plug 'autozimu/LanguageClient-neovim', {
 "    \ 'branch': 'next',
 "    \ 'do': 'bash install.sh',
 "    \ }
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'w0rp/ale'
-"Plug 'neomake/neomake'
 
 " ## auto-insertion
 Plug 'tpope/vim-surround'
@@ -22,8 +27,7 @@ Plug 'scrooloose/nerdtree'
 
 " ## colors / themeing
 Plug 'phanviet/vim-monokai-pro'
-Plug 'patstockwell/vim-monokai-tasty'
-Plug 'vim-airline/vim-airline'
+Plug 'itchyny/lightline.vim'
 
 " ## PYTHON
 Plug 'kh3phr3n/python-syntax'
@@ -45,8 +49,12 @@ cd ~/GitRepos
 au FocusLost * silent! wa
 " Write buffer when switching to another buffer
 set autowrite
+" write swap to disk if nothing happens for a bit (default: 4000)
+set updatetime=4000
 " buffer screen updates instead of constantly updating
 set lazyredraw
+" limit number of columns looked at for syntax colouring
+set synmaxcol=200
 " always show at least X lines above and below cursor
 set scrolloff=1
 set display+=lastline
@@ -59,6 +67,8 @@ set complete-=i
 " waiting for keycode lag time (defaults 1000, 50)
 set timeoutlen=1000
 set ttimeoutlen=50
+" leader key
+let mapleader = "\\"
 
 " ##### A E S T H E T I C S #####
 " syntax highlighting
@@ -71,7 +81,7 @@ highlight LineNr ctermfg=grey ctermbg=236
 " colour when there is no text
 highlight NonText ctermbg=238
 " bar theme
-let g:airline_theme='monokai_tasty'
+
 " line numbering
 set nu
 " Line length ruler
@@ -82,9 +92,6 @@ autocmd FileType tagbar, nerdtree setlocal signcolumn=no
 
 
 " ##### Plug Settings #####
-
-" ## GitGutter
-set updatetime=200
 
 
 " ## SimplyFold / FastFold / folding hot-key
@@ -104,14 +111,15 @@ let g:deoplete#enable_at_startup = 1
 let g:deoplete#disable_auto_complete = 0
 call deoplete#custom#option('auto_complete_delay', 150)
 call deoplete#custom#option('auto_refresh_delay', 40)
-" <TAB>: completion (for top result)
+" <TAB>: completion (for top result, and for manual selection)
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 
 " ## ALE (Asynchronous Linting Engine)
 let g:ale_linters_explicit = 1
-let g:ale_lint_on_text_changed = 1
-let g:ale_lint_delay = 200
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_insert_leave = 1
+let g:ale_lint_delay = 0
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
 \   '*': ['trim_whitespace'],
@@ -146,19 +154,24 @@ let g:ale_linters = {
 " ###### Language Specific ######
 
 " ## PYTHON
+" path to interpreter
+let g:python_host_prog = '/home/geoff/miniconda3/bin/python'
+let g:python3_host_prog = '/home/geoff/miniconda3/bin/python3'
 let g:python_highlight_all = 1
+" ALE python environments
+"let g:ale_python_flake8_executable = '/home/geoff/miniconda3/bin/flake8'
 " deoplete python
 let g:deoplete#sources#jedi#enable_typeinfo = 0
 
 " ## ELIXIR
-"autocmd BufWritePost *.exs,*.ex silent :!mix format %
+autocmd BufWritePost *.exs,*.ex silent :!mix format %
 let g:ale_elixir_elixir_ls_config = {
 \   'elixirLS': {
 \     'dialyzerEnabled': v:false,
 \   },
 \}
 let g:ale_elixir_credo_strict = 1
-" Recompile the vim-elixirls copy of elixir-ls with :ElixirLsCompile
+"" Recompile the vim-elixirls copy of elixir-ls with :ElixirLsCompile
 let g:ale_elixir_elixir_ls_release =
 \ '/home/geoff/.config/nvim/plugged/vim-elixirls/elixir-ls/release'
 
