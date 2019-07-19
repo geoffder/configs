@@ -65,15 +65,18 @@ let mapleader = "\\"
 
 " ##### A E S T H E T I C S #####
 " syntax highlighting
+set termguicolors
 colorscheme monokai_pro
 syntax on
 " background colour
-highlight Normal ctermbg=236
+highlight Normal guibg=Grey19
 " line number colours
-highlight LineNr ctermfg=grey ctermbg=236
+highlight LineNr guifg=grey guibg=None
 " colour when there is no text
-highlight NonText ctermbg=238
-" bar theme
+highlight NonText guibg=Grey16
+" comments
+highlight Comment gui=bold
+
 
 " line numbering
 set nu
