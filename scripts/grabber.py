@@ -11,6 +11,7 @@ if __name__ == '__main__':
     files = [
         home + '.Xresources',
         home + '.zshrc',
+        home + '.oh-my-zsh/themes/my_custom.zsh-theme',
         home + '.i3/nvim_workspace.json',
         home + '.config/kitty/kitty.conf',
         home + '.config/i3-regolith/config',
