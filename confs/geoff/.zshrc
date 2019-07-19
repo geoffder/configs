@@ -14,7 +14,8 @@ export ZSH="/home/geoff/.oh-my-zsh"
 
 #ZSH_THEME="robbyrussell"
 #ZSH_THEME="agnoster"
-ZSH_THEME="miloshadzic"
+#ZSH_THEME="miloshadzic"
+ZSH_THEME="my_custom"
 #ZSH_THEME="random"
 
 # Set list of themes to pick from when loading at random
