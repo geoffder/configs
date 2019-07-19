@@ -25,6 +25,7 @@ Plug 'itchyny/lightline.vim'
 " ## PYTHON
 Plug 'kh3phr3n/python-syntax'
 Plug 'deoplete-plugins/deoplete-jedi'
+Plug 'Vimjas/vim-python-pep8-indent'
 
 " ## ELIXIR
 Plug 'elixir-editors/vim-elixir'
@@ -75,7 +76,7 @@ highlight LineNr guifg=grey guibg=None
 " colour when there is no text
 highlight NonText guibg=Grey16
 " comments
-highlight Comment gui=bold
+highlight Comment gui=bold,italic
 
 
 " line numbering
@@ -87,8 +88,10 @@ let &signcolumn = 'yes'
 autocmd FileType tagbar, nerdtree setlocal signcolumn=no
 
 
-" ##### Plug Settings #####
+" ##### Plug Settings (and Notes) #####
 
+" ## Vim Surround
+" Use S -> `)` or `]` (or any character) with a visual selection.
 
 " ## SimplyFold / FastFold / folding hot-key
 nnoremap <space> za
@@ -97,6 +100,7 @@ let g:fastfold_savehook = 0
 
 
 " ## NERDtree
+" (NOTE: s opens file in :vsp, t opens in new tab, T opens silenty in tab)
 map <C-n> :NERDTreeToggle<CR>
 " NERDtree at startup if no arguments (ex. a file) given
 autocmd VimEnter * if !argc() | NERDTree | endif
