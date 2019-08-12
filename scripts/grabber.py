@@ -19,6 +19,7 @@ if __name__ == '__main__':
         home + '.config/nvim/init.vim',
         home + '.config/ranger/rc.conf',
         home + '.config/ranger/rifle.conf',
+        home + '.config/rofi/config',
         '/etc/i3blocks.conf'
     ]
 

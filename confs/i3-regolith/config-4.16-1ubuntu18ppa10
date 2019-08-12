@@ -73,9 +73,9 @@ bindsym $mod+Shift+Return exec /usr/bin/sensible-browser
 bindsym $mod+Shift+q kill
 
 # rofi app and window launchers
-bindsym $mod+space exec rofi -show drun -theme Monokai -show-icons
-bindsym $mod+Shift+space exec rofi -show run -theme Monokai -show-icons
-bindsym $mod+Ctrl+space exec rofi -show window -theme Monokai -show-icons
+bindsym $mod+space exec rofi -show drun
+bindsym $mod+Shift+space exec rofi -show run
+bindsym $mod+Ctrl+space exec rofi -show window
 
 # change focus
 bindsym $mod+Left focus left
@@ -270,4 +270,3 @@ exec --no-startup-id /usr/bin/unclutter -b
 #exec_always --no-startup-id feh --bg-fill $static_wallpaper
 
 exec --no-startup-id xrdb ~/.Xresources
-#exec --no-startup-id xinit
