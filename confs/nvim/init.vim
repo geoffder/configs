@@ -109,17 +109,17 @@ autocmd VimEnter * if !argc() | NERDTree | endif
 " ## deoplete
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#disable_auto_complete = 0
-call deoplete#custom#option('auto_complete_delay', 150)
-call deoplete#custom#option('auto_refresh_delay', 40)
+call deoplete#custom#option('auto_complete_delay', 100)
+call deoplete#custom#option('auto_refresh_delay', 30)
 " <TAB>: completion (for top result, and for manual selection)
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 
 " ## ALE (Asynchronous Linting Engine)
 let g:ale_linters_explicit = 1
-let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_text_changed = 'always'
 let g:ale_lint_on_insert_leave = 1
-let g:ale_lint_delay = 0
+let g:ale_lint_delay = 200
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
 \   '*': ['trim_whitespace'],

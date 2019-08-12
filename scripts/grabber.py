@@ -15,6 +15,7 @@ if __name__ == '__main__':
         home + '.i3/nvim_workspace.json',
         home + '.config/kitty/kitty.conf',
         home + '.config/i3-regolith/config',
+        home + '.config/i3-regolith/config-4.16-1ubuntu18ppa10',
         home + '.config/nvim/init.vim',
         home + '.config/ranger/rc.conf',
         home + '.config/ranger/rifle.conf',
@@ -32,3 +33,4 @@ if __name__ == '__main__':
         # copy into confs folder
         shutil.copy(pth, os.path.join(copydir, fold, name))
 
+    print('Configuration files copied to %s' % copydir)
