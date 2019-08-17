@@ -121,3 +121,5 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+# Add NEURON to path
+export PATH=$PATH:/home/geoff/neuron/nrn/x86_64/bin
