@@ -128,7 +128,7 @@ let g:ale_fixers = {
 \}
 let g:ale_linters = {
 \   'python': ['flake8'],
-\   'elixir': [ 'credo', 'mix']
+\   'elixir': ['elixir-ls', 'credo', 'mix']
 \}
 
 
