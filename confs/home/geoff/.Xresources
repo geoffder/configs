@@ -35,6 +35,11 @@
 *.color7:       #acada1
 *.color15:      #cfd0c2
 
+!! Gnome Theming
+gnome.gtk.theme: Yaru-Purple-dark
+gnome.wm.theme: Yaru-Purple-dark
+gnome.icon.theme: Yaru-Purple
+
 !! URxvt Appearance
 
 !! Fira Code
