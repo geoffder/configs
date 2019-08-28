@@ -90,6 +90,10 @@ autocmd FileType tagbar, nerdtree setlocal signcolumn=no
 
 " ##### Plug Settings (and Notes) #####
 
+" ## Auto Pairs
+" Make sure pairing character settings are copied to new file buffers
+autocmd BufNewFile * call AutoPairsInit()
+
 " ## Vim Surround
 " Use S -> `)` or `]` (or any character) with a visual selection.
 
@@ -127,7 +131,7 @@ let g:ale_fixers = {
 \   'elixir': ['trim_whitespace', 'mix_format']
 \}
 let g:ale_linters = {
-\   'python': ['flake8'],
+\   'python': ['flake8', 'mypy'],
 \   'elixir': ['elixir-ls', 'credo', 'mix']
 \}
 
@@ -140,7 +144,12 @@ let g:python_host_prog = '/home/geoff/miniconda3/bin/python'
 let g:python3_host_prog = '/home/geoff/miniconda3/bin/python3'
 let g:python_highlight_all = 1
 " ALE python environments
-let g:ale_python_flake8_executable = '/home/geoff/miniconda3/bin/flake8'
+let g:ale_python_flake8_executable =
+\ '/home/geoff/miniconda3/envs/pytorchC10/bin/flake8'
+let g:ale_python_mypy_executable =
+\ '/home/geoff/miniconda3/envs/pytorchC10/bin/mypy'
+let g:ale_python_mypy_ignore_invalid_syntax = 1
+let g:ale_python_mypy_options = '--ignore-missing-imports'
 " deoplete python
 let g:deoplete#sources#jedi#enable_typeinfo = 0
 

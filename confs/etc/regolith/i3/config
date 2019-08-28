@@ -210,10 +210,15 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-# Disable titlebar
 # border thickness (default 1)
 new_window pixel 3
 new_float pixel 3
+
+# Ensure specific apps let i3 set their borders
+for_window [class="Org.gnome.Nautilus"] border pixel 3
+
+# When taking up full screen, hide borders
+hide_edge_borders both
 
 # Gaps (i3-gaps) (default inner: 5, outer: 0)
 gaps inner 14
@@ -235,7 +240,7 @@ focus_follows_mouse no
 # Configure the bar
 bar {
   #font pango:Source Code Pro Medium 13
-  font pango:Roboto Medium 13, FontAwesome 13
+  font pango:Roboto Medium 10, FontAwesome 10
   separator_symbol " "
   status_command i3blocks
   tray_output none
@@ -258,9 +263,6 @@ bar {
 
 # Composite manager
 exec --no-startup-id compton -f --config /etc/xdg/compton.conf
-
-# Launch the shortcut Conky window on first login
-#exec --no-startup-id /usr/bin/regolith-ftue.sh
 
 # Hide the mouse pointer if unused for a duration
 exec --no-startup-id /usr/bin/unclutter -b

@@ -40,8 +40,20 @@ gnome.gtk.theme: Yaru-Purple-dark
 gnome.wm.theme: Yaru-Purple-dark
 gnome.icon.theme: Yaru-Purple
 
-!! URxvt Appearance
+!! Mouse cursor
+Xcursor.size:   24
+Xcursor.theme:  DMZ-White
 
+!! X font settings
+!142 dpi calculated for 15.6in 1920x1080 (default: 96)
+Xft.dpi: 142
+Xft.antialias:  1
+Xft.hinting:    1
+Xft.hintstyle:  hintslight
+Xft.rgba:       rgb
+Xft.lcdfilter: lcddefault
+
+!! URxvt Appearance
 !! Fira Code
 URxvt.font: xft:Fira Code:size=12,style=regular,xft:Awesome:size=12
 URxvt.boldFont: xft:Fira Code:size=12,style=bold
