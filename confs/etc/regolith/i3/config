@@ -210,12 +210,14 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+
 # border thickness (default 1)
-new_window pixel 2
-new_float pixel 2
+set $border_width 2
+new_window pixel $border_width
+new_float pixel $border_width
 
 # Ensure specific apps let i3 set their borders
-for_window [class="Org.gnome.Nautilus"] border pixel 2
+for_window [class="Org.gnome.Nautilus"] border pixel $border_width
 
 # When taking up full screen, hide borders
 hide_edge_borders both
@@ -261,6 +263,9 @@ bar {
 
 # Run other programs with i3
 
+# load settings from Xresources
+exec_always --no-startup-id xrdb -load ~/.Xresources
+
 # Composite manager
 exec --no-startup-id compton -f --config /etc/xdg/compton.conf
 
@@ -271,5 +276,3 @@ exec --no-startup-id /usr/bin/unclutter -b
 # Draw the desktop background.
 #set $static_wallpaper ~/Pictures/synth_waterfall_by_kvacm_dd9vdtc.jpg
 #exec_always --no-startup-id feh --bg-fill $static_wallpaper
-
-exec --no-startup-id xrdb ~/.Xresources
