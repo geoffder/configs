@@ -12,13 +12,14 @@ if __name__ == '__main__':
         home + '.Xresources',
         home + '.zshrc',
         home + '.oh-my-zsh/themes/my_custom.zsh-theme',
+        home + '.config/regolith/i3/config',
         home + '.i3/nvim_workspace.json',
         home + '.config/kitty/kitty.conf',
         home + '.config/nvim/init.vim',
         home + '.config/ranger/rc.conf',
         home + '.config/ranger/rifle.conf',
         home + '.config/rofi/config',
-        '/etc/regolith/i3/config',
+        home + '.config/polybar/config',
         '/etc/i3blocks.conf'
     ]
 

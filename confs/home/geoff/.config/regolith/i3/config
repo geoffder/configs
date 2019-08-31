@@ -1,3 +1,6 @@
+# load settings from Xresources
+exec_always --no-startup-id xrdb -load ~/.Xresources
+
 #i3 config file (v4) for Regolith Desktop Environment
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
@@ -218,6 +221,8 @@ new_float pixel $border_width
 
 # Ensure specific apps let i3 set their borders
 for_window [class="Org.gnome.Nautilus"] border pixel $border_width
+for_window [class="Gnome-control-center"] border pixel $border_width
+for_window [class="Gnome-system-monitor"] border pixel $border_width
 
 # When taking up full screen, hide borders
 hide_edge_borders both
@@ -239,32 +244,32 @@ popup_during_fullscreen smart
 
 focus_follows_mouse no
 
+# test out polybar
+exec_always ~/.config/polybar/launch.sh
+
 # Configure the bar
-bar {
-  #font pango:Source Code Pro Medium 13
-  font pango:Roboto Medium 10, FontAwesome 10
-  separator_symbol " "
-  status_command i3blocks
-  tray_output none
-  strip_workspace_numbers yes
-
-  colors {
-      background $monoblack
-      statusline $base1
-      separator  $blue
-
-#                        BORDER      BACKGROUND  TEXT
-      focused_workspace  $purple     $purple     $base2
-      active_workspace   $purple     $purple     $base01
-      inactive_workspace $monoblack  $monoblack  $base01
-      urgent_workspace   $red        $red        $base3
-  }
-}
+#bar {
+#  #font pango:Source Code Pro Medium 13
+#  font pango:Roboto Medium 9, FontAwesome 9
+#  separator_symbol " "
+#  status_command i3blocks
+#  tray_output none
+#  strip_workspace_numbers yes
+#
+#  colors {
+#      background $monoblack
+#      statusline $base1
+#      separator  $blue
+#
+##                        BORDER      BACKGROUND  TEXT
+#      focused_workspace  $purple     $purple     $base2
+#      active_workspace   $purple     $purple     $base01
+#      inactive_workspace $monoblack  $monoblack  $base01
+#      urgent_workspace   $red        $red        $base3
+#  }
+#}
 
 # Run other programs with i3
-
-# load settings from Xresources
-exec_always --no-startup-id xrdb -load ~/.Xresources
 
 # Composite manager
 exec --no-startup-id compton -f --config /etc/xdg/compton.conf
