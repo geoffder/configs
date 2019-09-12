@@ -27,26 +27,25 @@ primary = #8240f7
 secondary = #e60053
 alert = #bd2c40
 
-[settings]
-pseudo-transparency = True
-
 [bar/main]
 ;monitor = ${env:MONITOR:HDMI-1}
 bottom = True
 width = 100%
 height = 26
-;offset-x = 1%
-;offset-y = 1%
-radius = 6.0
+
+;; rounded edges
+radius = 0
+
 fixed-center = false
 
 background = ${colors.background}
 foreground = ${colors.foreground}
 
-line-size = 3
+line-size = 5
 line-color = #f00
 
-border-size = 5
+; border/(transparent-)padding around bar
+border-size = 0
 border-color = #00000000
 
 padding-left = 0
@@ -57,9 +56,6 @@ module-margin-right = 2
 
 font-0 = roboto:pixelsize=14;1
 font-1 = FontAwesome:pixelsize=14;1
-;font-1 = unifont:fontformat=truetype:size=12:antialias=false;0
-;font-2 = FontAwesome:pixelsize=10;1
-;font-2 = "siji:pixelsize=14;1"
 
 ; bar calculates dpi from screensize if =0
 dpi-x = 0
@@ -69,20 +65,19 @@ modules-left = i3
 modules-center =
 modules-right = memory cpu battery temperature date powermenu
 
-;tray-position = right
+;; leave blank if not wanting a tray for bluetooth/keyboard/apps etc
+tray-position =
 tray-padding = 2
-;tray-background = #0063ff
+tray-background =
 
-;wm-restack = bspwm
+;; if there are problems with bar appearing on top of windows.
 ;wm-restack = i3
 
 ;override-redirect = true
 
-;scroll-up = bspwm-desknext
-;scroll-down = bspwm-deskprev
-
-;scroll-up = i3wm-wsnext
-;scroll-down = i3wm-wsprev
+;; mouse scroll switches between workspaces
+scroll-up = i3wm-wsnext
+scroll-down = i3wm-wsprev
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -198,7 +193,7 @@ type = internal/cpu
 interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #cf0202
+;format-underline = #cf0202
 label = %percentage:2%%
 
 [module/memory]
@@ -206,7 +201,7 @@ type = internal/memory
 interval = 2
 format-prefix = "  "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #31bda2
+;format-underline = #31bda2
 label = %percentage_used%%
 
 [module/wlan]
@@ -259,7 +254,7 @@ time-alt = %H:%M:%S
 
 format-prefix = ""
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #0c5dcf
+;format-underline = #0c5dcf
 
 label = %date% %time%
 
@@ -325,9 +320,11 @@ adapter = ACAD
 full-at = 98
 
 format-charging = <animation-charging> <label-charging>
-format-charging-underline = #ffb52a
+;format-charging-underline = #ffb52a
+format-charging-underline =
 
-format-discharging = <animation-discharging> <label-discharging>
+;format-discharging = <animation-discharging> <label-discharging>
+format-discharging = <ramp-capacity> <label-discharging>
 format-discharging-underline = ${self.format-charging-underline}
 
 format-full-prefix = " "
@@ -347,13 +344,13 @@ animation-charging-2 = 
 animation-charging-3 = 
 animation-charging-4 = 
 animation-charging-foreground = ${colors.foreground-alt}
-animation-charging-framerate = 750
+animation-charging-framerate = 1250
 
-animation-discharging-0 = 
+animation-discharging-0 = 
 animation-discharging-1 = 
-animation-discharging-2 = 
+animation-discharging-2 = 
 animation-discharging-foreground = ${colors.foreground-alt}
-animation-discharging-framerate = 750
+animation-discharging-framerate = 1250
 
 [module/temperature]
 type = internal/temperature
@@ -361,7 +358,7 @@ thermal-zone = 0
 warn-temperature = 60
 
 format = <ramp> <label>
-format-underline = #c9083f
+;format-underline = #c9083f
 format-warn = <ramp> <label-warn>
 format-warn-underline = ${self.format-underline}
 
@@ -380,6 +377,7 @@ type = custom/menu
 expand-right = true
 
 format-spacing = 1
+format-underline =
 
 label-open = 
 label-open-foreground = ${colors.secondary}
@@ -396,20 +394,20 @@ menu-0-1-exec = menu-open-2
 menu-1-0 = cancel
 menu-1-0-exec = menu-open-0
 menu-1-1 = reboot
-menu-1-1-exec = sudo reboot
+menu-1-1-exec = reboot
 
 menu-2-0 = power off
-menu-2-0-exec = sudo poweroff
+menu-2-0-exec = poweroff
 menu-2-1 = cancel
 menu-2-1-exec = menu-open-0
 
 [settings]
 screenchange-reload = true
+pseudo-transparency = true
 ;compositing-background = xor
 ;compositing-background = screen
 ;compositing-foreground = source
 ;compositing-border = over
-;pseudo-transparency = false
 
 [global/wm]
 margin-top = 5
