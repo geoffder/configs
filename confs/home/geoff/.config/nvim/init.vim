@@ -11,12 +11,16 @@ Plug 'w0rp/ale'
 " ## auto-insertion
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
+Plug 'alvan/vim-closetag'
+"Plug 'SirVer/ultisnips'
+"Plug 'honza/vim-snippets'
 
 " ## utility
 Plug 'airblade/vim-gitgutter'
 Plug 'tmhedberg/SimpylFold'
 Plug 'Konfekt/FastFold'
 Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-projectionist'
 
 " ## colors / themeing
 Plug 'phanviet/vim-monokai-pro'
@@ -33,6 +37,7 @@ Plug 'slashmili/alchemist.vim'
 Plug 'tpope/vim-endwise'
 Plug 'gasparch/vim-elixir-fold'
 Plug 'GrzegorzKozub/vim-elixirls'
+Plug 'avdgaag/vim-phoenix'
 
 call plug#end()
 
@@ -68,6 +73,7 @@ let mapleader = "\\"
 " syntax highlighting
 set termguicolors
 colorscheme monokai_pro
+
 syntax on
 " background colour
 highlight Normal guibg=Grey19
@@ -87,15 +93,28 @@ let &colorcolumn = 79
 let &signcolumn = 'yes'
 autocmd FileType tagbar, nerdtree setlocal signcolumn=no
 
+" make yank copy to clipboard when lead with leader ('\' right now)
+vnoremap  <leader>y  "+y
 
 " ##### Plug Settings (and Notes) #####
 
 " ## Auto Pairs
 " Make sure pairing character settings are copied to new file buffers
 autocmd BufNewFile * call AutoPairsInit()
+au FileType eelixir let b:AutoPairs = AutoPairsDefine({'<%=' : '%>', '<!--' : '-->'})
+au FileType html let b:AutoPairs = AutoPairsDefine({'<!--' : '-->'})
 
 " ## Vim Surround
 " Use S -> `)` or `]` (or any character) with a visual selection.
+
+" ## UltiSnips
+" Trigger configuration, don't want expand to be tab (deoplete uses)
+let g:UltiSnipsExpandTrigger="<c-v>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" ## vim-closetag
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.eex'
 
 " ## SimplyFold / FastFold / folding hot-key
 nnoremap <space> za
@@ -117,7 +136,8 @@ call deoplete#custom#option('auto_complete_delay', 100)
 call deoplete#custom#option('auto_refresh_delay', 30)
 " <TAB>: completion (for top result, and for manual selection)
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-
+" autoclose scratch window after leaving autocomplete
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " ## ALE (Asynchronous Linting Engine)
 let g:ale_linters_explicit = 1
