@@ -39,6 +39,10 @@ Plug 'gasparch/vim-elixir-fold'
 Plug 'GrzegorzKozub/vim-elixirls'
 Plug 'avdgaag/vim-phoenix'
 
+" ## JAVASCRIPT
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+
 call plug#end()
 
 " ##### General Vim Stuff #####
@@ -101,7 +105,7 @@ vnoremap  <leader>y  "+y
 " ## Auto Pairs
 " Make sure pairing character settings are copied to new file buffers
 autocmd BufNewFile * call AutoPairsInit()
-au FileType eelixir let b:AutoPairs = AutoPairsDefine({'<%=' : '%>', '<!--' : '-->'})
+au FileType eelixir let b:AutoPairs = AutoPairsDefine({'<%' : '%>', '<!--' : '-->'})
 au FileType html let b:AutoPairs = AutoPairsDefine({'<!--' : '-->'})
 
 " ## Vim Surround
@@ -152,7 +156,8 @@ let g:ale_fixers = {
 \}
 let g:ale_linters = {
 \   'python': ['flake8', 'mypy'],
-\   'elixir': ['elixir-ls', 'credo', 'mix']
+\   'elixir': ['elixir-ls', 'credo', 'mix'],
+\   'javascript': ['eslint']
 \}
 
 
@@ -185,3 +190,6 @@ let g:ale_elixir_credo_strict = 1
 let g:ale_elixir_elixir_ls_release =
 \ '/home/geoff/.config/nvim/plugged/vim-elixirls/elixir-ls/release'
 
+" ## JAVASCRIPT
+" tab -> 4 spaces. Note: Use %retab to replace existing tabs with spaces.
+autocmd Filetype javascript setlocal ts=4 sw=4 expandtab
