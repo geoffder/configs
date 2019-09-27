@@ -244,30 +244,8 @@ popup_during_fullscreen smart
 
 focus_follows_mouse no
 
-# test out polybar
+# launch polybar
 exec_always ~/.config/polybar/launch.sh
-
-# Configure the bar
-#bar {
-#  #font pango:Source Code Pro Medium 13
-#  font pango:Roboto Medium 9, FontAwesome 9
-#  separator_symbol " "
-#  status_command i3blocks
-#  tray_output none
-#  strip_workspace_numbers yes
-#
-#  colors {
-#      background $monoblack
-#      statusline $base1
-#      separator  $blue
-#
-##                        BORDER      BACKGROUND  TEXT
-#      focused_workspace  $purple     $purple     $base2
-#      active_workspace   $purple     $purple     $base01
-#      inactive_workspace $monoblack  $monoblack  $base01
-#      urgent_workspace   $red        $red        $base3
-#  }
-#}
 
 # Run other programs with i3
 
