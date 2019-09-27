@@ -46,7 +46,7 @@ Xcursor.theme:  DMZ-White
 
 !! X font settings
 !142 dpi calculated for 15.6in 1920x1080 (default: 96)
-Xft.dpi: 142
+Xft.dpi: 96
 Xft.antialias:  1
 Xft.hinting:    1
 Xft.hintstyle:  hintslight
