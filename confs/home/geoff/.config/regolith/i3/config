@@ -224,6 +224,11 @@ for_window [class="Org.gnome.Nautilus"] border pixel $border_width
 for_window [class="Gnome-control-center"] border pixel $border_width
 for_window [class="Gnome-system-monitor"] border pixel $border_width
 
+# Set specific apps to launch in floating mode (or not)
+for_window [class="Godot"] floating enable
+for_window [title=".*Godot Engine*."] floating disable
+for_window [title="StimGen 5.0"] floating enable
+
 # When taking up full screen, hide borders
 hide_edge_borders both
 

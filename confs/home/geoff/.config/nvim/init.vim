@@ -43,6 +43,15 @@ Plug 'avdgaag/vim-phoenix'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 
+" ## LUA  delete LUA stuff soon if I don't use. No point.
+Plug 'tbastos/vim-lua'
+Plug 'davisdude/vim-love-docs'
+
+" ## GODOT
+" Forked version by clktmr includes ALE support and folding.
+"Plug 'calviken/vim-gdscript3'
+Plug 'clktmr/vim-gdscript3'
+
 call plug#end()
 
 " ##### General Vim Stuff #####
@@ -157,7 +166,9 @@ let g:ale_fixers = {
 let g:ale_linters = {
 \   'python': ['flake8', 'mypy'],
 \   'elixir': ['elixir-ls', 'credo', 'mix'],
-\   'javascript': ['eslint']
+\   'javascript': ['eslint'],
+\   'lua': ['luacheck'],
+\   'gdscript3': ['godotheadless']
 \}
 
 
@@ -193,3 +204,20 @@ let g:ale_elixir_elixir_ls_release =
 " ## JAVASCRIPT
 " tab -> 4 spaces. Note: Use %retab to replace existing tabs with spaces.
 autocmd Filetype javascript setlocal ts=4 sw=4 expandtab
+
+" ## LUA
+" tab -> 4 spaces. Note: Use %retab to replace existing tabs with spaces.
+autocmd Filetype lua setlocal ts=4 sw=4 expandtab
+" fix vim-lua breaking vim-endwise
+autocmd Filetype lua let b:endwise_syngroups =
+\ 'luaFunction,luaStatement,luaCond,luaFuncKeyword'
+" add love to standard globals (so linters know they exist)
+let g:ale_lua_luacheck_options = '--std +love'
+let g:ale_python_luacheck_executable = '/usr/local/bin/luacheck'
+let g:ale_python_luac_executable = '/usr/local/bin/luac'
+
+" ## GODOT
+" tab -> 4 spaces. Note: Use %retab to replace existing tabs with spaces.
+autocmd Filetype gdscript3 setlocal ts=4 sw=4 expandtab
+let g:ale_gdscript3_godotheadless_executable =
+\ '/home/geoff/Godot/Godot_v3.1.1-stable_linux_headless.64'
