@@ -20,7 +20,11 @@ if __name__ == '__main__':
         home + '.config/ranger/rifle.conf',
         home + '.config/rofi/config',
         home + '.config/polybar/config',
-        '/etc/i3blocks.conf'
+        home + '.doom.d/init.el',
+        home + '.doom.d/config.el',
+        home + '.doom.d/bindings.el',
+        home + '.doom.d/pretty-fira.el',
+        '/etc/i3blocks.conf',
     ]
 
     for pth in files:
