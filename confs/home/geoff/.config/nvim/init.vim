@@ -43,14 +43,16 @@ Plug 'avdgaag/vim-phoenix'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 
-" ## LUA  delete LUA stuff soon if I don't use. No point.
-Plug 'tbastos/vim-lua'
-Plug 'davisdude/vim-love-docs'
-
 " ## GODOT
 " Forked version by clktmr includes ALE support and folding.
 "Plug 'calviken/vim-gdscript3'
 Plug 'clktmr/vim-gdscript3'
+
+" ## C#
+Plug 'OmniSharp/omnisharp-vim'
+Plug 'OrangeT/vim-csharp'
+"Plug 'Robzz/deoplete-omnisharp'
+"Plug 'dimixar/deoplete-omnisharp'
 
 call plug#end()
 
@@ -168,7 +170,8 @@ let g:ale_linters = {
 \   'elixir': ['elixir-ls', 'credo', 'mix'],
 \   'javascript': ['eslint'],
 \   'lua': ['luacheck'],
-\   'gdscript3': ['godotheadless']
+\   'gdscript3': ['godotheadless'],
+\   'cs': ['omnisharp'],
 \}
 
 
@@ -205,19 +208,16 @@ let g:ale_elixir_elixir_ls_release =
 " tab -> 4 spaces. Note: Use %retab to replace existing tabs with spaces.
 autocmd Filetype javascript setlocal ts=4 sw=4 expandtab
 
-" ## LUA
-" tab -> 4 spaces. Note: Use %retab to replace existing tabs with spaces.
-autocmd Filetype lua setlocal ts=4 sw=4 expandtab
-" fix vim-lua breaking vim-endwise
-autocmd Filetype lua let b:endwise_syngroups =
-\ 'luaFunction,luaStatement,luaCond,luaFuncKeyword'
-" add love to standard globals (so linters know they exist)
-let g:ale_lua_luacheck_options = '--std +love'
-let g:ale_python_luacheck_executable = '/usr/local/bin/luacheck'
-let g:ale_python_luac_executable = '/usr/local/bin/luac'
-
 " ## GODOT
 " tab -> 4 spaces. Note: Use %retab to replace existing tabs with spaces.
 autocmd Filetype gdscript3 setlocal ts=4 sw=4 expandtab
 let g:ale_gdscript3_godotheadless_executable =
 \ '/home/geoff/Godot/Godot_v3.1.1-stable_linux_headless.64'
+
+" ## C#
+let g:OmniSharp_server_use_mono = 1
+let g:OmniSharp_highlight_types = 3
+let g:OmniSharp_server_stdio = 1
+"call deoplete#custom#option('sources', {
+"	\ 'cs': ['omnisharp'],
+"\})

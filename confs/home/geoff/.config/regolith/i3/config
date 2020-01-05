@@ -187,8 +187,9 @@ bindsym $mod+m exec $terminal -e ranger
 bindsym $mod+v exec $terminal -e nvim
 bindsym $mod+Shift+v exec i3-msg append_layout .i3/nvim_workspace.json; exec $terminal; exec $terminal --name "nvim" -e nvim;
 bindsym $mod+CTRL+v exec code
+bindsym $mod+e exec emacs
 bindsym $mod+l exec /opt/clion-2019.1.4/bin/clion.sh
-bindsym $mod+g exec gitkraken
+bindsym $mod+g exec /home/geoff/Godot/Godot_v3.1.2-stable_mono_x11.64
 # Other OS stuff
 bindsym $mod+Shift+m exec gnome-system-monitor
 bindsym $mod+c exec gnome-control-center
@@ -225,9 +226,11 @@ for_window [class="Gnome-control-center"] border pixel $border_width
 for_window [class="Gnome-system-monitor"] border pixel $border_width
 
 # Set specific apps to launch in floating mode (or not)
-for_window [class="Godot"] floating enable
-for_window [title=".*Godot Engine*."] floating disable
+for_window [instance="Godot_ProjectList"] floating disable
+for_window [instance="Godot_Editor"] floating disable
+for_window [instance="Godot_Engine"] floating enable
 for_window [title="StimGen 5.0"] floating enable
+for_window [class="NEURON"] floating enable
 
 # When taking up full screen, hide borders
 hide_edge_borders both
