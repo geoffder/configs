@@ -84,7 +84,7 @@
        ;;gist              ; interacting with github gists
        (lookup           ; helps you navigate your code and documentation
         +docsets)        ; ...or in Dash docsets locally
-       ;;lsp
+       lsp
        ;;macos             ; MacOS-specific commands
        magit             ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
@@ -112,7 +112,7 @@
        ;;erlang            ; an elegant language for a more civilized age
        ;;ess               ; emacs speaks statistics
        ;;faust             ; dsp, but you get to keep your soul
-       fsharp           ; ML stands for Microsoft's Language
+       (fsharp +lsp)       ; ML stands for Microsoft's Language
        ;;Go                ; The hipster dialect
        ;;(haskell +dante)  ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
@@ -141,7 +141,9 @@
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
-       python            ; beautiful is better than ugly
+       (python             ; beautiful is better than ugly
+        +lsp
+        +conda)
        ;;qt                ; the 'cutest' gui framework ever
        ;;racket            ; a DSL for DSLs
        ;;rest              ; Emacs as a REST client
