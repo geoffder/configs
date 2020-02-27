@@ -85,17 +85,20 @@ bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # move windows in workspaces
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
-
-#bindsym $mod+Shift+h move left
-#bindsym $mod+Shift+j move down
-#bindsym $mod+Shift+k move up
-#bindsym $mod+Shift+l move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # toggle split orientation
 bindsym $mod+BackSpace split toggle
@@ -188,7 +191,7 @@ bindsym $mod+v exec $terminal -e nvim
 bindsym $mod+Shift+v exec i3-msg append_layout .i3/nvim_workspace.json; exec $terminal; exec $terminal --name "nvim" -e nvim;
 bindsym $mod+CTRL+v exec code
 bindsym $mod+e exec emacs
-bindsym $mod+l exec /opt/clion-2019.1.4/bin/clion.sh
+bindsym $mod+CTRL+l exec /opt/clion-2019.1.4/bin/clion.sh
 bindsym $mod+g exec /home/geoff/Godot/Godot_v3.1.2-stable_mono_x11.64
 # Other OS stuff
 bindsym $mod+Shift+m exec gnome-system-monitor
