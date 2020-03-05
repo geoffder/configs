@@ -234,6 +234,7 @@ for_window [instance="Godot_Editor"] floating disable
 for_window [instance="Godot_Engine"] floating enable
 for_window [title="StimGen 5.0"] floating enable
 for_window [class="NEURON"] floating enable
+for_window [class="matplotlib"] floating enable
 
 # When taking up full screen, hide borders
 hide_edge_borders both
