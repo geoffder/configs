@@ -74,3 +74,6 @@
 
 ;; (add-hook 'python-mode-hook #'+format|enable-on-save)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(require `eglot-fsharp)
+(add-hook 'fsharp-mode-hook 'eglot-ensure)
