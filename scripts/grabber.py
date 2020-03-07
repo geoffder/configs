@@ -9,22 +9,22 @@ if __name__ == '__main__':
 
     # full path for each config to copy
     files = [
-        home + '.Xresources',
+        # home + '.Xresources',
         home + '.zshrc',
         home + '.oh-my-zsh/themes/my_custom.zsh-theme',
-        home + '.config/regolith/i3/config',
-        home + '.i3/nvim_workspace.json',
+        # home + '.config/regolith/i3/config',
+        home + '.i3/config',
         home + '.config/kitty/kitty.conf',
         home + '.config/nvim/init.vim',
         home + '.config/ranger/rc.conf',
         home + '.config/ranger/rifle.conf',
         home + '.config/rofi/config',
-        home + '.config/polybar/config',
+        # home + '.config/polybar/config',
         home + '.doom.d/init.el',
         home + '.doom.d/config.el',
         home + '.doom.d/bindings.el',
         home + '.doom.d/pretty-fira.el',
-        '/etc/i3blocks.conf',
+        # '/etc/i3blocks.conf',
     ]
 
     for pth in files:
