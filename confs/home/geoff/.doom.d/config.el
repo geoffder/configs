@@ -72,5 +72,5 @@
            '(("match!" 0
               font-lock-keyword-face t)))))
 
-(add-hook 'python-mode-hook #'+format|enable-on-save)
+;; (add-hook 'python-mode-hook #'+format|enable-on-save)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
