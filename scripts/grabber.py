@@ -9,21 +9,26 @@ if __name__ == '__main__':
 
     # full path for each config to copy
     files = [
-        # home + '.Xresources',
+        home + '.Xresources',
         home + '.zshrc',
         home + '.oh-my-zsh/themes/my_custom.zsh-theme',
         # home + '.config/regolith/i3/config',
         home + '.i3/config',
+        home + '.config/i3-scrot.conf',
+        home + '.config/compton.conf',
         home + '.config/kitty/kitty.conf',
         home + '.config/nvim/init.vim',
         home + '.config/ranger/rc.conf',
         home + '.config/ranger/rifle.conf',
         home + '.config/rofi/config',
+        home + '.config/flameshot/flameshot.conf',
+        home + '.config/gtk-3.0/settings.ini',
         # home + '.config/polybar/config',
         home + '.doom.d/init.el',
         home + '.doom.d/config.el',
         home + '.doom.d/bindings.el',
         home + '.doom.d/pretty-fira.el',
+        home + '.doom.d/packages.el',
         # '/etc/i3blocks.conf',
     ]
 
