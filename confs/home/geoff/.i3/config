@@ -7,17 +7,6 @@ set $mod Mod4
 # set default desktop layout (default is tiling)
 # workspace_layout tabbed <stacking|tabbed>
 
-# This is the Solarized color palette.
-# Mostly not using now.
-set $base03    #002b36
-set $base02    #073642
-set $base01    #586e75
-set $base00    #657b83
-set $base0     #839496
-set $base1     #93a1a1
-set $base2     #eee8d5
-set $base3     #fdf6e3
-
 # general colours
 set $yellow      #b58900
 set $orange      #cb4b10
@@ -93,7 +82,6 @@ bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 bindsym $mod+Ctrl+b exec terminal -e 'bmenu'
 bindsym $mod+F2 exec palemoon
 bindsym $mod+F3 exec pcmanfm
-bindsym $mod+n exec pcmanfm
 # bindsym $mod+F3 exec ranger
 bindsym $mod+Shift+F3 exec pcmanfm_pkexec
 bindsym $mod+F5 exec terminal -e 'mocp'
@@ -109,23 +97,20 @@ bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
 # ##### My Shortcuts #####
 bindsym $mod+Shift+Return exec firefox
 # File Browsing
-# bindsym $mod+n exec nautilus
+bindsym $mod+n exec pcmanfm
 bindsym $mod+m exec $terminal -e ranger
 # Code Related
 bindsym $mod+v exec $terminal -e nvim
-# bindsym $mod+Shift+v exec i3-msg append_layout .i3/nvim_workspace.json; exec $terminal; exec $terminal --name "nvim" -e nvim;
-# bindsym $mod+CTRL+v exec code
 bindsym $mod+e exec emacs
 # bindsym $mod+CTRL+l exec /opt/clion-2019.1.4/bin/clion.sh
-bindsym $mod+g exec /home/geoff/Godot/Godot_v3.1.2-stable_mono_x11.64
+bindsym $mod+g exec /home/geoff/Godot/Godot_v3.2-stable_mono_x11.64
 # Other OS stuff
-# bindsym $mod+Shift+m exec gnome-system-monitor
-# bindsym $mod+c exec gnome-control-center
-# bindsym --release $mod+Shift+s exec gnome-screenshot -a -c
+bindsym $mod+Shift+m exec htop
+bindsym --release $mod+Shift+s exec flameshot gui
 # Leisure
 bindsym $mod+d exec discord
 
-# focus_follows_mouse no
+focus_follows_mouse no
 
 # change focus
 bindsym $mod+j focus left
@@ -342,7 +327,7 @@ exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pamac-tray
 exec --no-startup-id clipit
-# exec --no-startup-id blueman-applet
+exec --no-startup-id blueman-applet
 # exec_always --no-startup-id sbxkb
 exec --no-startup-id start_conky_maia
 # exec --no-startup-id start_conky_green
@@ -421,16 +406,6 @@ bar {
   client.urgent           $red     $red     $red     $red
 
   client.background       #2B2C2B
-
-# # Theme colors
-# # class                   border  backgr. text    indic.   child_border
-#   client.focused          #556064 #556064 #80FFF9 #FDF6E3
-#   client.focused_inactive #2F3D44 #2F3D44 #1ABC9C #454948
-#   client.unfocused        #2F3D44 #2F3D44 #1ABC9C #454948
-#   client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
-#   client.placeholder      #000000 #0c0c0c #ffffff #000000
-#
-#   client.background       #2B2C2B
 
 #############################
 ### settings for i3-gaps: ###
