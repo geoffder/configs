@@ -180,7 +180,7 @@
 ;(setq company-idle-delay .1)
 
 ;; Fix issue where company-mode needs reactivating for C# buffers
-(add-hook 'csharp-mode-hook #'company-mode)
+;;(add-hook 'csharp-mode-hook #'company-mode)
 
 (custom-set-faces
  '(hl-fill-column-face ((t (:background "black" :foreground "white")))))
