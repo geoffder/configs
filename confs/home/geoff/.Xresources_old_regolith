@@ -1,0 +1,78 @@
+! special
+*.foreground:   #f1ebeb
+*.background:   #272822
+*.cursorColor:  #f1ebeb
+
+! black
+*.color0:       #48483e
+*.color8:       #76715e
+
+! red
+*.color1:       #dc2566
+*.color9:       #fa2772
+
+! green
+*.color2:       #8fc029
+*.color10:      #a7e22e
+
+! yellow
+*.color3:       #d4c96e
+*.color11:      #e7db75
+
+! blue
+*.color4:       #55bcce
+*.color12:      #66d9ee
+
+! magenta
+*.color5:       #9358fe
+*.color13:      #ae82ff
+
+! cyan
+*.color6:       #56b7a5
+*.color14:      #66efd5
+
+! white
+*.color7:       #acada1
+*.color15:      #cfd0c2
+
+!! Gnome Theming
+gnome.gtk.theme: Yaru-Purple-dark
+gnome.wm.theme: Yaru-Purple-dark
+gnome.icon.theme: Yaru-Purple
+
+!! Mouse cursor
+Xcursor.size:   24
+Xcursor.theme:  DMZ-White
+
+!! X font settings
+!142 dpi calculated for 15.6in 1920x1080 (default: 96)
+Xft.dpi: 96
+Xft.antialias:  1
+Xft.hinting:    1
+Xft.hintstyle:  hintslight
+Xft.rgba:       rgb
+Xft.lcdfilter: lcddefault
+
+!! URxvt Appearance
+!! Fira Code
+URxvt.font: xft:Fira Code:size=12,style=regular,xft:Awesome:size=12
+URxvt.boldFont: xft:Fira Code:size=12,style=bold
+URxvt.italicFont: xft:Fira Code:size=12,style=italic
+URxvt.boldItalicFont: xft:Fira Code:size=12,style=bolditalic
+URxvt.letterSpace: 0
+
+URxvt.lineSpace: 0
+URxvt.geometry: 92x24
+URxvt.internalBorder: 12
+URxvt.cursorBlink: true
+URxvt.cursorUnderline: false
+URxvt.saveline: 2048
+URxvt.scrollBar: false
+URxvt.scrollBar_right: false
+URxvt.urgentOnBell: true
+URxvt.depth: 24
+URxvt.iso14755: false
+
+! false transparency (use faded desktop as background)
+URxvt.transparent: true
+URxvt.shading:25
