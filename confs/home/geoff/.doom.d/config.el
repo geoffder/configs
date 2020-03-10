@@ -65,15 +65,17 @@
 (custom-set-variables
  '(conda-anaconda-home "/home/geoff/miniconda3"))
 
+;; (add-hook 'python-mode-hook #'+format|enable-on-save)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(require 'eglot-fsharp)
+(add-hook 'fsharp-mode-hook 'eglot-ensure)
+(setq inferior-fsharp-program "/usr/bin/fsharpi --readline-")
+(setq-default fsharp-indent-offset 4)
+
 ;; Add match! to font-lock's keyword list for F#
 (add-hook 'fsharp-mode-hook
          (lambda ()
           (font-lock-add-keywords nil
            '(("match!" 0
               font-lock-keyword-face t)))))
-
-;; (add-hook 'python-mode-hook #'+format|enable-on-save)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-(require `eglot-fsharp)
-(add-hook 'fsharp-mode-hook 'eglot-ensure)
