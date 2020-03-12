@@ -79,3 +79,6 @@
           (font-lock-add-keywords nil
            '(("match!" 0
               font-lock-keyword-face t)))))
+
+;; Only cycle through currently visible tabs
+(setq centaur-tabs-cycle-scope 'tabs)
