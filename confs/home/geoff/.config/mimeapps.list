@@ -17,6 +17,7 @@ x-scheme-handler/mailto=userapp-Thunderbird.desktop
 message/rfc822=userapp-Thunderbird.desktop
 application/pdf=epdfview.desktop
 application/x-bittorrent=deluge.desktop
+image/gif=viewnior.desktop
 
 [Added Associations]
 x-scheme-handler/http=userapp-Firefox.desktop;
@@ -37,3 +38,4 @@ x-scheme-handler/mailto=userapp-Thunderbird.desktop;
 message/rfc822=userapp-Thunderbird.desktop;
 application/pdf=epdfview.desktop;
 application/x-bittorrent=deluge.desktop;
+image/gif=viewnior.desktop;
