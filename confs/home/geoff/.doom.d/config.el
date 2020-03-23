@@ -68,8 +68,8 @@
 ;; (add-hook 'python-mode-hook #'+format|enable-on-save)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-(require 'eglot-fsharp)
-(add-hook 'fsharp-mode-hook 'eglot-ensure)
+;; (require 'eglot-fsharp)  ;; if lsp is not working.
+;; (add-hook 'fsharp-mode-hook 'eglot-ensure)
 (setq inferior-fsharp-program "/usr/bin/fsharpi --readline-")
 (setq-default fsharp-indent-offset 4)
 

@@ -30,7 +30,7 @@
        indent-guides     ; highlighted indent columns
        modeline          ; snazzy, Atom-inspired modeline, plus API
        nav-flash         ; blink the current line after jumping
-       neotree           ; a project drawer, like NERDTree for vim
+       ;;neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
        (popup            ; tame sudden yet inevitable temporary windows
         +all             ; catch all popups that start with an asterix
@@ -113,7 +113,7 @@
        ess               ; emacs speaks statistics
        ;;faust             ; dsp, but you get to keep your soul
        (fsharp
-        ;;+lsp
+        +lsp
         )       ; ML stands for Microsoft's Language
        ;;Go                ; The hipster dialect
        ;;(haskell +dante)  ; a language that's lazier than I am
