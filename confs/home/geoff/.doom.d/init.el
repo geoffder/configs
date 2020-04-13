@@ -71,6 +71,11 @@
        ;;term              ; terminals in Emacs
        ;;vterm             ; another terminals in Emacs
 
+       :checkers
+       ;;syntax
+       ;;spell
+       ;;grammar
+
        :tools
        ;;ansible
        ;;debugger          ; FIXME stepping through code, to help you add bugs
