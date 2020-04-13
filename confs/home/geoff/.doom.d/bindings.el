@@ -21,3 +21,6 @@
 ;;Vim like tab cycling for centaur tabs
 (define-key evil-normal-state-map (kbd "g t") 'centaur-tabs-forward)
 (define-key evil-normal-state-map (kbd "g T") 'centaur-tabs-backward)
+;;Cycle between tab groups
+(define-key evil-normal-state-map (kbd "g <left>") 'centaur-tabs-backward-group)
+(define-key evil-normal-state-map (kbd "g <right>") 'centaur-tabs-forward-group)
