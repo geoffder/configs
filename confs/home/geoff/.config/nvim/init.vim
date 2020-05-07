@@ -23,7 +23,8 @@ Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-projectionist'
 
 " ## colors / themeing
-Plug 'phanviet/vim-monokai-pro'
+Plug 'fatih/molokai'
+" Plug 'phanviet/vim-monokai-pro'
 Plug 'itchyny/lightline.vim'
 
 " ## PYTHON
@@ -87,15 +88,17 @@ let mapleader = "\\"
 " ##### A E S T H E T I C S #####
 " syntax highlighting
 set termguicolors
-colorscheme monokai_pro
+colorscheme molokai
+" colorscheme monokai_pro
 
 syntax on
 " background colour
-highlight Normal guibg=Grey19
+" highlight Normal guibg=Grey19
+highlight Normal guibg=NONE ctermbg=NONE
 " line number colours
 highlight LineNr guifg=grey guibg=None
 " colour when there is no text
-highlight NonText guibg=Grey16
+" highlight NonText guibg=Grey16
 " comments
 highlight Comment gui=bold,italic
 
