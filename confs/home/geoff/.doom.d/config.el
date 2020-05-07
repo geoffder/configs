@@ -34,6 +34,9 @@
 (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
 (set-face-attribute 'font-lock-keyword-face nil :weight 'semi-bold)
 
+;; transparency with toggle function (bound in bindings.el)
+(load! "transparency")
+
 ;; If you intend to use org, it is recommended you change this!
 (setq org-directory "~/org/")
 

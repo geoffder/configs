@@ -30,6 +30,7 @@ if __name__ == '__main__':
         home + '.doom.d/config.el',
         home + '.doom.d/bindings.el',
         home + '.doom.d/pretty-fira.el',
+        home + '.doom.d/transparency.el',
         home + '.doom.d/packages.el',
         # '/etc/i3blocks.conf',
     ]
