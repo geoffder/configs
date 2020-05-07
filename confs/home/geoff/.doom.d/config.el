@@ -19,13 +19,20 @@
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
 ;; test
-(setq doom-font (font-spec :family "FiraCode" :size 14)
+(setq doom-font (font-spec :family "Fira Code" :size 14)
       doom-variable-pitch-font (font-spec :family "sans"))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. These are the defaults.
-(setq doom-theme 'doom-molokai)
+(use-package doom-themes
+  :config
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t)
+  (load-theme 'doom-molokai t))
+
+(set-face-attribute 'font-lock-comment-face nil :slant 'italic)
+(set-face-attribute 'font-lock-keyword-face nil :weight 'semi-bold)
 
 ;; If you intend to use org, it is recommended you change this!
 (setq org-directory "~/org/")
@@ -61,6 +68,10 @@
 (add-hook 'fsharp-mode-hook 'fira-code-mode)
 
 (setq fill-column 80)
+(add-hook 'csharp-mode-hook 'fci-mode)
+(add-hook 'python-mode-hook 'fci-mode)
+(add-hook 'elixir-mode-hook 'fci-mode)
+(add-hook 'fsharp-mode-hook 'fci-mode)
 
 (custom-set-variables
  '(conda-anaconda-home "/home/geoff/miniconda3"))
