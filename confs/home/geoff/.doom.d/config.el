@@ -71,10 +71,6 @@
 (add-hook 'fsharp-mode-hook 'fira-code-mode)
 
 (setq fill-column 80)
-(add-hook 'csharp-mode-hook 'fci-mode)
-(add-hook 'python-mode-hook 'fci-mode)
-(add-hook 'elixir-mode-hook 'fci-mode)
-(add-hook 'fsharp-mode-hook 'fci-mode)
 
 (custom-set-variables
  '(conda-anaconda-home "/home/geoff/miniconda3"))
