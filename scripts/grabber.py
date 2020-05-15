@@ -12,12 +12,11 @@ if __name__ == '__main__':
         home + '.Xresources',
         home + '.zshrc',
         home + '.oh-my-zsh/themes/my_custom.zsh-theme',
-        # home + '.config/regolith/i3/config',
         home + '.i3/config',
         home + '.config/i3-scrot.conf',
         home + '.config/i3status/config',
         home + '.config/mimeapps.list',
-        home + '.config/compton.conf',
+        home + '.config/picom.conf',
         home + '.config/kitty/kitty.conf',
         home + '.config/nvim/init.vim',
         home + '.config/ranger/rc.conf',
@@ -32,7 +31,6 @@ if __name__ == '__main__':
         home + '.doom.d/pretty-fira.el',
         home + '.doom.d/transparency.el',
         home + '.doom.d/packages.el',
-        # '/etc/i3blocks.conf',
     ]
 
     for pth in files:
