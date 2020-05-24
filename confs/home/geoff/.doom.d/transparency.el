@@ -1,3 +1,5 @@
+;; alpha vaules are for active window and inactive window states respectively.
+;; Like so: (active . inactive)
 (set-frame-parameter (selected-frame) 'alpha '(91 . 91))
 (add-to-list 'default-frame-alist '(alpha . (91 . 91)))
 
