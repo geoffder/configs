@@ -27,3 +27,8 @@
 
 (map! :leader
       :desc "transparency" "t t" #'toggle-transparency)
+
+(map! :leader
+        (:prefix-map ("z" . "folding")
+         :desc "open all" "o" #'+fold/open-all
+         :desc "close all" "c" #'+fold/close-all))
