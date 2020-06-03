@@ -100,3 +100,14 @@
           (lambda ()
             (setq lsp-python-ms-extra-paths
                   (vconcat lsp-python-ms-extra-paths (vector (get-dir))))))
+
+(use-package! hideshow
+  :config
+  ;; extra folding support for more languages
+  (setq hs-special-modes-alist
+        (append
+         '((fsharp-mode "\\s-*\\_<\\(?:[^=]+\\)\\_>"
+                      ""
+                      "//"
+                      +fold-hideshow-forward-block-by-indent-fn nil))
+         hs-special-modes-alist)))
