@@ -92,3 +92,11 @@
 
 ;; Only cycle through currently visible tabs
 (setq centaur-tabs-cycle-scope 'tabs)
+
+;; Add python buffer directories to import path vector of the mspy lsp
+(setq lsp-python-ms-extra-paths [])
+(defun get-dir () (substring default-directory 0 -1))
+(add-hook 'python-mode-hook
+          (lambda ()
+            (setq lsp-python-ms-extra-paths
+                  (vconcat lsp-python-ms-extra-paths (vector (get-dir))))))
