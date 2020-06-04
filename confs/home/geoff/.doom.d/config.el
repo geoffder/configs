@@ -106,8 +106,8 @@
   ;; extra folding support for more languages
   (setq hs-special-modes-alist
         (append
-         '((fsharp-mode "\\s-*\\_<\\(?:[^=]+\\)\\_>"
-                      ""
+         '((fsharp-mode "\\s-*\\_<\\(?:[^(?:=|{)]+\\)\\_>"
+                      "(?:|})"
                       "//"
                       +fold-hideshow-forward-block-by-indent-fn nil))
          hs-special-modes-alist)))
