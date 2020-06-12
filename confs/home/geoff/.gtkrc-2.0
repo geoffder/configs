@@ -1,0 +1,9 @@
+gtk-theme-name="Adapta-Nokto-Eta-Maia"
+#gtk-theme-name="Adapta-Purple-Nokto-Eta"
+gtk-icon-theme-name="Papirus-Adapta-Nokto-Maia"
+gtk-font-name="Roboto 10"
+gtk-cursor-theme-name="Bibata_Classic"
+gtk-xft-antialias=1
+gtk-xft-hinting=1
+gtk-xft-hintstyle="hintfull"
+gtk-xft-rgba="rgb"

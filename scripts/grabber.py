@@ -11,6 +11,7 @@ if __name__ == '__main__':
     files = [
         home + '.Xresources',
         home + '.zshrc',
+        home + '.gtkrc-2.0',
         home + '.oh-my-zsh/themes/my_custom.zsh-theme',
         home + '.i3/config',
         home + '.config/i3-scrot.conf',
