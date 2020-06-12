@@ -367,9 +367,11 @@ set_from_resource $term_color13    color13
 set_from_resource $term_color14    color14
 set_from_resource $term_color15    color15
 
+set $bar_alpha 99
+
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
 bar {
-	i3bar_command i3bar
+	i3bar_command i3bar -t
 	status_command i3status
 	position bottom
     font xft:Roboto 12
@@ -383,16 +385,16 @@ bar {
 	strip_workspace_numbers yes
 
     colors {
-        background #222D31
+        background #222D31$bar_alpha
         statusline #F9FAF9
-        separator  #454947
+        separator  #454947$bar_alpha
 
-#                          border  backgr. text
-        focused_workspace  #F9FAF9 $purple #EEE8D5
-        active_workspace   #595B5B #353836 #FDF6E3
-        inactive_workspace #595B5B #222D31 #EEE8D5
-        binding_mode       #16a085 #2C2C2C #F9FAF9
-        urgent_workspace   #16a085 #FDF6E3 #E5201D
+#                          border  background        text
+        focused_workspace  #F9FAF9 $purple$bar_alpha #EEE8D5
+        active_workspace   #595B5B #353836$bar_alpha #FDF6E3
+        inactive_workspace #595B5B #222D31$bar_alpha #EEE8D5
+        binding_mode       #16a085 #2C2C2C$bar_alpha #F9FAF9
+        urgent_workspace   #16a085 #FDF6E3$bar_alpha #E5201D
     }
 }
 
@@ -400,7 +402,7 @@ bar {
 #bindsym $mod+m bar mode toggle
 
 # Theme colors
-# class                   border  backgr. text    indic.   child_border
+# class                   border   backgr.  text     indic.   child_border
   client.focused          $purple  $purple  $purple  $purple
   client.focused_inactive $drkpurp $drkpurp $drkpurp $drkpurp
   client.unfocused        $drkpurp $drkpurp $drkpurp $drkpurp
