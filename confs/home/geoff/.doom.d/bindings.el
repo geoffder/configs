@@ -18,10 +18,14 @@
 ;; documentation of it.
 (set-quit-char "C-c")
 
-;;Vim like tab cycling for centaur tabs
+;; Shift-key page scrolling in Normal Mode (like nvim)
+(define-key evil-normal-state-map (kbd "S-<up>") 'scroll-down-command)
+(define-key evil-normal-state-map (kbd "S-<down>") 'scroll-up-command)
+
+;; Vim like tab cycling for centaur tabs
 (define-key evil-normal-state-map (kbd "g t") 'centaur-tabs-forward)
 (define-key evil-normal-state-map (kbd "g T") 'centaur-tabs-backward)
-;;Cycle between tab groups
+;; Cycle between tab groups
 (define-key evil-normal-state-map (kbd "g <left>") 'centaur-tabs-backward-group)
 (define-key evil-normal-state-map (kbd "g <right>") 'centaur-tabs-forward-group)
 
