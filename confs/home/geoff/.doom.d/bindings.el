@@ -32,7 +32,17 @@
 (map! :leader
       :desc "transparency" "t t" #'toggle-transparency)
 
+(defun fold-given-level ()
+  "Wait for a number, then recursively fold at that level (rel to curr block)."
+  (let ((level (- (read-char) 48)))
+    (if (and (>= level 0) (< level 10))
+          (+fold/close-all level)
+          ())))
+
 (map! :leader
         (:prefix-map ("z" . "folding")
          :desc "open all" "o" #'+fold/open-all
-         :desc "close all" "c" #'+fold/close-all))
+         :desc "close all" "c" #'+fold/close-all
+         :desc "close level within block" "b" #'hs-hide-level
+         :desc "close/open relative level #" "z" (lambda () (interactive)
+                                                   (fold-given-level))))
