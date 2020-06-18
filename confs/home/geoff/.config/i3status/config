@@ -26,7 +26,9 @@ order += "memory"
 order += "tztime local"
 
 cpu_usage {
-        format = " cpu  %usage "
+        # format = " cpu %usage "
+        # format = " 🖩 %usage "
+        format = " λ %usage "
 }
 
 load {
