@@ -29,10 +29,6 @@
 (define-key evil-normal-state-map (kbd "g <left>") 'centaur-tabs-backward-group)
 (define-key evil-normal-state-map (kbd "g <right>") 'centaur-tabs-forward-group)
 
-(map! :leader
-      :desc "transparency" "t t" #'toggle-transparency
-      :desc "dired sudo" "t s" #'dired-toggle-sudo)
-
 (defun fold-given-level () (interactive)
   "Wait for a number, then recursively fold at that level (rel to curr block)."
   (let ((level (- (read-char) 48)))
@@ -44,4 +40,9 @@
          :desc "open all" "o" #'+fold/open-all
          :desc "close all" "c" #'+fold/close-all
          :desc "close level within block" "b" #'hs-hide-level
-         :desc "close/open relative level #" "z" #'fold-given-level))
+         :desc "close/open relative level #" "z" #'fold-given-level)
+        (:prefix-map ("t" . "toggle")
+          :desc "transparency" "t" #'toggle-transparency
+          :desc "dired sudo" "s" #'dired-toggle-sudo)
+        (:prefix-map ("o" . "open")
+          :desc "sudo into shake" "s" #'connect-shake-sudo))
