@@ -40,6 +40,8 @@ if __name__ == '__main__':
         home + '.doom.d/bindings.el',
         home + '.doom.d/pretty-fira.el',
         home + '.doom.d/transparency.el',
+        home + '.doom.d/dired-toggle-sudo.el',
+        home + '.doom.d/remote.el',
         home + '.doom.d/packages.el',
     ]
 

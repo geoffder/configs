@@ -30,7 +30,8 @@
 (define-key evil-normal-state-map (kbd "g <right>") 'centaur-tabs-forward-group)
 
 (map! :leader
-      :desc "transparency" "t t" #'toggle-transparency)
+      :desc "transparency" "t t" #'toggle-transparency
+      :desc "dired sudo" "t s" #'dired-toggle-sudo)
 
 (defun fold-given-level () (interactive)
   "Wait for a number, then recursively fold at that level (rel to curr block)."
