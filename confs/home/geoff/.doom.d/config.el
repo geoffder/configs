@@ -60,6 +60,9 @@
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
 
+;; Config related to remote editing / ssh
+(load! "remote")
+
 ;; Personal bindings file
 (load! "bindings")
 
@@ -72,11 +75,19 @@
 
 (setq fill-column 80)
 
-(custom-set-variables
- '(conda-anaconda-home "/home/geoff/miniconda3"))
+;; Only cycle through currently visible tabs
+(setq centaur-tabs-cycle-scope 'tabs)
 
-;; (add-hook 'python-mode-hook #'+format|enable-on-save)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(use-package! hideshow
+  :config
+  ;; extra folding support for more languages
+  (setq hs-special-modes-alist
+        (append
+         '((fsharp-mode "\\s-*\\_<\\(?:[^(?:=|{)]+\\)\\_>"
+                      "(?:|})"
+                      "//"
+                      +fold-hideshow-forward-block-by-indent-fn nil))
+         hs-special-modes-alist)))
 
 ;; (require 'eglot-fsharp)  ;; if lsp is not working.
 ;; (add-hook 'fsharp-mode-hook 'eglot-ensure)
@@ -90,8 +101,11 @@
            '(("match!" 0
               font-lock-keyword-face t)))))
 
-;; Only cycle through currently visible tabs
-(setq centaur-tabs-cycle-scope 'tabs)
+(custom-set-variables
+ '(conda-anaconda-home "/home/geoff/miniconda3"))
+
+;; (add-hook 'python-mode-hook #'+format|enable-on-save)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Add python buffer directories to import path vector of the mspy lsp
 (setq lsp-python-ms-extra-paths [])
@@ -101,13 +115,3 @@
             (setq lsp-python-ms-extra-paths
                   (vconcat lsp-python-ms-extra-paths (vector (get-dir))))))
 
-(use-package! hideshow
-  :config
-  ;; extra folding support for more languages
-  (setq hs-special-modes-alist
-        (append
-         '((fsharp-mode "\\s-*\\_<\\(?:[^(?:=|{)]+\\)\\_>"
-                      "(?:|})"
-                      "//"
-                      +fold-hideshow-forward-block-by-indent-fn nil))
-         hs-special-modes-alist)))
