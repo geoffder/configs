@@ -66,7 +66,7 @@ bindsym $mod+Ctrl+space exec rofi -show window
 ################################################################################################
 
 exec --no-startup-id volumeicon
-bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
+bindsym $mod+Ctrl+m exec $terminal -e 'alsamixer'
 #exec --no-startup-id pulseaudio
 #exec --no-startup-id pa-applet
 #bindsym $mod+Ctrl+m exec pavucontrol
@@ -78,12 +78,9 @@ bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 # bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
 
 # Start Applications
-bindsym $mod+Ctrl+b exec terminal -e 'bmenu'
-bindsym $mod+F2 exec palemoon
-bindsym $mod+F3 exec pcmanfm
-# bindsym $mod+F3 exec ranger
+bindsym $mod+Ctrl+b exec $terminal -e 'bmenu'
 bindsym $mod+Shift+F3 exec pcmanfm_pkexec
-bindsym $mod+F5 exec terminal -e 'mocp'
+bindsym $mod+p exec $terminal -e 'mocp'
 bindsym $mod+t exec --no-startup-id pkill compton
 bindsym $mod+Ctrl+t exec --no-startup-id compton -b
 bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart dunst'"
@@ -104,7 +101,7 @@ bindsym $mod+e exec emacs
 # bindsym $mod+CTRL+l exec /opt/clion-2019.1.4/bin/clion.sh
 bindsym $mod+g exec /home/geoff/Godot/Godot_v3.2-stable_mono_x11.64
 # Other OS stuff
-bindsym $mod+Shift+m exec htop
+bindsym $mod+Shift+m exec $terminal -e htop
 bindsym --release $mod+Shift+s exec flameshot gui
 # Leisure
 bindsym $mod+d exec discord
@@ -399,7 +396,7 @@ bar {
 }
 
 # hide/unhide i3status bar
-#bindsym $mod+m bar mode toggle
+bindsym $mod+Shift+i bar mode toggle
 
 # Theme colors
 # class                   border   backgr.  text     indic.   child_border
