@@ -18,6 +18,7 @@ if __name__ == '__main__':
         home + '.config/i3status/config',
         home + '.config/openbox/rc.xml',
         home + '.config/openbox/menu.xml',
+        home + '.config/openbox/autostart',
         home + '.config/mimeapps.list',
         home + '.config/picom.conf',
         home + '.config/kitty/kitty.conf',
