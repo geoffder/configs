@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!DOCTYPE resources [
+  <!ENTITY icons "/usr/share/icons/Papirus/32x32/apps">
+  ]>
+  
 <openbox_menu xmlns="http://openbox.org/3.4/menu">
 
 <menu id="apps-accessories-menu" label="Accessories">
-  <item label="Flameshot">
+  <item label="Flameshot" icon="&icons;/flameshot.svg">
     <action name="Execute">
       <command>flameshot gui</command>
     </action>
   </item>
-  <item label="Rofi">
+  <item label="Rofi" icon="&icons;/kitty.svg">
     <action name="Execute">
       <command>rofi -show drun</command>
     </action>
   </item>
-  <item label="Nitrogen">
+  <item label="Nitrogen" icon="&icons;/nitrogen.svg">
     <action name="Execute">
       <command>nitrogen</command>
       <startupnotify>
@@ -25,7 +29,7 @@
 </menu>
 
 <menu id="apps-editors-menu" label="Editors">
-  <item label="NVim">
+  <item label="NVim" icon="&icons;/nvim.svg">
     <action name="Execute">
       <command>kitty -e nvim</command>
       <startupnotify>
@@ -34,7 +38,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Emacs">
+  <item label="Emacs" icon="&icons;/emacs.svg">
     <action name="Execute">
       <command>emacs</command>
       <startupnotify>
@@ -46,12 +50,12 @@
 </menu>
 
 <menu id="apps-term-menu" label="Terminals">
-  <item label="Kitty">
+  <item label="Kitty" icon="&icons;/kitty.svg">
     <action name="Execute">
       <command>kitty</command>
     </action>
   </item>
-  <item label="Rxvt Unicode">
+  <item label="Rxvt Unicode" icon="&icons;/urxvt.svg">
     <action name="Execute">
       <command>urxvt</command>
     </action>
@@ -59,7 +63,7 @@
 </menu>
 
 <menu id="apps-net-menu" label="Internet">
-  <item label="Firefox">
+  <item label="Firefox" icon="&icons;/firefox.svg">
     <action name="Execute">
       <command>firefox</command>
       <startupnotify>
@@ -68,7 +72,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Riot">
+  <item label="Riot" icon="&icons;/riot.svg">
     <action name="Execute">
       <command>riot-desktop</command>
       <startupnotify>
@@ -77,7 +81,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Discord">
+  <item label="Discord" icon="&icons;/discord.svg">
     <action name="Execute">
       <command>discord</command>
       <startupnotify>
@@ -89,37 +93,37 @@
 </menu>
 
 <menu id="apps-office-menu" label="Office">
-  <item label="LibreOffice Base">
+  <item label="LibreOffice Base" icon="&icons;/libreoffice-base.svg">
     <action name="Execute">
       <command>libreoffice -base</command>
     </action>
   </item>
-  <item label="LibreOffice Calc">
+  <item label="LibreOffice Calc" icon="&icons;/libreoffice-calc.svg">
     <action name="Execute">
       <command>libreoffice -calc</command>
     </action>
   </item>
-  <item label="LibreOffice Draw">
+  <item label="LibreOffice Draw" icon="&icons;/libreoffice-draw.svg">
     <action name="Execute">
       <command>libreoffice -draw</command>
     </action>
   </item>
-  <item label="LibreOffice Impress">
+  <item label="LibreOffice Impress" icon="&icons;/libreoffice-impress.svg">
     <action name="Execute">
       <command>libreoffice -impress</command>
     </action>
   </item>
-  <item label="LibreOffice Math">
+  <item label="LibreOffice Math" icon="&icons;/libreoffice-math.svg">
     <action name="Execute">
       <command>libreoffice -math</command>
     </action>
   </item>
-  <item label="LibreOffice Printer Administration">
+  <item label="LibreOffice Printer Administration" icon="&icons;/libreoffice-main.svg">
     <action name="Execute">
       <command>libreoffice-printeradmin</command>
     </action>
   </item>
-  <item label="LibreOffice Writer">
+  <item label="LibreOffice Writer" icon="&icons;/libreoffice-writer.svg">
     <action name="Execute">
       <command>libreoffice -writer</command>
     </action>
@@ -127,7 +131,7 @@
 </menu>
 
 <menu id="apps-multimedia-menu" label="Multimedia">
-  <item label="Steam">
+  <item label="Steam" icon="&icons;/steam.svg">
     <action name="Execute">
       <command>steam</command>
       <startupnotify>
@@ -135,7 +139,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="VLC">
+  <item label="VLC" icon="&icons;/vlc.svg">
     <action name="Execute">
       <command>vlc</command>
       <startupnotify>
@@ -143,7 +147,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="MOCP">
+  <item label="MOCP" icon="&icons;/deepin-music.svg">
     <action name="Execute">
       <command>kitty -e mocp</command>
       <startupnotify>
@@ -154,7 +158,7 @@
 </menu>
 
 <menu id="apps-fileman-menu" label="File Managers">
-  <item label="PCMan File Manager">
+  <item label="PCMan File Manager" icon="&icons;/xfce-filemanager.svg">
     <action name="Execute">
       <command>pcmanfm</command>
       <startupnotify>
@@ -162,7 +166,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Ranger">
+  <item label="Ranger" icon="&icons;/kitty.svg">
     <action name="Execute">
       <command>kitty -e ranger</command>
       <startupnotify>
@@ -173,7 +177,7 @@
 </menu>
 
 <menu id="apps-graphics-menu" label="Graphics">
-  <item label="Gimp">
+  <item label="Gimp" icon="&icons;/gimp.svg">
     <action name="Execute">
       <command>gimp</command>
       <startupnotify>
@@ -181,7 +185,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Inkscape">
+  <item label="Inkscape" icon="&icons;/inkscape.svg">
     <action name="Execute">
       <command>inkscape</command>
       <startupnotify>
@@ -192,7 +196,7 @@
 </menu>
 
 <menu id="system-menu" label="System">
-  <item label="Htop">
+  <item label="Htop" icon="&icons;/htop.svg">
     <action name="Execute">
       <command>kitty -e htop</command>
       <startupnotify>
@@ -200,7 +204,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Blueman Manager">
+  <item label="Blueman Manager" icon="&icons;/blueman.svg">
     <action name="Execute">
       <command>blueman-manager</command>
       <startupnotify>
@@ -208,7 +212,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Power Manager">
+  <item label="Power Manager" icon="&icons;/xfce4-power-manager-settings.svg">
     <action name="Execute">
       <command>xfce4-power-manager-settings</command>
       <startupnotify>
@@ -216,7 +220,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Manjaro Settings Manager">
+  <item label="Manjaro Settings Manager" icon="&icons;/manjaro-settings-manager.svg">
     <action name="Execute">
       <command>manjaro-settings-manager</command>
       <startupnotify>
@@ -224,7 +228,7 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Openbox Configuration Manager">
+  <item label="Openbox Configuration Manager" icon="&icons;/openbox.svg">
     <action name="Execute">
       <command>obconf</command>
       <startupnotify>
@@ -233,25 +237,25 @@
     </action>
   </item>
   <separator />
-  <item label="Reconfigure Openbox">
+  <item label="Reconfigure Openbox" icon="&icons;/configurator.svg">
     <action name="Reconfigure" />
   </item>
 </menu>
 
 <menu id="root-menu" label="Openbox 3">
   <separator label="Applications" />
-  <menu id="apps-accessories-menu"/>
-  <menu id="apps-editors-menu"/>
-  <menu id="apps-graphics-menu"/>
-  <menu id="apps-net-menu"/>
-  <menu id="apps-office-menu"/>
-  <menu id="apps-multimedia-menu"/>
-  <menu id="apps-term-menu"/>
-  <menu id="apps-fileman-menu"/>
-  <separator label="System" />
-  <menu id="system-menu"/>
+  <menu id="apps-accessories-menu" icon="&icons;/applications-accessories.svg"/>
+  <menu id="apps-editors-menu" icon="&icons;/applications-haskell.svg"/>
+  <menu id="apps-graphics-menu" icon="&icons;/applications-graphics.svg"/>
+  <menu id="apps-net-menu" icon="&icons;/applications-internet.svg"/>
+  <menu id="apps-office-menu" icon="&icons;/libreoffice-main.svg"/>
+  <menu id="apps-multimedia-menu" icon="&icons;/applications-multimedia.svg"/>
+  <menu id="apps-term-menu" icon="&icons;/kitty.svg"/>
+  <menu id="apps-fileman-menu" icon="&icons;/xfce-filemanager.svg"/>
+  <separator label="System"/>
+  <menu id="system-menu" icon="&icons;/system-config-display.svg"/>
   <separator />
-  <item label="Log Out">
+  <item label="Log Out" icon="&icons;/kali-backdoor-factory.svg">
     <action name="Exit">
       <prompt>yes</prompt>
     </action>
