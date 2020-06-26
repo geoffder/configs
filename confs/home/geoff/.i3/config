@@ -105,6 +105,7 @@ bindsym $mod+Shift+m exec $terminal -e htop
 bindsym --release $mod+Shift+s exec flameshot gui
 # Leisure
 bindsym $mod+d exec discord
+bindsym $mod+i exec riot-desktop
 
 focus_follows_mouse no
 
@@ -368,18 +369,18 @@ set $bar_alpha 99
 
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
 bar {
-	i3bar_command i3bar -t
-	status_command i3status
-	position bottom
+    i3bar_command i3bar -t
+    status_command i3status
+    position bottom
     font xft:Roboto 12
 
 ## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
-#	tray_output primary
-#	tray_output eDP1
+#   tray_output primary
+#   tray_output eDP1
 
-	bindsym button4 nop
-	bindsym button5 nop
-	strip_workspace_numbers yes
+    bindsym button4 nop
+    bindsym button5 nop
+    strip_workspace_numbers yes
 
     colors {
         background #222D31$bar_alpha
