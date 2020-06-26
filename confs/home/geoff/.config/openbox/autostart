@@ -8,12 +8,29 @@ picom -b &
 
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 nm-applet &
+
+# battery / power management
 xfce4-power-manager &
+
+# system updates
 pamac-tray &
+
+# clipboard manager
 clipit &
+
+# bluetooth
 blueman-applet &
+
+# screenshot tool
 flameshot &
-start_conky_maia &
+
+# lock screen timeout
 xautolock -time 10 -locker blurlock &
+
+# launch polybar
+polybar -c /home/geoff/.config/polybar/config "main" &
+
 ff-theme-util &
 fix_xcursor
+
+# start_conky_maia
