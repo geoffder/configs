@@ -1,0 +1,19 @@
+# Programs that will run after Openbox has started.
+
+# Set wallpaper
+nitrogen --restore & sleep 1 &
+
+# Run composite manager
+picom -b &
+
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+nm-applet &
+xfce4-power-manager &
+pamac-tray &
+clipit &
+blueman-applet &
+flameshot &
+start_conky_maia &
+xautolock -time 10 -locker blurlock &
+ff-theme-util &
+fix_xcursor
