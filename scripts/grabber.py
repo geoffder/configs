@@ -1,6 +1,7 @@
 import os
 import shutil
 
+
 def copier(base_dir, paths):
     for pth in paths:
         if pth == "":
@@ -24,11 +25,12 @@ def copier(base_dir, paths):
         else:
             dest = os.path.join(base_dir[:], pth[1:] if pth[0] == "/" else pth)
             if dest == pth:
-                return "Attempt to delete source configs, aborting..."
+                return "Attempted to delete source configs, aborting..."
             shutil.rmtree(dest, ignore_errors=True)
             shutil.copytree(pth, dest)
 
     return "Configuration files copied to %s" % base_dir
+
 
 if __name__ == '__main__':
     # folder to configs to
@@ -42,6 +44,8 @@ if __name__ == '__main__':
         home + ".gtkrc-2.0",
         home + ".oh-my-zsh/themes/my_custom.zsh-theme",
         home + ".i3/config",
+        home + ".doom.d",
+        home + ".themes/Monokai-ish",
         home + ".config/i3-scrot.conf",
         home + ".config/i3status/config",
         home + ".config/openbox",
@@ -56,7 +60,6 @@ if __name__ == '__main__':
         home + ".config/flameshot/flameshot.conf",
         home + ".config/gtk-3.0/settings.ini",
         home + ".config/firefox",
-        home + ".doom.d",
     ]
     
     print(copier(base, files))
