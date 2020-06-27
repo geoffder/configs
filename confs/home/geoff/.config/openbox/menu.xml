@@ -10,16 +10,25 @@
   <item label="Calculator" icon="&icons;/gnome-calculator.svg">
     <action name="Execute">
       <command>gnome-calculator</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
     </action>
   </item>
   <item label="Onboard" icon="&icons;/onboard.svg">
     <action name="Execute">
       <command>onboard</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
     </action>
   </item>
   <item label="Flameshot" icon="&icons;/flameshot.svg">
     <action name="Execute">
       <command>flameshot gui</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
     </action>
   </item>
   <item label="Rofi" icon="&icons;/kitty.svg">
@@ -100,42 +109,79 @@
       </startupnotify>
     </action>
   </item>
+  <item label="Transmission" icon="&icons;/transmission.svg">
+    <action name="Execute">
+      <command>transmission-gtk</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+  <item label="SSH Browser" icon="&icons;/com.github.muriloventuroso.easyssh.svg">
+    <action name="Execute">
+      <command>bssh</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
 </menu>
 
 <menu id="apps-office-menu" label="Office">
   <item label="LibreOffice Base" icon="&icons;/libreoffice-base.svg">
     <action name="Execute">
       <command>libreoffice -base</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
     </action>
   </item>
   <item label="LibreOffice Calc" icon="&icons;/libreoffice-calc.svg">
     <action name="Execute">
       <command>libreoffice -calc</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
     </action>
   </item>
   <item label="LibreOffice Draw" icon="&icons;/libreoffice-draw.svg">
     <action name="Execute">
       <command>libreoffice -draw</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
     </action>
   </item>
   <item label="LibreOffice Impress" icon="&icons;/libreoffice-impress.svg">
     <action name="Execute">
       <command>libreoffice -impress</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
     </action>
   </item>
   <item label="LibreOffice Math" icon="&icons;/libreoffice-math.svg">
     <action name="Execute">
       <command>libreoffice -math</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
     </action>
   </item>
   <item label="LibreOffice Printer Administration" icon="&icons;/libreoffice-main.svg">
     <action name="Execute">
       <command>libreoffice-printeradmin</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
     </action>
   </item>
   <item label="LibreOffice Writer" icon="&icons;/libreoffice-writer.svg">
     <action name="Execute">
       <command>libreoffice -writer</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
     </action>
   </item>
 </menu>
@@ -171,6 +217,14 @@
   <item label="PCMan File Manager" icon="&icons;/xfce-filemanager.svg">
     <action name="Execute">
       <command>pcmanfm</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+  <item label="Thunar" icon="&icons;/thunar.svg">
+    <action name="Execute">
+      <command>thunar</command>
       <startupnotify>
         <enabled>yes</enabled>
       </startupnotify>
@@ -222,9 +276,25 @@
       </startupnotify>
     </action>
   </item>
+  <item label="Network Configuration" icon="&icons;/preferences-system-network.svg">
+    <action name="Execute">
+      <command>nm-connection-editor</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
   <item label="Power Manager" icon="&icons;/xfce4-power-manager-settings.svg">
     <action name="Execute">
       <command>xfce4-power-manager-settings</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+  <item label="GParted" icon="&icons;/gparted.svg">
+    <action name="Execute">
+      <command>gparted</command>
       <startupnotify>
         <enabled>yes</enabled>
       </startupnotify>
