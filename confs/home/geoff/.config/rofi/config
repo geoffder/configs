@@ -1,4 +1,4 @@
-rofi.theme: /usr/share/rofi/themes/Monokai.rasi
+rofi.theme: Monokai_purple.rasi
 rofi.modi: window,run,ssh,drun
 rofi.fullscreen: false
 rofi.lines: 8
