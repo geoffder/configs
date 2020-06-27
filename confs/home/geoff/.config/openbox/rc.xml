@@ -505,6 +505,17 @@
           <to>next</to>
         </action>
       </mousebind>
+      <!-- Menus (when within frame, e.g. non-root) -->
+      <mousebind button="W-Middle" action="Press">
+        <action name="ShowMenu">
+          <menu>client-list-combined-menu</menu>
+        </action>
+      </mousebind>
+      <mousebind button="W-Right" action="Press">
+        <action name="ShowMenu">
+          <menu>root-menu</menu>
+        </action>
+      </mousebind>
     </context>
     <context name="Titlebar">
       <mousebind button="Left" action="Drag">
