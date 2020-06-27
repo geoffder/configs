@@ -28,7 +28,7 @@ flameshot &
 xautolock -time 10 -locker blurlock &
 
 # launch polybar
-polybar -c /home/geoff/.config/polybar/config "main" &
+polybar -c /home/geoff/.config/polybar/config "main" & sleep 5 &
 
 # launch application dock
 plank &
