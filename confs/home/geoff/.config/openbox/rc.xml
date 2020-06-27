@@ -369,7 +369,7 @@
     </keybind>
     <keybind key="W-m">
       <action name="Execute">
-        <command>kitty -e ranger</command>
+        <command>kitty --title Ranger -e ranger</command>
         <startupnotify>
           <enabled>yes</enabled>
           <wmclass>Ranger</wmclass>
@@ -378,7 +378,7 @@
     </keybind>
     <keybind key="W-S-m">
       <action name="Execute">
-        <command>kitty -e htop</command>
+        <command>kitty --title Htop -e htop</command>
         <startupnotify>
           <enabled>yes</enabled>
           <wmclass>Htop</wmclass>
@@ -428,7 +428,7 @@
     </keybind>
     <keybind key="W-v">
       <action name="Execute">
-        <command>kitty -e nvim</command>
+        <command>kitty --title Nvim -e nvim</command>
         <startupnotify>
           <enabled>yes</enabled>
           <wmclass>NVim</wmclass>
@@ -904,5 +904,47 @@
 
   # end of the example
 -->
+  <application class="kitty">
+    <size>
+      <width>900</width>
+      <height>20%</height>
+    </size>
+  </application>
+  <application class="Emacs">
+    <size>
+      <width>900</width>
+      <height>95%</height>
+    </size>
+  </application>
+  <application class="kitty" title="Nvim">
+    <size>
+      <width>900</width>
+      <height>95%</height>
+    </size>
+  </application>
+  <application class="kitty" title="Ranger">
+    <size>
+      <width>900</width>
+      <height>30%</height>
+    </size>
+  </application>
+  <application class="kitty" title="MOCP">
+    <size>
+      <width>900</width>
+      <height>30%</height>
+    </size>
+  </application>
+  <application class="Riot">
+    <size>
+      <width>900</width>
+      <height>90%</height>
+    </size>
+  </application>
+  <application class="Discord">
+    <size>
+      <width>900</width>
+      <height>90%</height>
+    </size>
+  </application>
   </applications>
 </openbox_config>

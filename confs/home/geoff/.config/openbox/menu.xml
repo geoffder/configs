@@ -31,7 +31,7 @@
 <menu id="apps-editors-menu" label="Editors">
   <item label="NVim" icon="&icons;/nvim.svg">
     <action name="Execute">
-      <command>kitty -e nvim</command>
+      <command>kitty --title Nvim -e nvim</command>
       <startupnotify>
         <enabled>yes</enabled>
         <wmclass>nvim</wmclass>
@@ -149,7 +149,7 @@
   </item>
   <item label="MOCP" icon="&icons;/deepin-music.svg">
     <action name="Execute">
-      <command>kitty -e mocp</command>
+      <command>kitty --title MOCP -e mocp</command>
       <startupnotify>
         <enabled>yes</enabled>
       </startupnotify>
@@ -168,7 +168,7 @@
   </item>
   <item label="Ranger" icon="&icons;/kitty.svg">
     <action name="Execute">
-      <command>kitty -e ranger</command>
+      <command>kitty --title Ranger -e ranger</command>
       <startupnotify>
         <enabled>yes</enabled>
       </startupnotify>
@@ -198,7 +198,7 @@
 <menu id="system-menu" label="System">
   <item label="Htop" icon="&icons;/htop.svg">
     <action name="Execute">
-      <command>kitty -e htop</command>
+      <command>kitty --title Htop -e htop</command>
       <startupnotify>
         <enabled>yes</enabled>
       </startupnotify>
