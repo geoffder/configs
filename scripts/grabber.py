@@ -1,56 +1,13 @@
 import os
 import shutil
 
-
-if __name__ == '__main__':
-    # folder to configs to
-    home = '/home/geoff/'
-    basedir = home+'GitRepos/configs/confs/'
-
-    # full path for each config to copy
-    files = [
-        home + '.Xresources',
-        home + '.zshrc',
-        home + '.gtkrc-2.0',
-        home + '.oh-my-zsh/themes/my_custom.zsh-theme',
-        home + '.i3/config',
-        home + '.config/i3-scrot.conf',
-        home + '.config/i3status/config',
-        home + '.config/openbox/rc.xml',
-        home + '.config/openbox/menu.xml',
-        home + '.config/openbox/autostart',
-        home + '.config/polybar/config',
-        home + '.config/mimeapps.list',
-        home + '.config/picom.conf',
-        home + '.config/kitty/kitty.conf',
-        home + '.config/nvim/init.vim',
-        home + '.config/ranger/rc.conf',
-        home + '.config/ranger/rifle.conf',
-        home + '.config/rofi/config',
-        home + '.config/flameshot/flameshot.conf',
-        home + '.config/gtk-3.0/settings.ini',
-        home + '.config/firefox/startpage/index.html',
-        home + '.config/firefox/startpage/style.css',
-        home + '.config/firefox/startpage/icons/art.svg',
-        home + '.config/firefox/startpage/icons/code.svg',
-        home + '.config/firefox/startpage/icons/docs.svg',
-        home + '.config/firefox/startpage/icons/entertainment.svg',
-        home + '.config/firefox/startpage/icons/fox.svg',
-        home + '.config/firefox/startpage/icons/music.svg',
-        home + '.config/firefox/startpage/icons/search.svg',
-        home + '.doom.d/init.el',
-        home + '.doom.d/config.el',
-        home + '.doom.d/bindings.el',
-        home + '.doom.d/pretty-fira.el',
-        home + '.doom.d/transparency.el',
-        home + '.doom.d/dired-toggle-sudo.el',
-        home + '.doom.d/remote.el',
-        home + '.doom.d/packages.el',
-    ]
-
-    for pth in files:
+def copier(base_dir, paths):
+    for pth in paths:
+        if pth == "":
+            continue
+        
         # reset to basedir (../confs)
-        copydir = basedir[:]
+        dest = base_dir[:]
 
         # get directories and filename from path
         parts = pth.split('/')
@@ -58,11 +15,48 @@ if __name__ == '__main__':
 
         # new folders if they don't exist
         for fold in folds:
-            if not os.path.isdir(os.path.join(copydir, fold)):
-                os.mkdir(os.path.join(copydir, fold))
-            copydir = os.path.join(copydir, fold)
+            if not os.path.isdir(os.path.join(dest, fold)):
+                os.mkdir(os.path.join(dest, fold))
+            dest = os.path.join(dest, fold)
 
-        # copy into confs folder
-        shutil.copy(pth, os.path.join(copydir, name))
+        if os.path.isfile(pth):
+            shutil.copy(pth, os.path.join(dest, name))
+        else:
+            dest = os.path.join(base_dir[:], pth[1:] if pth[0] == "/" else pth)
+            if dest == pth:
+                return "Attempt to delete source configs, aborting..."
+            shutil.rmtree(dest, ignore_errors=True)
+            shutil.copytree(pth, dest)
 
-    print('Configuration files copied to %s' % basedir)
+    return "Configuration files copied to %s" % base_dir
+
+if __name__ == '__main__':
+    # folder to configs to
+    home = "/home/geoff/"
+    base = home + "GitRepos/configs/confs/"
+
+    # full path for each config to copy
+    files = [
+        home + ".Xresources",
+        home + ".zshrc",
+        home + ".gtkrc-2.0",
+        home + ".oh-my-zsh/themes/my_custom.zsh-theme",
+        home + ".i3/config",
+        home + ".config/i3-scrot.conf",
+        home + ".config/i3status/config",
+        home + ".config/openbox",
+        home + ".config/polybar",
+        home + ".config/mimeapps.list",
+        home + ".config/picom.conf",
+        home + ".config/kitty/kitty.conf",
+        home + ".config/nvim/init.vim",
+        home + ".config/ranger/rc.conf",
+        home + ".config/ranger/rifle.conf",
+        home + ".config/rofi",
+        home + ".config/flameshot/flameshot.conf",
+        home + ".config/gtk-3.0/settings.ini",
+        home + ".config/firefox",
+        home + ".doom.d",
+    ]
+    
+    print(copier(base, files))
