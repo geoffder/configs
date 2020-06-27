@@ -12,6 +12,11 @@
       <command>gnome-calculator</command>
     </action>
   </item>
+  <item label="Onboard" icon="&icons;/onboard.svg">
+    <action name="Execute">
+      <command>onboard</command>
+    </action>
+  </item>
   <item label="Flameshot" icon="&icons;/flameshot.svg">
     <action name="Execute">
       <command>flameshot gui</command>
