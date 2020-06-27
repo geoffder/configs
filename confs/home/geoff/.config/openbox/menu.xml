@@ -7,6 +7,11 @@
 <openbox_menu xmlns="http://openbox.org/3.4/menu">
 
 <menu id="apps-accessories-menu" label="Accessories">
+  <item label="Calculator" icon="&icons;/gnome-calculator.svg">
+    <action name="Execute">
+      <command>gnome-calculator</command>
+    </action>
+  </item>
   <item label="Flameshot" icon="&icons;/flameshot.svg">
     <action name="Execute">
       <command>flameshot gui</command>

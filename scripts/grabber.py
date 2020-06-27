@@ -33,7 +33,6 @@ def copier(base_dir, paths):
 
 
 if __name__ == '__main__':
-    # folder to configs to
     home = "/home/geoff/"
     base = home + "GitRepos/configs/confs/"
 
