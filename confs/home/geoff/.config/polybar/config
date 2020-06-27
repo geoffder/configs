@@ -66,7 +66,7 @@ dpi-y = 0
 modules-left = workspaces xwindow
 modules-center =
 ;modules-right = memory cpu battery temperature date powermenu
-modules-right = cpu battery memory date powermenu
+modules-right = cpu battery memory pamac-checkupdates date powermenu
 
 ;; leave blank if not wanting a tray for bluetooth/keyboard/apps etc
 tray-position = center
@@ -389,6 +389,15 @@ menu-2-0 = power off
 menu-2-0-exec = poweroff
 menu-2-1 = cancel
 menu-2-1-exec = menu-open-0
+
+[module/pamac-checkupdates]
+type = custom/script
+exec = pamac checkupdates | wc -l | xargs printf "%i - 1\n" | bc
+interval = 3600
+label = %output%
+format-foreground = ${colors.foreground}
+format-background = ${colors.background}
+format-prefix = "  "
 
 [settings]
 screenchange-reload = true
