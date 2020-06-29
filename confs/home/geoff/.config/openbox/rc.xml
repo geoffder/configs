@@ -934,6 +934,12 @@
       <height>30%</height>
     </size>
   </application>
+  <application class="firefox">
+    <size>
+      <width>900</width>
+      <height>90%</height>
+    </size>
+  </application>
   <application class="Riot">
     <size>
       <width>900</width>

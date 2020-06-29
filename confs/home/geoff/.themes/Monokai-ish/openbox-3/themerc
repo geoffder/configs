@@ -8,7 +8,6 @@
 # (at your option) any later version.
 #
 
-
 # Fonts
 window.active.label.text.font:shadow=n
 window.inactive.label.text.font:shadow=n
@@ -35,7 +34,6 @@ menu.separator.padding.height: 4
 
 
 # Active window
-# window.active.border.color: #222D32
 window.active.border.color: #f1f1f1
 window.active.title.bg: flat solid
 window.active.title.bg.color: #222D32
@@ -91,7 +89,6 @@ window.inactive.button.toggled.pressed.bg: parentrelative
 window.inactive.button.toggled.hover.bg: parentrelative
 
 # Inactive window
-# window.inactive.border.color: #222D32
 window.inactive.border.color: #595959
 window.inactive.title.bg: flat solid
 window.inactive.title.bg.color: #222D32
@@ -133,9 +130,7 @@ window.inactive.button.disabled.image.color: #3B464B
 
 
 # Menu
-# menu.border.color: #212B30
 menu.border.color: #f1f1f1
-# menu.border.color: #ae81ff
 
 menu.title.bg: flat solid
 menu.title.bg.color: #28343A
@@ -162,14 +157,15 @@ osd.label.text.color: #CFD8DC
 
 osd.active.label.bg: flat solid
 osd.active.label.bg.color: #222D32
-osd.active.label.text.color: #8DCDC8
+osd.active.label.text.color: #ae81ff
+# #8DCDC8
 
 osd.inactive.label.bg: flat solid
 osd.inactive.label.bg.color: #222D32
 osd.inactive.label.text.color: #677176
 
 osd.hilight.bg: flat solid
-osd.hilight.bg.color: #4DB6AC
+osd.hilight.bg.color: #8b4dff
 
 osd.unhilight.bg: flat solid
 osd.unhilight.bg.color: #323D42
@@ -182,16 +178,16 @@ osd.button.unpressed.text.color: #449690
 osd.button.hover.bg: flat solid border
 osd.button.hover.bg.color: #2D4348
 osd.button.hover.*.border.color: #2D4348
-osd.button.hover.text.color: #8DCDC8
+osd.button.hover.text.color: #ae81ff
 
 osd.button.pressed.bg: flat border
 osd.button.pressed.bg.color: #315054
 osd.button.pressed.*.border.color: #315054
-osd.button.pressed.text.color: #8DCDC8
+osd.button.pressed.text.color: #ae81ff
 
 osd.button.focused.bg: flat solid border
 osd.button.focused.bg.color: #2D4348
 osd.button.focused.*.border.color: #2D4348
-osd.button.focused.text.color: #8DCDC8
+cosd.button.focused.text.color: #ae81ff
 
 osd.button.focused.box.color: #2D4348

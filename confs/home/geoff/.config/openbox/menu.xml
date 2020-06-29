@@ -203,6 +203,14 @@
       </startupnotify>
     </action>
   </item>
+  <item label="Clementine" icon="&icons;/clementine.svg">
+    <action name="Execute">
+      <command>clementine</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
   <item label="MOCP" icon="&icons;/deepin-music.svg">
     <action name="Execute">
       <command>kitty --title MOCP -e mocp</command>
@@ -295,6 +303,14 @@
   <item label="GParted" icon="&icons;/gparted.svg">
     <action name="Execute">
       <command>gparted</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+  <item label="LightDM Settings" icon="&icons;/lightdm-settings.svg">
+    <action name="Execute">
+      <command>lightdm-settings</command>
       <startupnotify>
         <enabled>yes</enabled>
       </startupnotify>
