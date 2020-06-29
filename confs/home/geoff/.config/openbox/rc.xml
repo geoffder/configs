@@ -904,53 +904,53 @@
 
   # end of the example
 -->
-  <application class="kitty">
-    <size>
-      <width>900</width>
-      <height>20%</height>
-    </size>
-  </application>
-  <application class="Emacs">
-    <size>
-      <width>900</width>
-      <height>95%</height>
-    </size>
-  </application>
-  <application class="kitty" title="Nvim">
-    <size>
-      <width>900</width>
-      <height>95%</height>
-    </size>
-  </application>
-  <application class="kitty" title="Ranger">
-    <size>
-      <width>900</width>
-      <height>30%</height>
-    </size>
-  </application>
-  <application class="kitty" title="MOCP">
-    <size>
-      <width>900</width>
-      <height>30%</height>
-    </size>
-  </application>
-  <application class="firefox">
-    <size>
-      <width>900</width>
-      <height>90%</height>
-    </size>
-  </application>
-  <application class="Riot">
-    <size>
-      <width>900</width>
-      <height>90%</height>
-    </size>
-  </application>
-  <application class="Discord">
-    <size>
-      <width>900</width>
-      <height>90%</height>
-    </size>
-  </application>
+    <application class="kitty">
+      <size>
+        <width>900</width>
+        <height>20%</height>
+      </size>
+    </application>
+    <application class="Emacs">
+      <size>
+        <width>900</width>
+        <height>95%</height>
+      </size>
+    </application>
+    <application class="kitty" title="Nvim">
+      <size>
+        <width>900</width>
+        <height>95%</height>
+      </size>
+    </application>
+    <application class="kitty" title="Ranger">
+      <size>
+        <width>900</width>
+        <height>30%</height>
+      </size>
+    </application>
+    <application class="kitty" title="MOCP">
+      <size>
+        <width>900</width>
+        <height>30%</height>
+      </size>
+    </application>
+    <application class="firefox">
+      <size>
+        <width>900</width>
+        <height>90%</height>
+      </size>
+    </application>
+    <application class="Riot">
+      <size>
+        <width>900</width>
+        <height>90%</height>
+      </size>
+    </application>
+    <application class="Discord">
+      <size>
+        <width>900</width>
+        <height>90%</height>
+      </size>
+    </application>
   </applications>
 </openbox_config>

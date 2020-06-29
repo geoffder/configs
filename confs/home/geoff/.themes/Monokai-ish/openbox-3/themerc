@@ -173,7 +173,7 @@ osd.unhilight.bg.color: #323D42
 osd.button.unpressed.bg: flat border
 osd.button.unpressed.bg.color: #222D32
 osd.button.unpressed.*.border.color: #222D32
-osd.button.unpressed.text.color: #449690
+osd.button.unpressed.text.color: #8b4dff
 
 osd.button.hover.bg: flat solid border
 osd.button.hover.bg.color: #2D4348

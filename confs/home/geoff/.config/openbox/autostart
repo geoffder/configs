@@ -9,6 +9,7 @@ nitrogen --restore & sleep 1 &
 # Run composite manager
 picom -b &
 
+# privilege checker
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
 # network manager
@@ -35,7 +36,4 @@ polybar -c /home/geoff/.config/polybar/config "main" & sleep 5 &
 # launch application dock
 plank &
 
-fix_xcursor
-
-# start_conky_maia &
-# ff-theme-util &
+# fix_xcursor
