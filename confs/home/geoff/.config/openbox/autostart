@@ -31,13 +31,13 @@ flameshot &
 xautolock -time 10 -locker blurlock &
 
 # launch polybar
-polybar -c /home/geoff/.config/polybar/config "main" & sleep 5 &
-
-# send polybar to lower window layer
-xdo lower -N Polybar &
+polybar -c /home/geoff/.config/polybar/config "main" & sleep 2 &
 
 # launch standalone system tray
-stalone tray &
+stalonetray & sleep 2
 
 # launch application dock
 plank &
+
+# send polybar to lower window layer
+xdo lower -N Polybar
