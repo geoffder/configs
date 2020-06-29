@@ -10,13 +10,12 @@ nitrogen --restore & sleep 1 &
 picom -b &
 
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+
+# network manager
 nm-applet &
 
 # battery / power management
 xfce4-power-manager &
-
-# system updates
-pamac-tray &
 
 # clipboard manager
 clipit &
@@ -36,7 +35,7 @@ polybar -c /home/geoff/.config/polybar/config "main" & sleep 5 &
 # launch application dock
 plank &
 
-ff-theme-util &
 fix_xcursor
 
-# start_conky_maia
+# start_conky_maia &
+# ff-theme-util &
