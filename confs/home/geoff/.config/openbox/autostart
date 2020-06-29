@@ -33,7 +33,11 @@ xautolock -time 10 -locker blurlock &
 # launch polybar
 polybar -c /home/geoff/.config/polybar/config "main" & sleep 5 &
 
+# send polybar to lower window layer
+xdo lower -N Polybar &
+
+# launch standalone system tray
+stalone tray &
+
 # launch application dock
 plank &
-
-# fix_xcursor
