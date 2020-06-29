@@ -70,8 +70,13 @@ modules-right = cpu battery memory pamac-checkupdates date powermenu
 
 ;; leave blank if not wanting a tray for bluetooth/keyboard/apps etc
 tray-position = center
+tray-detached = false
+tray-maxsize = 16
 tray-padding = 2
 tray-background = ${colors.background}
+tray-scale = 1
+tray-offset-x = 0
+tray-offset-y = 0
 
 ;; mouse scroll switches between workspaces
 scroll-up = i3wm-wsnext

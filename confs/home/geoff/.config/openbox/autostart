@@ -1,5 +1,8 @@
 # Programs that will run after Openbox has started.
 
+# volume adjustment
+volumeicon &
+
 # Set wallpaper
 nitrogen --restore & sleep 1 &
 
