@@ -61,6 +61,7 @@ if __name__ == '__main__':
         home + ".config/flameshot/flameshot.conf",
         home + ".config/gtk-3.0/settings.ini",
         home + ".config/firefox",
+        home + ".config/qt5ct/qt5ct.conf",
     ]
     
     print(copier(base, files))
