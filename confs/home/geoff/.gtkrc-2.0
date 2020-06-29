@@ -1,6 +1,7 @@
-gtk-theme-name="Adapta-Nokto-Eta-Maia"
-#gtk-theme-name="Adapta-Purple-Nokto-Eta"
-gtk-icon-theme-name="Papirus-Adapta-Nokto-Maia"
+#gtk-theme-name="Adapta-Nokto-Eta-Maia"
+gtk-theme-name="Adapta-DeepPurple-Nokto-Eta"
+#gtk-icon-theme-name="Papirus-Adapta-Nokto-Maia"
+gtk-icon-theme-name="Papirus-Adapta-Nokto-Violet"
 gtk-font-name="Roboto 10"
 gtk-cursor-theme-name="Bibata_Classic"
 gtk-xft-antialias=1

@@ -45,6 +45,8 @@ if __name__ == '__main__':
         home + ".i3/config",
         home + ".doom.d",
         home + ".themes/Monokai-ish",
+        home + ".themes/Adapta-DeepPurple-Nokto-Eta",
+        home + ".themes/Papirus-Dark-Places-Violet",
         home + ".config/i3-scrot.conf",
         home + ".config/i3status/config",
         home + ".config/openbox",
