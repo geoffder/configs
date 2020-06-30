@@ -230,14 +230,6 @@
       </startupnotify>
     </action>
   </item>
-  <item label="Thunar" icon="&icons;/thunar.svg">
-    <action name="Execute">
-      <command>thunar</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-      </startupnotify>
-    </action>
-  </item>
   <item label="Ranger" icon="&icons;/kitty.svg">
     <action name="Execute">
       <command>kitty --title Ranger -e ranger</command>

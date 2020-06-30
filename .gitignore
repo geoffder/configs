@@ -1,2 +1,3 @@
 
 scripts/.mypy_cache/
+scripts/__pycache__/

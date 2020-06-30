@@ -4,10 +4,10 @@
 volumeicon &
 
 # Set wallpaper
-nitrogen --restore & sleep 1 &
+nitrogen --restore &
 
 # Run composite manager
-picom -b &
+sleep 1 && picom -b &
 
 # privilege checker
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
@@ -31,13 +31,16 @@ flameshot &
 xautolock -time 10 -locker blurlock &
 
 # launch polybar
-polybar -c /home/geoff/.config/polybar/config "main" & sleep 2 &
+polybar -c /home/geoff/.config/polybar/config "main" &
 
 # launch standalone system tray
-stalonetray & sleep 2
+trayer --edge top --align center --widthtype request \
+       --transparent true --alpha 127 --tint 0x99222222 \
+       --SetDockType true --SetPartialStrut true \
+       --expand true &
 
 # launch application dock
 plank &
 
 # send polybar to lower window layer
-xdo lower -N Polybar
+sleep 2 && xdo lower -N Polybar

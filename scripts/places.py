@@ -6,7 +6,6 @@ files = [
     home + ".Xresources",
     home + ".zshrc",
     home + ".gtkrc-2.0",
-    home + ".stalonetrayrc",
     home + ".oh-my-zsh/themes/my_custom.zsh-theme",
     home + ".i3/config",
     home + ".doom.d",

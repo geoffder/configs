@@ -904,6 +904,9 @@
 
   # end of the example
     -->
+    <application class="trayer">
+      <layer>below</layer>>
+    </application>
     <application class="kitty">
       <size>
         <width>900</width>
