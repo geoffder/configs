@@ -1,68 +1,40 @@
+from places import base, files
+
 import os
 import shutil
 
 
-def copier(base_dir, paths):
+def grabber(from_root, dest_root, paths):
     for pth in paths:
+        pth = pth.lstrip("/")
         if pth == "":
             continue
-        
-        # reset to basedir (../confs)
-        dest = base_dir[:]
+
+        from_path = os.path.join(from_root, pth)
 
         # get directories and filename from path
         parts = pth.split('/')
         folds, name = parts[:-1], parts[-1]
 
         # new folders if they don't exist
+        folder = dest_root[:]
         for fold in folds:
-            if not os.path.isdir(os.path.join(dest, fold)):
-                os.mkdir(os.path.join(dest, fold))
-            dest = os.path.join(dest, fold)
+            folder = os.path.join(folder, fold)
+            if not os.path.isdir(folder):
+                os.mkdir(os.path.join(folder, fold))
 
-        if os.path.isfile(pth):
-            shutil.copy(pth, os.path.join(dest, name))
+        if os.path.isfile(from_path):
+            shutil.copy(from_path, os.path.join(dest_root, pth))
         else:
-            dest = os.path.join(base_dir[:], pth[1:] if pth[0] == "/" else pth)
+            dest = os.path.join(dest_root, pth)
             if dest == pth:
                 return "Attempted to delete source configs, aborting..."
             shutil.rmtree(dest, ignore_errors=True)
-            shutil.copytree(pth, dest)
+            shutil.copytree(from_path, dest)
 
-    return "Configuration files copied to %s" % base_dir
+    return "Configuration files copied to %s" % dest_root
 
 
 if __name__ == '__main__':
-    home = "/home/geoff/"
-    base = home + "GitRepos/configs/confs/"
-
-    # full path for each config to copy
-    files = [
-        home + ".Xresources",
-        home + ".zshrc",
-        home + ".gtkrc-2.0",
-        home + ".stalonetrayrc",
-        home + ".oh-my-zsh/themes/my_custom.zsh-theme",
-        home + ".i3/config",
-        home + ".doom.d",
-        home + ".themes/Monokai-ish",
-        home + ".themes/Adapta-DeepPurple-Nokto-Eta",
-        home + ".themes/Papirus-Dark-Places-Violet",
-        home + ".config/i3-scrot.conf",
-        home + ".config/i3status/config",
-        home + ".config/openbox",
-        home + ".config/polybar",
-        home + ".config/mimeapps.list",
-        home + ".config/picom.conf",
-        home + ".config/kitty/kitty.conf",
-        home + ".config/nvim/init.vim",
-        home + ".config/ranger/rc.conf",
-        home + ".config/ranger/rifle.conf",
-        home + ".config/rofi",
-        home + ".config/flameshot/flameshot.conf",
-        home + ".config/gtk-3.0/settings.ini",
-        home + ".config/firefox",
-        home + ".config/qt5ct/qt5ct.conf",
-    ]
-    
-    print(copier(base, files))
+    print(grabber("/", base, files))
+    # print(grabber(base, "/", files))
