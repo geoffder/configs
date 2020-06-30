@@ -158,7 +158,6 @@ osd.label.text.color: #CFD8DC
 osd.active.label.bg: flat solid
 osd.active.label.bg.color: #222D32
 osd.active.label.text.color: #ae81ff
-# #8DCDC8
 
 osd.inactive.label.bg: flat solid
 osd.inactive.label.bg.color: #222D32
