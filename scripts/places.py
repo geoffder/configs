@@ -12,6 +12,7 @@ files = [
     home + ".themes/Monokai-ish",
     home + ".themes/Adapta-DeepPurple-Nokto-Eta",
     home + ".themes/Papirus-Dark-Places-Violet",
+    home + ".themes/Papirus-Adapta-Nokto-Violet",
     home + ".config/i3-scrot.conf",
     home + ".config/i3status/config",
     home + ".config/openbox",
