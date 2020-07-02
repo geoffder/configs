@@ -87,7 +87,14 @@
       <command>firefox</command>
       <startupnotify>
         <enabled>yes</enabled>
-        <wmclass>Firefox</wmclass>
+      </startupnotify>
+    </action>
+  </item>
+  <item label="Brave" icon="&icons;/brave.svg">
+    <action name="Execute">
+      <command>brave</command>
+      <startupnotify>
+        <enabled>yes</enabled>
       </startupnotify>
     </action>
   </item>
