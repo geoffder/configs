@@ -1,4 +1,6 @@
-home = "/home/geoff/"
+import os
+
+home = os.path.expanduser("~/")
 base = home + "GitRepos/configs/confs/"
 
 # full path for each config to copy
