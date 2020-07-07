@@ -21,7 +21,7 @@ def grabber(from_root, dest_root, paths):
         for fold in folds:
             folder = os.path.join(folder, fold)
             if not os.path.isdir(folder):
-                os.mkdir(os.path.join(folder, fold))
+                os.mkdir(folder)
 
         if os.path.isfile(from_path):
             shutil.copy(from_path, os.path.join(dest_root, pth))

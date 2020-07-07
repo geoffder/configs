@@ -10,6 +10,7 @@ files = [
     home + ".gtkrc-2.0",
     home + ".oh-my-zsh/themes/my_custom.zsh-theme",
     home + ".i3/config",
+    home + ".xmonad/xmonad.hs",
     home + ".doom.d",
     home + ".themes/Monokai-ish",
     home + ".themes/Adapta-DeepPurple-Nokto-Eta",
