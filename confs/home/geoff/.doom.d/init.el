@@ -121,7 +121,7 @@
         +lsp
         )                  ; ML stands for Microsoft's Language
        ;;Go                ; The hipster dialect
-       ;;(haskell +dante)  ; a language that's lazier than I am
+       (haskell +dante)    ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ;
        ;;(java +meghanada) ; the poster child for carpal tunnel syndrome
@@ -180,12 +180,6 @@
        :config
        ;;literate
        (default +bindings +smartparens))
-
-;;Added below line to emacs.d/modules/completion/company/config.el (quicker suggestions)
-;(setq company-idle-delay .1)
-
-;; Fix issue where company-mode needs reactivating for C# buffers
-;;(add-hook 'csharp-mode-hook #'company-mode)
 
 (custom-set-faces
  '(hl-fill-column-face ((t (:background "black" :foreground "white")))))
