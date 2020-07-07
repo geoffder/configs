@@ -77,31 +77,30 @@ bindsym $mod+Ctrl+m exec $terminal -e 'alsamixer'
 # bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up'"
 # bindsym XF86MonBrightnessDown exec "xbacklight -dec 10; notify-send 'brightness down'"
 
-# Start Applications
+# ##### Application Bindings #####
 bindsym $mod+Ctrl+b exec $terminal -e 'bmenu'
 bindsym $mod+Shift+F3 exec pcmanfm_pkexec
-bindsym $mod+p exec $terminal -e 'mocp'
+bindsym $mod+Shift+p exec $terminal -e 'mocp'
 bindsym $mod+t exec --no-startup-id pkill picom
 bindsym $mod+Ctrl+t exec --no-startup-id picom -b
 bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart dunst'"
 bindsym Print exec --no-startup-id i3-scrot
 bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
 bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
-bindsym $mod+Shift+h exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
 
-# ##### My Shortcuts #####
 bindsym $mod+Shift+Return exec firefox
+
 # File Browsing
-bindsym $mod+n exec pcmanfm
-bindsym $mod+m exec $terminal -e ranger
+bindsym $mod+p exec pcmanfm
+bindsym $mod+o exec $terminal -e ranger
 # Code Related
 bindsym $mod+v exec $terminal -e nvim
 bindsym $mod+e exec emacs
 # bindsym $mod+CTRL+l exec /opt/clion-2019.1.4/bin/clion.sh
 bindsym $mod+g exec /home/geoff/Godot/Godot_v3.2-stable_mono_x11.64
 # Other OS stuff
-bindsym $mod+Shift+m exec $terminal -e htop
+bindsym $mod+Shift+h exec $terminal -e htop
 bindsym --release $mod+Shift+s exec flameshot gui
 # Leisure
 bindsym $mod+d exec discord
@@ -323,12 +322,13 @@ exec --no-startup-id nitrogen --restore; sleep 1; picom -b
 #exec --no-startup-id manjaro-hello
 exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
-exec --no-startup-id pamac-tray
+# exec --no-startup-id pamac-tray
 exec --no-startup-id clipit
 exec --no-startup-id blueman-applet
 exec --no-startup-id flameshot
+exec --no-startup-id redshift-gtk -t 6500:4000
 # exec_always --no-startup-id sbxkb
-exec --no-startup-id start_conky_maia
+# exec --no-startup-id start_conky_maia
 # exec --no-startup-id start_conky_green
 exec --no-startup-id xautolock -time 10 -locker blurlock
 exec_always --no-startup-id ff-theme-util
