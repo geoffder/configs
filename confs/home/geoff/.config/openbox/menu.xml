@@ -337,6 +337,27 @@
   </item>
 </menu>
 
+<menu id="power-menu" label="Power">
+  <item label="Sleep" icon="&icons;/sleep.svg">
+    <action name="Execute">
+      <command>systemctl suspend</command>
+      <prompt>Say goodnight!</prompt>
+    </action>
+  </item>
+  <item label="Reboot" icon="&icons;/system-reboot.svg">
+    <action name="Execute">
+      <command>reboot</command>
+      <prompt>Reboot!</prompt>
+    </action>
+  </item>
+  <item label="Shutdown" icon="&icons;/system-shutdown.svg">
+    <action name="Execute">
+      <command>poweroff</command>
+      <prompt>Noooo you cant just turn the computer off!</prompt>
+    </action>
+  </item>
+</menu>
+
 <menu id="root-menu" label="Openbox 3">
   <separator label="Applications" />
   <menu id="apps-accessories-menu" icon="&icons;/applications-accessories.svg"/>
@@ -349,6 +370,8 @@
   <menu id="apps-fileman-menu" icon="&icons;/xfce-filemanager.svg"/>
   <separator label="System"/>
   <menu id="system-menu" icon="&icons;/system-config-display.svg"/>
+  <separator />
+  <menu id="power-menu" icon="&icons;/cs-power.svg"/>
   <separator />
   <item label="Log Out" icon="&icons;/kali-backdoor-factory.svg">
     <action name="Exit">
