@@ -68,10 +68,11 @@
 
 ;; Enable FiraCode ligatures. Add hooks for any buffer types I want them in
 (load! "pretty-fira")
-(add-hook 'csharp-mode-hook 'fira-code-mode)
-(add-hook 'python-mode-hook 'fira-code-mode)
-(add-hook 'elixir-mode-hook 'fira-code-mode)
-(add-hook 'fsharp-mode-hook 'fira-code-mode)
+(add-hook! ('csharp-mode-hook
+            'python-mode-hook
+            'elixir-mode-hook
+            'fsharp-mode-hook)
+           'fira-code-mode)
 
 (setq fill-column 80)
 
@@ -88,6 +89,13 @@
                       "//"
                       +fold-hideshow-forward-block-by-indent-fn nil))
          hs-special-modes-alist)))
+
+;; Autocompletion config
+(setq company-idle-delay 0.1)
+(setq company-minimum-prefix-length 2)
+(set-company-backend!
+  '(csharp-mode python-mode fsharp-mode haskell-mode sh-mode)
+  'company-files)
 
 ;; (require 'eglot-fsharp)  ;; if lsp is not working.
 ;; (add-hook 'fsharp-mode-hook 'eglot-ensure)
@@ -114,4 +122,3 @@
           (lambda ()
             (setq lsp-python-ms-extra-paths
                   (vconcat lsp-python-ms-extra-paths (vector (get-dir))))))
-
