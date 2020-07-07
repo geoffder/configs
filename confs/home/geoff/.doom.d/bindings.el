@@ -46,3 +46,8 @@
           :desc "dired sudo" "s" #'dired-toggle-sudo)
         (:prefix-map ("o" . "open")
           :desc "sudo into shake" "s" #'connect-shake-sudo))
+
+;; TODO: Add some quality of life to haskell-mode.
+;; (map! :localleader
+;;       :map dante-mode-map
+;;       :desc "auto type signature" "s")

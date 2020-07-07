@@ -71,7 +71,8 @@
 (add-hook! ('csharp-mode-hook
             'python-mode-hook
             'elixir-mode-hook
-            'fsharp-mode-hook)
+            'fsharp-mode-hook
+            'haskell-mode-hook)
            'fira-code-mode)
 
 (setq fill-column 80)
