@@ -2,11 +2,6 @@
 --
 -- xmonad example config file.
 --
--- A template showing all available configuration hooks,
--- and how to override the defaults in your own xmonad.hs conf file.
---
--- Normally, you'd only override those defaults you care about.
---
 
 import XMonad
 import Data.Monoid
@@ -18,11 +13,10 @@ import qualified Data.Map        as M
 
 -- Actions
 -- import XMonad.Actions.CopyWindow (kill1, killAllOtherCopies)
--- import XMonad.Actions.CycleWS (moveTo, shiftTo, WSType(..), nextScreen, prevScreen)
 -- import XMonad.Actions.GridSelect
 import XMonad.Actions.MouseResize
 -- import XMonad.Actions.Promote
--- import XMonad.Actions.RotSlaves (rotSlavesDown, rotAllDown)
+import XMonad.Actions.RotSlaves (rotSlavesDown, rotAllDown)
 -- import qualified XMonad.Actions.TreeSelect as TS
 -- import XMonad.Actions.WindowGo (runOrRaise)
 -- import XMonad.Actions.WithAll (sinkAll, killAll)
@@ -37,12 +31,9 @@ import XMonad.Actions.MouseResize
 
 -- Hooks
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
--- import XMonad.Hooks.EwmhDesktops  -- for some fullscreen events, also for xcomposite in obs.
--- import XMonad.Hooks.FadeInactive
+import XMonad.Hooks.EwmhDesktops  -- for some fullscreen events, also for xcomposite in obs.
 import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
-import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat)
--- import XMonad.Hooks.ServerMode
--- import XMonad.Hooks.SetWMName
+import XMonad.Hooks.SetWMName
 import XMonad.Hooks.WorkspaceHistory
 
 -- Layouts
@@ -58,12 +49,11 @@ import XMonad.Layout.Renamed (renamed, Rename(Replace))
 import XMonad.Layout.ShowWName
 import XMonad.Layout.Spacing
 -- Do I want/need these? (more dt layout mod imports)
-import XMonad.Layout.LimitWindows (limitWindows, increaseLimit, decreaseLimit)
+import XMonad.Layout.LimitWindows (limitWindows)
 import XMonad.Layout.Magnifier
 import XMonad.Layout.MultiToggle (mkToggle, single, EOT(EOT), (??))
 import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, MIRROR, NOBORDERS))
-import XMonad.Layout.WindowArranger (windowArrange, WindowArrangerMsg(..))
-import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(Toggle))
+import XMonad.Layout.WindowArranger (windowArrange)
 import qualified XMonad.Layout.MultiToggle as MT (Toggle(..))
 
 -- Prompts
@@ -94,7 +84,7 @@ terminalExec command = myTerminal ++ " -e " ++ command
 
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
-myFocusFollowsMouse = True
+myFocusFollowsMouse = False
 
 -- Whether clicking on a window to focus also passes the click to the window
 myClickJustFocuses :: Bool
@@ -146,14 +136,14 @@ myKeys = \c -> mkKeymap c $
   [ ("M-<Return>",   spawn myTerminal)
   , ("M-<Space>",    spawn "rofi -show drun")
   , ("M-S-<Return>", spawn "firefox")
-  , (("M-e"),        spawn "emacs")
+  , (("M-e"),        spawn "emacsclient -c -a emacs")
   , (("M-v"),        spawn $ terminalExec "nvim")
   , (("M-o"),        spawn $ terminalExec "ranger")
   , (("M-S-o"),      spawn $ terminalExec "htop")
   , (("M-p"),        spawn "pcmanfm")
   , (("M-S-s"),      spawn "flameshot gui")
   , (("M-i"),        spawn "riot-desktop")
-  , (("M-M1-d"),     spawn "riot-desktop")
+  , (("M-M1-d"),     spawn "discord")
 
   , ("M-S-q",        kill)                            -- close focused window
   , ("M-<Tab>",      sendMessage NextLayout)          -- rotate window layout
@@ -167,6 +157,9 @@ myKeys = \c -> mkKeymap c $
   , ("M-S-<Up>",     windows W.swapUp)                -- swap focused with previous window
   , ("M-S-j",        windows W.swapDown)              -- swap focused with next window
   , ("M-S-k",        windows W.swapUp)                -- swap focused with previous window
+  , ("M1-S-<Tab>",   rotSlavesDown)                   -- rotate slaves (keep focus)
+  , ("M1-C-<Tab>",   rotAllDown)                      -- rotate all windows (keep focus)
+
   , ("M-h",          sendMessage Shrink)              -- shrink the master area
   , ("M-l",          sendMessage Expand)              -- expand the master area
   , ("M-S-h",        sendMessage MirrorShrink)        -- shrink share of slave area
@@ -193,23 +186,22 @@ myKeys = \c -> mkKeymap c $
       | (k, sc) <- zip ["<F1>", "<F2>", "<F3>"] [0..]
       , (f, m) <- [(W.view, ""), (W.shift, "S-")]]
   
-------------------------------------------------------------------------
+  ----------------------------------------------------------------------
 -- Mouse bindings: default actions bound to mouse events
 --
 myMouseBindings :: XConfig l -> M.Map (KeyMask, Button) (Window -> X ()) 
 myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
-
     -- mod-button1, Set the window to floating mode and move by dragging
     [ ((modm, button1), (\w -> focus w >> mouseMoveWindow w
                                        >> windows W.shiftMaster))
-
+    
     -- mod-button2, Raise the window to the top of the stack
     , ((modm, button2), (\w -> focus w >> windows W.shiftMaster))
-
+    
     -- mod-button3, Set the window to floating mode and resize by dragging
     , ((modm, button3), (\w -> focus w >> mouseResizeWindow w
                                        >> windows W.shiftMaster))
-
+    
     -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
 
@@ -247,21 +239,16 @@ myXPConfig = def
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
 
--- Below is a variation of the above except no borders are applied
--- if fewer than two windows. So a single window has no gaps.
-mySpacing' :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
-mySpacing' i = spacingRaw True (Border i i i i) True (Border i i i i) True
-
 tall     = renamed [Replace "tall"]
            $ limitWindows 12
            $ mySpacing 8
-           $ ResizableTall 1 (3/100) (1/2) []
+           $ ResizableTall 1 ( 3 / 100 ) ( 1 / 2 ) []
 
 magnify  = renamed [Replace "magnify"]
            $ magnifier
            $ limitWindows 12
            $ mySpacing 8
-           $ ResizableTall 1 (3/100) (1/2) []
+           $ ResizableTall 1 ( 3 / 100 ) ( 1 / 2 ) []
 
 monocle  = renamed [Replace "monocle"]
            $ limitWindows 20 Full
@@ -270,23 +257,22 @@ grid     = renamed [Replace "grid"]
            $ limitWindows 12
            $ mySpacing 8
            $ mkToggle (single MIRROR)
-           $ Grid (16/10)
+           $ Grid ( 16 / 10 )
 
 spirals  = renamed [Replace "spirals"]
-           $ mySpacing' 8
-           $ spiral (6/7)
+           $ spiral ( 6 / 7 )
 
 -- Theme for showWName which prints current workspace when you change workspaces.
 myShowWNameTheme :: SWNConfig
 myShowWNameTheme = def
-    { swn_font              = myFont
+    { swn_font              = "xft:firacode:bold:size=30"
     , swn_fade              = 1.0
-    , swn_bgcolor           = "#000000"
-    , swn_color             = "#FFFFFF"
+    , swn_bgcolor           = "#292d3e"
+    , swn_color             = "#d0d0d0"
     }
 
 -- The layout hook
-myLayoutHook = avoidStruts $ mouseResize $ windowArrange $
+myLayoutHook = showWName' myShowWNameTheme $ avoidStruts $ mouseResize $ windowArrange $
                mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
   where
     myDefaultLayout = tall
@@ -309,15 +295,33 @@ myLayoutHook = avoidStruts $ mouseResize $ windowArrange $
 --
 -- To match on the WM_NAME, you can use 'title' in the same way that
 -- 'className' and 'resource' are used below.
---
+
+-- Maybe use to be able to target instance names (first in WM_CLASS)
+-- contains a str | length str < length a = False
+--                | length str == length a = str == a
+--                | a == "" || str == "" = False
+--                | take (length a) str == a = True
+--                | otherwise = contains a (tail str)
+               
 myManageHook :: Query (Endo WindowSet)
 myManageHook = composeAll
-    [ className =? "MPlayer"        --> doFloat
-    , className =? "Gimp"           --> doFloat
-    , className =? "trayer"         --> doIgnore
-    , resource  =? "trayer"         --> doIgnore
-    , resource  =? "desktop_window" --> doIgnore
-    , resource  =? "kdesktop"       --> doIgnore ]
+    [ className =? "MPlayer"          --> doFloat
+    , className =? "Gimp"             --> doFloat
+    , className =? "Nitrogen"         --> doFloat
+    , className =? "Lightdm-settings" --> doFloat
+    , className =? "Pavucontrol"      --> doFloat
+    , className =? "NEURON"           --> doFloat
+    , className =? "matplotlib"       --> doFloat
+    , className =? "Viewnior"         --> doFloat
+    , title     =? "StimGen 5.0"      --> doFloat
+    , className =? "trayer"           --> doIgnore
+    , resource  =? "trayer"           --> doIgnore
+    , resource  =? "desktop_window"   --> doIgnore
+    , resource  =? "kdesktop"         --> doIgnore ]
+
+-- for_window [instance="Godot_ProjectList"] floating disable
+-- for_window [instance="Godot_Editor"] floating disable
+-- for_window [instance="Godot_Engine"] floating enable
 
 ------------------------------------------------------------------------
 -- Event handling
@@ -365,7 +369,6 @@ myStartupHook :: X ()
 myStartupHook = do
   spawnOnce "nitrogen --restore &"
   spawnOnce "sleep 1 && picom -b &"
-  spawnOnce "fix_xcursor &"
   spawnOnce "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &"
   spawnOnce "xfce4-power-manager &"
   spawnOnce "clipit &"
@@ -379,8 +382,8 @@ myStartupHook = do
               ++ "--padding 6 --SetDockType true --SetPartialStrut true "
               ++ "--expand true --transparent true --alpha 127 "
               ++ "--tint 0x99222222 --height 24 &"
-  -- spawnOnce "/usr/bin/emacs --daemon &"
-  -- setWMName "LG3D"
+  spawnOnce "/usr/bin/emacs --daemon &"
+  setWMName "LG3D"  -- may be useful for making some Java GUIs work.
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
@@ -390,7 +393,7 @@ myStartupHook = do
 main :: IO ()
 main = do
   xmob <- spawnPipe "xmobar /home/geoff/.config/xmobar/xmobarrc"
-  xmonad $ defaults xmob
+  xmonad $ ewmh $ defaults xmob
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will
@@ -415,7 +418,7 @@ defaults xmproc = def
 
   -- hooks, layouts
   , layoutHook         = myLayoutHook
-  , manageHook         = myManageHook
+  , manageHook         = myManageHook <+> manageDocks
   , handleEventHook    = myEventHook
   , logHook            = theLogHook xmproc
   , startupHook        = myStartupHook
