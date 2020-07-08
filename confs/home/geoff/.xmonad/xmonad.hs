@@ -24,6 +24,7 @@ import XMonad.Actions.RotSlaves (rotSlavesDown, rotAllDown)
 
 -- Data
 -- import Data.Char (isSpace)
+-- import Data.List
 -- import Data.Monoid
 -- import Data.Maybe (isJust)
 -- import Data.Tree
@@ -305,23 +306,23 @@ myLayoutHook = showWName' myShowWNameTheme $ avoidStruts $ mouseResize $ windowA
                
 myManageHook :: Query (Endo WindowSet)
 myManageHook = composeAll
-    [ className =? "MPlayer"          --> doFloat
-    , className =? "Gimp"             --> doFloat
-    , className =? "Nitrogen"         --> doFloat
-    , className =? "Lightdm-settings" --> doFloat
-    , className =? "Pavucontrol"      --> doFloat
-    , className =? "NEURON"           --> doFloat
-    , className =? "matplotlib"       --> doFloat
-    , className =? "Viewnior"         --> doFloat
-    , title     =? "StimGen 5.0"      --> doFloat
-    , className =? "trayer"           --> doIgnore
-    , resource  =? "trayer"           --> doIgnore
-    , resource  =? "desktop_window"   --> doIgnore
-    , resource  =? "kdesktop"         --> doIgnore ]
-
--- for_window [instance="Godot_ProjectList"] floating disable
--- for_window [instance="Godot_Editor"] floating disable
--- for_window [instance="Godot_Engine"] floating enable
+    [ className =? "MPlayer"               --> doFloat
+    , className =? "Gimp"                  --> doFloat
+    , className =? "Nitrogen"              --> doFloat
+    , className =? "Lightdm-settings"      --> doFloat
+    , className =? "Pavucontrol"           --> doFloat
+    , className =? "NEURON"                --> doFloat
+    , className =? "matplotlib"            --> doFloat
+    , className =? " " <||> appName =? " " --> doFloat  -- matplotlib hack
+    , className =? "Viewnior"              --> doFloat
+    , className =? "Gnome-calculator"      --> doFloat
+    , title     =? "StimGen 5.0"           --> doFloat
+    , className =? "trayer"                --> doIgnore
+    , resource  =? "trayer"                --> doIgnore
+    , resource  =? "desktop_window"        --> doIgnore
+    , resource  =? "kdesktop"              --> doIgnore ]
+  where
+    wm_name = stringProperty "WM_NAME"
 
 ------------------------------------------------------------------------
 -- Event handling
@@ -379,9 +380,9 @@ myStartupHook = do
   spawnOnce "redshift-gtk -t 6500:4000 &"
   spawnOnce "xautolock -time 10 -locker blurlock &"
   spawnOnce $ "trayer --edge top --align right --widthtype request "
-              ++ "--padding 6 --SetDockType true --SetPartialStrut true "
+              ++ "--padding 0 --SetDockType true --SetPartialStrut true "
               ++ "--expand true --transparent true --alpha 127 "
-              ++ "--tint 0x99222222 --height 24 &"
+              ++ "--tint 0x292d3e00 --height 24 &"
   spawnOnce "/usr/bin/emacs --daemon &"
   setWMName "LG3D"  -- may be useful for making some Java GUIs work.
 
