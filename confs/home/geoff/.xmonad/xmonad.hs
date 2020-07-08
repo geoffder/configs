@@ -76,7 +76,6 @@ import XMonad.Util.Run (spawnPipe)
 
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
---
 myTerminal :: [Char]
 myTerminal = "kitty"
 
@@ -92,35 +91,21 @@ myClickJustFocuses :: Bool
 myClickJustFocuses = False
 
 -- Width of the window border in pixels.
---
 myBorderWidth :: Dimension
 myBorderWidth = 3
 
 myFont :: [Char]
 myFont = "xft:Roboto:bold:size=40"
 
--- modMask lets you specify which modkey you want to use. The default
--- is mod1Mask ("left alt").  You may also consider using mod3Mask
--- ("right alt"), which does not conflict with emacs keybindings. The
--- "windows key" is usually mod4Mask.
---
+-- Set modkey (Used as M by EZConfig).
+-- mod1Mask = left alt; mod3Mask = right alt; mod4Mask = windows
 myModMask :: KeyMask
 myModMask = mod4Mask
 
--- The default number of workspaces (virtual screens) and their names.
--- By default we use numeric strings, but any string may be used as a
--- workspace name. The number of workspaces is determined by the length
--- of this list.
---
--- A tagging example:
---
--- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
---
 myWorkspaces :: [[Char]]
 myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 -- Border colors for unfocused and focused windows, respectively.
---
 myNormalBorderColor :: [Char]
 myNormalBorderColor  = "#422773"
 myFocusedBorderColor :: [Char]
@@ -208,6 +193,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 
 ------------------------------------------------------------------------
 -- XPROMPT SETTINGS
+--
 myXPConfig :: XPConfig
 myXPConfig = def
                { font                = myFont
@@ -234,9 +220,9 @@ myXPConfig = def
 
 ------------------------------------------------------------------------
 -- Layouts:
-
--- Makes setting the spacingRaw simpler to write. The spacingRaw
--- module adds a configurable amount of space around windows.
+--
+-- Make setting the spacingRaw simpler to write.
+-- The spacingRaw module adds a configurable amount of space around windows.
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
 
@@ -263,7 +249,7 @@ grid     = renamed [Replace "grid"]
 spirals  = renamed [Replace "spirals"]
            $ spiral ( 6 / 7 )
 
--- Theme for showWName which prints current workspace when you change workspaces.
+-- Theme for showWName which prints current workspace when you change workspaces
 myShowWNameTheme :: SWNConfig
 myShowWNameTheme = def
     { swn_font              = "xft:firacode:bold:size=30"
@@ -272,7 +258,6 @@ myShowWNameTheme = def
     , swn_color             = "#d0d0d0"
     }
 
--- The layout hook
 myLayoutHook = showWName' myShowWNameTheme $ avoidStruts $ mouseResize $ windowArrange $
                mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
   where
@@ -284,26 +269,16 @@ myLayoutHook = showWName' myShowWNameTheme $ avoidStruts $ mouseResize $ windowA
 
 ------------------------------------------------------------------------
 -- Window rules:
-
+--
 -- Execute arbitrary actions and WindowSet manipulations when managing
 -- a new window. You can use this to, for example, always float a
 -- particular program, or have a client always appear on a particular
 -- workspace.
 --
--- To find the property name associated with a program, use
--- > xprop | grep WM_CLASS
--- and click on the client you're interested in.
+-- title              -> WM_NAME
+-- appName | resource -> first entry of WM_CLASS 
+-- className          -> second entry of WM_CLASS 
 --
--- To match on the WM_NAME, you can use 'title' in the same way that
--- 'className' and 'resource' are used below.
-
--- Maybe use to be able to target instance names (first in WM_CLASS)
--- contains a str | length str < length a = False
---                | length str == length a = str == a
---                | a == "" || str == "" = False
---                | take (length a) str == a = True
---                | otherwise = contains a (tail str)
-               
 myManageHook :: Query (Endo WindowSet)
 myManageHook = composeAll
     [ className =? "MPlayer"               --> doFloat
@@ -321,14 +296,10 @@ myManageHook = composeAll
     , resource  =? "trayer"                --> doIgnore
     , resource  =? "desktop_window"        --> doIgnore
     , resource  =? "kdesktop"              --> doIgnore ]
-  where
-    wm_name = stringProperty "WM_NAME"
 
 ------------------------------------------------------------------------
 -- Event handling
 
--- * EwmhDesktops users should change this to ewmhDesktopsEventHook
---
 -- Defines a custom handler function for X Events. The function should
 -- return (All True) if the default handler is to be run afterwards. To
 -- combine event hooks use mappend or mconcat from Data.Monoid.
@@ -336,34 +307,34 @@ myManageHook = composeAll
 myEventHook :: Event -> X All
 myEventHook = docksEventHook
 
-
 ------------------------------------------------------------------------
 -- Status bars and logging
-
+--
 -- Perform an arbitrary action on each internal state change or X event.
 -- See the 'XMonad.Hooks.DynamicLog' extension for examples.
 --
--- myLogHook :: X ()
+myLogHook :: X ()
 myLogHook = return ()
 
-theLogHook xmproc = workspaceHistoryHook <+> myLogHook <+> dynamicLogWithPP xmobarPP
-            { ppOutput = \x -> hPutStrLn xmproc x
-            , ppCurrent = xmobarColor "#c3e88d" "" . wrap "[" "]" -- Current workspace in xmobar
-            , ppVisible = xmobarColor "#c3e88d" ""                -- Visible but not current workspace
-            , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""   -- Hidden workspaces in xmobar
-            , ppHiddenNoWindows = xmobarColor "#b3afc2" ""        -- Hidden workspaces (no windows)
-            , ppTitle = xmobarColor "#ffffff" "" . shorten 60     -- Title of active window in xmobar
-            , ppSep =  "<fc=#666666> | </fc>"                     -- Separators in xmobar
-            , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"  -- Urgent workspace
-            , ppExtras  = [windowCount]                           -- # of windows current workspace
-            , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
-            }
+theLogHook xmproc =
+  workspaceHistoryHook <+> myLogHook <+> dynamicLogWithPP xmobarPP
+  { ppOutput  = \x -> hPutStrLn xmproc x
+  , ppCurrent = xmobarColor "#c3e88d" "" . wrap "[" "]"  -- Current workspace in xmobar
+  , ppVisible = xmobarColor "#c3e88d" ""                 -- Visible but not current workspace
+  , ppHidden  = xmobarColor "#82AAFF" "" . wrap "*" ""   -- Hidden workspaces in xmobar
+  , ppHiddenNoWindows = xmobarColor "#b3afc2" ""         -- Hidden workspaces (no windows)
+  , ppTitle   = xmobarColor "#ffffff" "" . shorten 60    -- Title of active window in xmobar
+  , ppSep     = "<fc=#666666> | </fc>"                   -- Separators in xmobar
+  , ppUrgent  = xmobarColor "#C45500" "" . wrap "!" "!"  -- Urgent workspace
+  , ppExtras  = [windowCount]                            -- # of windows current workspace
+  , ppOrder   = \(ws:l:t:ex) -> [ws,l]++ex++[t]
+  }
 
 ------------------------------------------------------------------------
 -- Startup hook
-
+--
 -- Perform an arbitrary action each time xmonad starts or is restarted
--- with mod-q.  Used by, e.g., XMonad.Layout.PerWorkspace to initialize
+-- with M-S-r. Used by, e.g., XMonad.Layout.PerWorkspace to initialize
 -- per-workspace layout choices.
 --
 myStartupHook :: X ()
@@ -388,21 +359,12 @@ myStartupHook = do
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
-
--- Run xmonad with the settings you specify. No need to modify this.
 --
 main :: IO ()
 main = do
   xmob <- spawnPipe "xmobar /home/geoff/.config/xmobar/xmobarrc"
   xmonad $ ewmh $ defaults xmob
 
--- A structure containing your configuration settings, overriding
--- fields in the default config. Any you don't override, will
--- use the defaults defined in xmonad/XMonad/Config.hs
---
--- No need to modify this.
---
--- defaults :: XConfig (Choose Tall (Choose (Mirror Tall) Full))
 defaults xmproc = def
   { terminal           = myTerminal
   , focusFollowsMouse  = myFocusFollowsMouse
