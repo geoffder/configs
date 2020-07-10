@@ -332,6 +332,11 @@
     </action>
   </item>
   <separator />
+  <item label="Toggle Picom" icon="&icons;/picom.svg">
+    <action name="Execute">
+      <command>~/.config/openbox/picom_toggle.sh</command>
+    </action>
+  </item>
   <item label="Reconfigure Openbox" icon="&icons;/configurator.svg">
     <action name="Reconfigure" />
   </item>
