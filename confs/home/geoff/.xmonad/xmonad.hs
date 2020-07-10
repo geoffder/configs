@@ -12,20 +12,16 @@ import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
 -- Actions
--- import XMonad.Actions.CopyWindow (kill1, killAllOtherCopies)
 import XMonad.Actions.DynamicProjects
 -- import XMonad.Actions.GridSelect
 import XMonad.Actions.MouseResize
--- import XMonad.Actions.Promote
+import XMonad.Actions.Promote
 import XMonad.Actions.RotSlaves (rotSlavesDown, rotAllDown)
 import XMonad.Actions.SpawnOn
 -- import qualified XMonad.Actions.TreeSelect as TS
--- import XMonad.Actions.WindowGo (runOrRaise)
--- import XMonad.Actions.WithAll (sinkAll, killAll)
--- import qualified XMonad.Actions.Search as S
+import XMonad.Actions.WithAll (sinkAll)
 
 -- Data
--- import Data.Char (isSpace)
 -- import Data.List
 -- import Data.Monoid
 -- import Data.Maybe (isJust)
@@ -41,23 +37,24 @@ import XMonad.Hooks.WorkspaceHistory
 
 -- Layouts
 import XMonad.Layout.GridVariants (Grid(Grid))
+import XMonad.Layout.PerWorkspace
+import XMonad.Layout.SimplestFloat
 import XMonad.Layout.Spiral
 import XMonad.Layout.ResizableTile
 
 -- Layouts modifiers
 import XMonad.Layout.LayoutModifier
-import XMonad.Layout.Magnifier
-import XMonad.Layout.NoBorders
-import XMonad.Layout.Renamed (renamed, Rename(Replace))
-import XMonad.Layout.ShowWName
-import XMonad.Layout.Spacing
--- Do I want/need these? (more dt layout mod imports)
 import XMonad.Layout.LimitWindows (limitWindows)
 import XMonad.Layout.Magnifier
 import XMonad.Layout.MultiToggle (mkToggle, single, EOT(EOT), (??))
 import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, MIRROR, NOBORDERS))
+import XMonad.Layout.NoBorders
+import XMonad.Layout.Renamed (renamed, Rename(Replace))
+import XMonad.Layout.ShowWName
+import XMonad.Layout.Spacing
 import XMonad.Layout.WindowArranger (windowArrange)
 import qualified XMonad.Layout.MultiToggle as MT (Toggle(..))
+import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(Toggle))
 
 -- Prompts
 import XMonad.Prompt
@@ -107,17 +104,17 @@ myModMask = mod4Mask
 myWorkspaces :: [[Char]]
 myWorkspaces = named ++ map show [ next .. 9 ]
                where
-                 named = ["GEN", "DEV", "SCI", "DIR",  "SYS"]
-                 next = 1 + length namedWorkspaces
+                 named = ["WWW", "DEV", "SCI", "DIR",  "SYS"]
+                 next = 1 + length named
 
 -- Use XMonad.Actions.DynamicProjects to run startup hooks when switching to
 -- particular workspaces if they are empty.
 projects :: [Project]
 projects =
-    [ Project   { projectName       = "GEN"
+    [ Project   { projectName       = "WWW"
                 , projectDirectory  = "~/"
-                , projectStartHook  = Just $ do spawnOn "GEN" "firefox"
-                                                spawnOn "GEN" "riot-desktop"
+                , projectStartHook  = Just $ do spawnOn "WWW" "firefox"
+                                                spawnOn "WWW" "riot-desktop"
                 }
     , Project   { projectName       = "DEV"
                 , projectDirectory  = "~/"
@@ -165,30 +162,33 @@ myKeys = \c -> mkKeymap c $
   , (("M-i"),        spawn "riot-desktop")
   , (("M-M1-d"),     spawn "discord")
 
-  , ("M-S-q",        kill)                            -- close focused window
-  , ("M-<Tab>",      sendMessage NextLayout)          -- rotate window layout
-  , ("M-<Down>",     windows W.focusDown)             -- focus next window
-  , ("M-<Up>",       windows W.focusUp)               -- focus previous window
-  , ("M-j",          windows W.focusDown)             -- focus next window
-  , ("M-k",          windows W.focusUp)               -- focus previous window
-  , ("M-m",          windows W.focusMaster)           -- focus on master
-  , ("M-S-m",        windows W.swapMaster)            -- swap focused with master
-  , ("M-S-<Down>",   windows W.swapDown)              -- swap focused with next window
-  , ("M-S-<Up>",     windows W.swapUp)                -- swap focused with previous window
-  , ("M-S-j",        windows W.swapDown)              -- swap focused with next window
-  , ("M-S-k",        windows W.swapUp)                -- swap focused with previous window
-  , ("M1-S-<Tab>",   rotSlavesDown)                   -- rotate slaves (keep focus)
-  , ("M1-C-<Tab>",   rotAllDown)                      -- rotate all windows (keep focus)
+  , ("M-S-q",        kill)                             -- close focused window
+  , ("M-<Tab>",      sendMessage NextLayout)           -- rotate window layout
+  , ("M-<Down>",     windows W.focusDown)              -- focus next window
+  , ("M-<Up>",       windows W.focusUp)                -- focus previous window
+  , ("M-j",          windows W.focusDown)              -- focus next window
+  , ("M-k",          windows W.focusUp)                -- focus previous window
+  , ("M-m",          windows W.focusMaster)            -- focus on master
+  , ("M-S-m",        promote)                          -- swap focused with master
+  , ("M-S-<Down>",   windows W.swapDown)               -- swap focused with next window
+  , ("M-S-<Up>",     windows W.swapUp)                 -- swap focused with previous window
+  , ("M-S-j",        windows W.swapDown)               -- swap focused with next window
+  , ("M-S-k",        windows W.swapUp)                 -- swap focused with previous window
+  , ("M1-S-<Tab>",   rotSlavesDown)                    -- rotate slaves (keep focus)
+  , ("M1-C-<Tab>",   rotAllDown)                       -- rotate all windows (keep focus)
 
-  , ("M-h",          sendMessage Shrink)              -- shrink the master area
-  , ("M-l",          sendMessage Expand)              -- expand the master area
-  , ("M-S-h",        sendMessage MirrorShrink)        -- shrink share of slave area
-  , ("M-S-l",        sendMessage MirrorExpand)        -- expand share of slave area
-  , ("M-t",          withFocused $ windows . W.sink)  -- push window back into tiling
-  , ("M-,",          sendMessage (IncMasterN 1))      -- incr # of windows in master area
-  , ("M-.",          sendMessage (IncMasterN (-1)))   -- decr # of windows in master area
+  , ("M-h",          sendMessage Shrink)               -- shrink the master area
+  , ("M-l",          sendMessage Expand)               -- expand the master area
+  , ("M-S-h",        sendMessage MirrorShrink)         -- shrink share of slave area
+  , ("M-S-l",        sendMessage MirrorExpand)         -- expand share of slave area
+  , ("M-,",          sendMessage (IncMasterN 1))       -- incr # of windows in master area
+  , ("M-.",          sendMessage (IncMasterN (-1)))    -- decr # of windows in master area
   , ("M-f",          sendMessage (MT.Toggle NBFULL)
-                     >> sendMessage ToggleStruts)     -- toggle fullscreen
+                     >> sendMessage ToggleStruts)      -- toggle fullscreen
+
+  , ("M-S-f",        sendMessage (T.Toggle "floats"))  -- toggles floats layout
+  , ("M-t",          withFocused $ windows . W.sink)   -- push window back into tiling
+  , ("M-S-t",        sinkAll)                          -- push all windows back down
 
   , ("M-S-r",        spawn "xmonad --recompile; xmonad --restart")
   , ("M-S-e",        confirmPrompt myXPConfig "exit" $ io (exitWith ExitSuccess))
@@ -260,28 +260,33 @@ myXPConfig = def
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
 
-tall     = renamed [Replace "tall"]
-           $ limitWindows 12
-           $ mySpacing 8
-           $ ResizableTall 1 ( 3 / 100 ) ( 1 / 2 ) []
+tall slaves = renamed [Replace "tall"]
+              $ limitWindows 12
+              $ mySpacing 8
+              $ ResizableTall 1 ( 5 / 100 ) ( 1 / 2 ) slaves
 
-magnify  = renamed [Replace "magnify"]
-           $ magnifier
-           $ limitWindows 12
-           $ mySpacing 8
-           $ ResizableTall 1 ( 3 / 100 ) ( 1 / 2 ) []
+magnify     = renamed [Replace "magnify"]
+              $ magnifier
+              $ limitWindows 12
+              $ mySpacing 8
+              $ ResizableTall 1 ( 5 / 100 ) ( 1 / 2 ) []
 
-monocle  = renamed [Replace "monocle"]
-           $ limitWindows 20 Full
+monocle     = renamed [Replace "monocle"]
+              $ limitWindows 20
+              $ Full
 
-grid     = renamed [Replace "grid"]
-           $ limitWindows 12
-           $ mySpacing 8
-           $ mkToggle (single MIRROR)
-           $ Grid ( 16 / 10 )
+floats      = renamed [Replace "floats"]
+              $ limitWindows 20 simplestFloat
 
-spirals  = renamed [Replace "spirals"]
-           $ spiral ( 6 / 7 )
+grid        = renamed [Replace "grid"]
+              $ limitWindows 12
+              $ mySpacing 8
+              $ mkToggle (single MIRROR)
+              $ Grid ( 16 / 10 )
+
+spirals     = renamed [Replace "spirals"]
+              $ limitWindows 10
+              $ spiral ( 6 / 7 )
 
 -- Theme for showWName which prints current workspace when you change workspaces
 myShowWNameTheme :: SWNConfig
@@ -292,14 +297,20 @@ myShowWNameTheme = def
     , swn_color             = "#d0d0d0"
     }
 
-myLayoutHook = showWName' myShowWNameTheme $ avoidStruts $ mouseResize $ windowArrange $
-               mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
+myLayoutHook = showWName' myShowWNameTheme
+               $ avoidStruts
+               $ mouseResize
+               $ windowArrange
+               $ T.toggleLayouts floats
+               $ mkToggle (NBFULL ?? NOBORDERS ?? EOT)
+               $ onWorkspace "DEV" (myLayouts [0.5, 1.5])
+               $ myLayouts []
   where
-    myDefaultLayout = tall
-                      -- ||| magnify
-                      ||| noBorders monocle
-                      -- ||| grid
-                      -- ||| spirals
+    myLayouts s = tall s
+                  -- ||| magnify
+                  ||| noBorders monocle
+                  -- ||| grid
+                  ||| spirals
 
 ------------------------------------------------------------------------
 -- Window rules:
