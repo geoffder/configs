@@ -64,7 +64,7 @@ dpi-y = 0
 
 modules-left = workspaces xwindow
 modules-center =
-modules-right = cpu battery memory pamac-checkupdates date powermenu
+modules-right = cpu battery memory pamac-checkupdates date
 
 override-redirect = true
 
