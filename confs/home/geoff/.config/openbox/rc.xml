@@ -933,6 +933,9 @@
   # end of the example
     -->
     <application class="trayer">
+      <layer>normal</layer>>
+    </application>
+    <application class="Polybar">
       <layer>below</layer>>
     </application>
     <application class="kitty">
