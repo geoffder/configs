@@ -93,8 +93,8 @@ myClickJustFocuses = False
 myBorderWidth :: Dimension
 myBorderWidth = 3
 
-myFont :: [Char]
-myFont = "xft:Roboto:bold:size=40"
+myFont :: Integer -> [Char]
+myFont size = "xft:firacode:bold:size=" ++ show size
 
 -- Set modkey (Used as M by EZConfig).
 -- mod1Mask = left alt; mod3Mask = right alt; mod4Mask = windows
@@ -230,7 +230,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 --
 myXPConfig :: XPConfig
 myXPConfig = def
-               { font                = myFont
+               { font                = myFont 35
                , bgColor             = "#292d3e"
                , fgColor             = "#d0d0d0"
                , bgHLight            = "#c792ea"
@@ -239,7 +239,7 @@ myXPConfig = def
                , promptBorderWidth   = 0
                -- , promptKeymap        = dtXPKeymap
                -- , position            = Top
-               , position            = CenteredAt { xpCenterY = 0.4, xpWidth = 0.4 }
+               , position            = CenteredAt { xpCenterY = 0.4, xpWidth = 0.41 }
                , height              = 100
                , historySize         = 256
                , historyFilter       = id
@@ -291,8 +291,8 @@ spirals     = renamed [Replace "spirals"]
 -- Theme for showWName which prints current workspace when you change workspaces
 myShowWNameTheme :: SWNConfig
 myShowWNameTheme = def
-    { swn_font              = "xft:firacode:bold:size=30"
-    , swn_fade              = 1.0
+    { swn_font              = myFont 80
+    , swn_fade              = 0.8
     , swn_bgcolor           = "#292d3e"
     , swn_color             = "#d0d0d0"
     }
