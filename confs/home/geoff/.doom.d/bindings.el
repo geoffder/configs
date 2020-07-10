@@ -35,11 +35,18 @@
     (if (and (>= level 0) (< level 10))
         (+fold/close-all level))))
 
+;; TODO: write something using hideshow.el.gz helper functions
+;; (like hs-already-hidden-p) to bake in sub-level/block folding in to a toggle
+;; action (so toggling open a fold automatically opens it with all contained
+;; blocks folded). I can do the opening with #'hs-hide-level, if the cursor is
+;; in the correct position, but it's finicky and I can't toggle it back to
+;; closed in the same position with the same command. Would be nice to
+;; have toggline actually behave like it does in NVim.
 (map! :leader
         (:prefix-map ("z" . "folding")
          :desc "open all" "o" #'+fold/open-all
          :desc "close all" "c" #'+fold/close-all
-         :desc "close level within block" "b" #'hs-hide-level
+         :desc "open block, then close within" "x" #'hs-hide-level
          :desc "close/open relative level #" "z" #'fold-given-level)
         (:prefix-map ("t" . "toggle")
           :desc "transparency" "t" #'toggle-transparency
