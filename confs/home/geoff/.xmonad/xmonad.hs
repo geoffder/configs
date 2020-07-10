@@ -13,10 +13,12 @@ import qualified Data.Map        as M
 
 -- Actions
 -- import XMonad.Actions.CopyWindow (kill1, killAllOtherCopies)
+import XMonad.Actions.DynamicProjects
 -- import XMonad.Actions.GridSelect
 import XMonad.Actions.MouseResize
 -- import XMonad.Actions.Promote
 import XMonad.Actions.RotSlaves (rotSlavesDown, rotAllDown)
+import XMonad.Actions.SpawnOn
 -- import qualified XMonad.Actions.TreeSelect as TS
 -- import XMonad.Actions.WindowGo (runOrRaise)
 -- import XMonad.Actions.WithAll (sinkAll, killAll)
@@ -103,7 +105,39 @@ myModMask :: KeyMask
 myModMask = mod4Mask
 
 myWorkspaces :: [[Char]]
-myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+myWorkspaces = named ++ map show [ next .. 9 ]
+               where
+                 named = ["GEN", "DEV", "SCI", "DIR",  "SYS"]
+                 next = 1 + length namedWorkspaces
+
+-- Use XMonad.Actions.DynamicProjects to run startup hooks when switching to
+-- particular workspaces if they are empty.
+projects :: [Project]
+projects =
+    [ Project   { projectName       = "GEN"
+                , projectDirectory  = "~/"
+                , projectStartHook  = Just $ do spawnOn "GEN" "firefox"
+                                                spawnOn "GEN" "riot-desktop"
+                }
+    , Project   { projectName       = "DEV"
+                , projectDirectory  = "~/"
+                , projectStartHook  = Just $ do spawnOn "DEV" "emacsclient -c -a emacs"
+                                                spawnOn "DEV" "firefox"
+                                                spawnOn "DEV" myTerminal
+                }
+    , Project   { projectName       = "DIR"
+                , projectDirectory  = "~/"
+                , projectStartHook  = Just $ do spawnOn "DIR" "pcmanfm"
+                                                spawnOn "DIR" (terminalExec "ranger")
+                                                spawnOn "DIR" myTerminal
+                }
+    , Project   { projectName       = "SYS"
+                , projectDirectory  = "~/"
+                , projectStartHook  = Just $ do spawnOn "SYS" (terminalExec "htop")
+                                                spawnOn "SYS" myTerminal
+                                                spawnOn "SYS" myTerminal
+                }
+    ]
 
 -- Border colors for unfocused and focused windows, respectively.
 myNormalBorderColor :: [Char]
@@ -363,7 +397,10 @@ myStartupHook = do
 main :: IO ()
 main = do
   xmob <- spawnPipe "xmobar /home/geoff/.config/xmobar/xmobarrc"
-  xmonad $ ewmh $ defaults xmob
+  xmonad
+    $ dynamicProjects projects
+    $ ewmh
+    $ defaults xmob
 
 defaults xmproc = def
   { terminal           = myTerminal
