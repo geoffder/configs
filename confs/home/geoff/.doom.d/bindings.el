@@ -28,6 +28,9 @@
 ;; Cycle between tab groups
 (define-key evil-normal-state-map (kbd "g <left>") 'centaur-tabs-backward-group)
 (define-key evil-normal-state-map (kbd "g <right>") 'centaur-tabs-forward-group)
+;; Rearrange tabs by moving current one left or right
+(define-key evil-normal-state-map (kbd "g <backtab>") 'centaur-tabs-move-current-tab-to-left)
+(define-key evil-normal-state-map (kbd "g <tab>") 'centaur-tabs-move-current-tab-to-right)
 
 (defun fold-given-level () (interactive)
   "Wait for a number, then recursively fold at that level (rel to curr block)."
