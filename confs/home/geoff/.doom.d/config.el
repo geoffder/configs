@@ -20,7 +20,7 @@
 ;; font string. You generally only need these two:
 ;; test
 (setq doom-font (font-spec :family "Fira Code" :size 14)
-      doom-variable-pitch-font (font-spec :family "sans"))
+      doom-variable-pitch-font (font-spec :family "Roboto"))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -66,14 +66,18 @@
 ;; Personal bindings file
 (load! "bindings")
 
-;; Enable FiraCode ligatures. Add hooks for any buffer types I want them in
+;; Enable FiraCode ligatures.
 (load! "pretty-fira")
-(add-hook! ('csharp-mode-hook
-            'python-mode-hook
-            'elixir-mode-hook
-            'fsharp-mode-hook
-            'haskell-mode-hook)
-           'fira-code-mode)
+
+;; Use ligatures, and start one level zoomed in for code.
+(add-hook! '(csharp-mode-hook
+             python-mode-hook
+             elixir-mode-hook
+             fsharp-mode-hook
+             haskell-mode-hook
+             emacs-lisp-mode-hook
+             sh-mode-hook)
+           '(fira-code-mode (lambda () (text-scale-set 1))))
 
 (setq fill-column 80)
 
