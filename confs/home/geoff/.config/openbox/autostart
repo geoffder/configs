@@ -46,4 +46,4 @@ trayer --edge top --align center --widthtype request \
 plank &
 
 # send polybar to lower window layer
-sleep 6 && xdo lower -N Polybar
+# sleep 6 && xdo lower -N Polybar
