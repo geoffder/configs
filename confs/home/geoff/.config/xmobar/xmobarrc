@@ -14,7 +14,7 @@ Config { font    = "xft:firacode:pixelsize=15:antialias=true:hinting=true"
        , iconRoot = "/home/geoff/.xmonad/xpm/"  -- default: "."
        , commands = [
                       -- Prints out the left side items such as workspaces, layout, etc.
-                      -- The workspaces are 'clickable' in my configs.
+                      -- Unsafe Reader to enable 'clickable' workspaces.
                       Run UnsafeStdinReader
 
                       -- Cpu usage in percent
