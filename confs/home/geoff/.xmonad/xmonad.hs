@@ -352,7 +352,7 @@ myEventHook = docksEventHook
 -- See the 'XMonad.Hooks.DynamicLog' extension for examples.
 --
 
-theLogHook xmproc = 
+myLogHook xmproc = 
   workspaceHistoryHook <+> doClickableHook <+> dynamicLogWithPP xmobarPP
   { ppOutput  = \x -> hPutStrLn xmproc x
   , ppCurrent = xmobarColor "#c3e88d" "" . wrap "[" "]"  -- Current workspace in xmobar
@@ -423,7 +423,7 @@ defaults xmproc = def
   , layoutHook         = myLayoutHook
   , manageHook         = myManageHook <+> manageDocks
   , handleEventHook    = myEventHook
-  , logHook            = theLogHook xmproc
+  , logHook            = myLogHook xmproc
   , startupHook        = myStartupHook
   }
 
