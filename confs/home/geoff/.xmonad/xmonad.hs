@@ -1,15 +1,10 @@
 {-# OPTIONS_GHC -fno-warn-missing-signatures #-}
---
--- xmonad example config file.
---
 
 import XMonad
-import Data.Monoid
+import qualified XMonad.StackSet as W
+
 import System.IO (hPutStrLn)
 import System.Exit
-
-import qualified XMonad.StackSet as W
-import qualified Data.Map        as M
 
 -- Actions
 import XMonad.Actions.DynamicProjects
@@ -22,14 +17,11 @@ import XMonad.Actions.SpawnOn
 import XMonad.Actions.WithAll (sinkAll)
 
 -- Data
-import Data.Function (on)
-import Data.List
--- import Data.Monoid
--- import Data.Maybe (isJust)
--- import Data.Tree
--- import qualified Data.Map as M
+import Data.Monoid
+import qualified Data.Map as M
 
 -- Hooks
+import ClickableHook
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
 import XMonad.Hooks.EwmhDesktops  -- for some fullscreen events, also for xcomposite in obs.
 import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
@@ -73,7 +65,6 @@ import XMonad.Prompt.FuzzyMatch
 import XMonad.Util.EZConfig (mkKeymap)
 import XMonad.Util.SpawnOnce
 import XMonad.Util.Run (spawnPipe)
-import XMonad.Util.WorkspaceCompare
 
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
@@ -109,11 +100,6 @@ myWorkspaces = named ++ map show [ next .. 9 ]
                  named = ["WWW", "DEV", "SCI", "DIR",  "SYS"]
                  next = 1 + length named
                  
-clickableNames :: [String]
-clickableNames = 
-  [ "<action=xdotool key super+" ++ show i ++ ">" ++ ws ++ "</action>"
-    | (i, ws) <- zip [1 :: Integer .. 9] myWorkspaces ]
-
 -- Use XMonad.Actions.DynamicProjects to run startup hooks when switching to
 -- particular workspaces if they are empty.
 projects :: [Project]
@@ -366,45 +352,6 @@ myEventHook = docksEventHook
 -- See the 'XMonad.Hooks.DynamicLog' extension for examples.
 --
 
--- | From XMonad.Util.WorkspaceCompare (not exported)
--- Compare Maybe's differently, so Nothing (i.e. workspaces without indexes)
--- come last in the order
-indexCompare :: Maybe Int -> Maybe Int -> Ordering
-indexCompare Nothing Nothing = EQ
-indexCompare Nothing (Just _) = GT
-indexCompare (Just _) Nothing = LT
-indexCompare a b = compare a b
-
-getSortByClickable :: X WorkspaceSort
-getSortByClickable = mkWsSort getClickableCompare
-  where
-    getClickableSort :: X (WorkspaceId -> Maybe Int)
-    getClickableSort = return $ flip elemIndex clickableNames
-    getClickableCompare :: X WorkspaceCompare
-    getClickableCompare = do
-      clickableSort <- getClickableSort
-      return $ mconcat [indexCompare `on` clickableSort, compare]
-
--- Modify StackSet with given pure function without refreshing XMonad
-modNoRefresh :: (WindowSet -> WindowSet) -> X ()
-modNoRefresh f = do
-  XState { windowset = old } <- get
-  modify (\s -> s { windowset = f old })
-
-doClickableHook :: X ()
-doClickableHook = do
-  _ <- sequence
-       $ map (\(w, c) -> modNoRefresh $ \s -> W.renameTag w c s)
-             (zip myWorkspaces clickableNames)
-  return ()
-
-undoClickableHook :: X ()
-undoClickableHook = do
-  _ <- sequence
-       $ map (\(w, c) -> modNoRefresh $ \s -> W.renameTag c w s)
-             (zip myWorkspaces clickableNames)
-  return ()
-
 theLogHook xmproc = 
   workspaceHistoryHook <+> doClickableHook <+> dynamicLogWithPP xmobarPP
   { ppOutput  = \x -> hPutStrLn xmproc x
@@ -417,7 +364,7 @@ theLogHook xmproc =
   , ppUrgent  = xmobarColor "#C45500" "" . wrap "!" "!"  -- Urgent workspace
   , ppExtras  = [windowCount]                            -- # of windows current workspace
   , ppOrder   = \(ws:l:t:ex) -> [ws,l]++ex++[t]
-  , ppSort    = getSortByClickable
+  , ppSort    = getSortByClickableIndex
   } <+> undoClickableHook
 
 ------------------------------------------------------------------------
