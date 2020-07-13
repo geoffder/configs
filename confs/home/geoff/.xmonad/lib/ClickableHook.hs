@@ -1,8 +1,22 @@
 -----------------------------------------------------------------------------
 -- |
 -- Module : ClickableHook
+-- Author : Geoff deRosenroll ( github.com/geoffder )
 --
 -- NOTE: requires `xdotool`
+--
+-- Wrap doClickableHook and undoClickableHook around dynamicLogWithPP in the
+-- LogHook, so workspace names are wrapped with clickable action tags only for
+-- the moment that they are piped into XMobar.
+--
+-- In order for maintain sorting of workspaces on the status bar, set
+-- { ppSort = getSortByClickableIndex } in xmobarPP.
+--
+-- e.g.
+-- myLogHook xmproc = ... <+> doClickableHook <+> dynamicLogWithPP xmobarPP
+--   { ...
+--   , ppSort = getSortByClickableIndex
+--   } <+> undoClickableHook
 -----------------------------------------------------------------------------
 module ClickableHook ( getSortByClickableIndex
                      , doClickableHook
@@ -64,16 +78,14 @@ doClickableHook :: X ()
 doClickableHook = do
   spaces <- configWorkspaces
   clicks <- clickableWorkspaces
-  _ <- sequence
-       $ map (\(w, c) -> modifyWindowSet $ \s -> W.renameTag w c s)
-             (zip spaces clicks)
+  _ <- mapM (\(w, c) -> modifyWindowSet $ \s -> W.renameTag w c s)
+       $ zip spaces clicks
   return ()
 
 undoClickableHook :: X ()
 undoClickableHook = do
   spaces <- configWorkspaces
   clicks <- clickableWorkspaces
-  _ <- sequence
-       $ map (\(w, c) -> modifyWindowSet $ \s -> W.renameTag c w s)
-             (zip spaces clicks)
+  _ <- mapM (\(w, c) -> modifyWindowSet $ \s -> W.renameTag c w s)
+       $ zip spaces clicks
   return ()
