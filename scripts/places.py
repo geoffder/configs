@@ -13,7 +13,7 @@ files = [
     home + ".xmonad/xmonad.hs",
     home + ".xmonad/xmonad_notes.md",
     home + ".xmonad/xpm",
-    home + ".xmonad/lib/ClickableHook.hs",
+    home + ".xmonad/lib/ClickableWsHook.hs",
     home + ".doom.d",
     home + ".themes/Monokai-ish",
     home + ".themes/Adapta-DeepPurple-Nokto-Eta",

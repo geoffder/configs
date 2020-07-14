@@ -21,7 +21,7 @@ import Data.Monoid
 import qualified Data.Map as M
 
 -- Hooks
-import ClickableHook
+import ClickableWsHook
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
 import XMonad.Hooks.EwmhDesktops  -- for some fullscreen events, also for xcomposite in obs.
 import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
@@ -111,7 +111,7 @@ projects =
                 }
     , Project   { projectName       = "DEV"
                 , projectDirectory  = "~/"
-                , projectStartHook  = Just $ do spawnOn "DEV" "emacsclient -c -a emacs"
+                , projectStartHook  = Just $ do spawnOn "DEV" "emacsclient -c"
                                                 spawnOn "DEV" "firefox"
                                                 spawnOn "DEV" myTerminal
                 }
@@ -146,7 +146,7 @@ myKeys = \c -> mkKeymap c $
   [ ("M-<Return>",   spawn myTerminal)
   , ("M-<Space>",    spawn "rofi -show drun")
   , ("M-S-<Return>", spawn "firefox")
-  , (("M-e"),        spawn "emacsclient -c -a emacs")
+  , (("M-e"),        spawn "emacsclient -c")
   , (("M-v"),        spawn $ terminalExec "nvim")
   , (("M-o"),        spawn $ terminalExec "ranger")
   , (("M-S-o"),      spawn $ terminalExec "htop")
@@ -353,7 +353,7 @@ myEventHook = docksEventHook
 --
 
 myLogHook xmproc = 
-  workspaceHistoryHook <+> doClickableHook <+> dynamicLogWithPP xmobarPP
+  workspaceHistoryHook <+> doClickableWsHook <+> dynamicLogWithPP xmobarPP
   { ppOutput  = \x -> hPutStrLn xmproc x
   , ppCurrent = xmobarColor "#c3e88d" "" . wrap "[" "]"  -- Current workspace in xmobar
   , ppVisible = xmobarColor "#c3e88d" ""                 -- Visible but not current workspace
@@ -365,7 +365,7 @@ myLogHook xmproc =
   , ppExtras  = [windowCount]                            -- # of windows current workspace
   , ppOrder   = \(ws:l:t:ex) -> [ws,l]++ex++[t]
   , ppSort    = getSortByClickableIndex
-  } <+> undoClickableHook
+  } <+> undoClickableWsHook
 
 ------------------------------------------------------------------------
 -- Startup hook
