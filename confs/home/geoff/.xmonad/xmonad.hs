@@ -111,7 +111,7 @@ projects =
                 }
     , Project   { projectName       = "DEV"
                 , projectDirectory  = "~/"
-                , projectStartHook  = Just $ do spawnOn "DEV" "emacsclient -c"
+                , projectStartHook  = Just $ do spawnOn "DEV" "emacs"
                                                 spawnOn "DEV" "firefox"
                                                 spawnOn "DEV" myTerminal
                 }
@@ -146,7 +146,7 @@ myKeys = \c -> mkKeymap c $
   [ ("M-<Return>",   spawn myTerminal)
   , ("M-<Space>",    spawn "rofi -show drun")
   , ("M-S-<Return>", spawn "firefox")
-  , (("M-e"),        spawn "emacsclient -c")
+  , (("M-e"),        spawn "emacs")
   , (("M-v"),        spawn $ terminalExec "nvim")
   , (("M-o"),        spawn $ terminalExec "ranger")
   , (("M-S-o"),      spawn $ terminalExec "htop")
@@ -183,6 +183,7 @@ myKeys = \c -> mkKeymap c $
   , ("M-t",          withFocused $ windows . W.sink)   -- push window back into tiling
   , ("M-S-t",        sinkAll)                          -- push all windows back down
 
+  , ("M-S-c",        spawn $ terminalExec "~/.config/openbox/picom_toggle.sh")
   , ("M-S-r",        spawn "xmonad --recompile; xmonad --restart")
   , ("M-S-e",        confirmPrompt myXPConfig "exit" $ io (exitWith ExitSuccess))
   ]
@@ -391,7 +392,7 @@ myStartupHook = do
               ++ "--padding 0 --SetDockType true --SetPartialStrut true "
               ++ "--expand true --transparent true --alpha 127 "
               ++ "--tint 0x292d3e00 --height 24 &"
-  spawnOnce "/usr/bin/emacs --daemon &"
+  -- spawnOnce "/usr/bin/emacs --daemon &"
   setWMName "LG3D"  -- may be useful for making some Java GUIs work.
 
 ------------------------------------------------------------------------
