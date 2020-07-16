@@ -39,18 +39,20 @@ xmobarEscape = concatMap doubleLts
     doubleLts '<' = "<<"
     doubleLts x   = [x]
 
+clickableWrap :: (Integer, String) -> String
+clickableWrap (num, ws) =
+  "<action=xdotool key super+" ++ show num ++ ">"
+  ++ xmobarEscape ws ++ "</action>"
+
 -- Get workspace tags from user config (e.g. myWorkspaces)
-configWorkspaces :: X [String]
+configWorkspaces :: X [WorkspaceId]
 configWorkspaces = asks (workspaces . config) 
 
 -- Wrap workspace tags with on-click switch action
-clickableWorkspaces :: X [String]
-clickableWorkspaces = do
-  spaces <- configWorkspaces
-  return
-    (map (\(i, ws) -> "<action=xdotool key super+" ++ show i ++ ">"
-                      ++ xmobarEscape ws ++ "</action>")
-     $ zip [1 :: Integer .. 9] spaces)
+clickableWorkspaces :: X [WorkspaceId]
+clickableWorkspaces =
+  configWorkspaces >>= \ws ->
+    return $ map clickableWrap $ zip [1 :: Integer .. 9] ws
 
 -- | From XMonad.Util.WorkspaceCompare (not exported)
 -- Compare Maybe's differently, so Nothing (i.e. workspaces without indexes)
@@ -62,14 +64,13 @@ indexCompare (Just _) Nothing = LT
 indexCompare a b = compare a b
 
 getClickableIndex :: X (WorkspaceId -> Maybe Int)
-getClickableIndex = do
-  clicks <- clickableWorkspaces
-  return $ flip elemIndex clicks
+getClickableIndex =
+  clickableWorkspaces >>= \ws -> return $ flip elemIndex ws
 
 getClickableCompare :: X WorkspaceCompare
-getClickableCompare = do
-  clickableIndex <- getClickableIndex
-  return $ mconcat [indexCompare `on` clickableIndex, compare]
+getClickableCompare =
+  getClickableIndex >>= \idx ->
+    return $ mconcat [indexCompare `on` idx, compare]
 
 -- Sort workspaces by index of clickableWorkpaces (for ppSort)
 getSortByClickableIndex :: X WorkspaceSort
@@ -82,9 +83,8 @@ getWsTagFromClickable = do
   return $ flip M.lookup $ M.fromList $ zip clicks spaces
 
 getClickableCompareByWsTag :: X WorkspaceCompare
-getClickableCompareByWsTag = do
-  wsTagFromClickable <- getWsTagFromClickable
-  return (compare `on` wsTagFromClickable)
+getClickableCompareByWsTag =
+  getWsTagFromClickable >>= \tag -> return (compare `on` tag)
 
 -- Sort workspaces by original names from config (for ppSort)
 getClickableSortByWsTag :: X WorkspaceSort
