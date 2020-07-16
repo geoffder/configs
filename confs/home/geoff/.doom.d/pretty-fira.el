@@ -56,3 +56,13 @@
   (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol"))
 
 (provide 'fira-code-mode)
+
+;; Use ligatures, and start one level zoomed in for code.
+(add-hook! '(csharp-mode-hook
+             python-mode-hook
+             elixir-mode-hook
+             fsharp-mode-hook
+             haskell-mode-hook
+             emacs-lisp-mode-hook
+             sh-mode-hook)
+           'fira-code-mode)

@@ -69,7 +69,10 @@
 ;; Enable FiraCode ligatures.
 (load! "pretty-fira")
 
-;; Use ligatures, and start one level zoomed in for code.
+;; Set cursor colour (explicitly) to solve issue with emacsclient
+(load! "daemon-cursor-fix")
+
+;; Start one level zoomed in for some buffers.
 (add-hook! '(csharp-mode-hook
              python-mode-hook
              elixir-mode-hook
@@ -77,9 +80,10 @@
              haskell-mode-hook
              emacs-lisp-mode-hook
              sh-mode-hook)
-           '(fira-code-mode (lambda () (text-scale-set 1))))
+           '((lambda () (text-scale-set 1))))
 
 (setq fill-column 80)
+(setq display-line-numbers-type 'relative)
 
 ;; Only cycle through currently visible tabs
 (setq centaur-tabs-cycle-scope 'tabs)
@@ -102,6 +106,8 @@
   '(csharp-mode python-mode fsharp-mode haskell-mode sh-mode)
   'company-files)
 
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 ;; (require 'eglot-fsharp)  ;; if lsp is not working.
 ;; (add-hook 'fsharp-mode-hook 'eglot-ensure)
 (setq inferior-fsharp-program "/usr/bin/fsharpi --readline-")
@@ -117,9 +123,6 @@
 (custom-set-variables
  '(conda-anaconda-home "/home/geoff/miniconda3"))
 
-;; (add-hook 'python-mode-hook #'+format|enable-on-save)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
 ;; Add python buffer directories to import path vector of the mspy lsp
 (setq lsp-python-ms-extra-paths [])
 (defun get-dir () (substring default-directory 0 -1))
@@ -127,12 +130,3 @@
           (lambda ()
             (setq lsp-python-ms-extra-paths
                   (vconcat lsp-python-ms-extra-paths (vector (get-dir))))))
-
-;; When running Emacs in daemon mode, cursor colour is altered by Xresources
-;; This changes it back.
-(require 'frame)
-(defun set-cursor-hook (frame)
-(modify-frame-parameters
-  frame (list (cons 'cursor-color "#fb2874"))))  ;; molokai magenta
-
-(add-hook 'after-make-frame-functions 'set-cursor-hook)
