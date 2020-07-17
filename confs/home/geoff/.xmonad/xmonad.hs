@@ -3,6 +3,7 @@
 import XMonad
 import qualified XMonad.StackSet as W
 
+import Graphics.X11.Xinerama (getScreenInfo)
 import System.IO (hPutStrLn)
 import System.Exit
 
@@ -353,9 +354,9 @@ myEventHook = docksEventHook
 -- See the 'XMonad.Hooks.DynamicLog' extension for examples.
 --
 
-myLogHook xmproc = 
+myLogHook xmprocs = 
   workspaceHistoryHook <+> doClickableWsHook <+> dynamicLogWithPP xmobarPP
-  { ppOutput  = \x -> hPutStrLn xmproc x
+  { ppOutput  = composeAll [ \x -> hPutStrLn xmproc x | xmproc <- xmprocs ]
   , ppCurrent = xmobarColor "#c3e88d" "" . wrap "[" "]"  -- Current workspace in xmobar
   , ppVisible = xmobarColor "#c3e88d" ""                 -- Visible but not current workspace
   , ppHidden  = xmobarColor "#82AAFF" "" . wrap "*" ""   -- Hidden workspaces in xmobar
@@ -396,17 +397,35 @@ myStartupHook = do
   setWMName "LG3D"  -- may be useful for making some Java GUIs work.
 
 ------------------------------------------------------------------------
+-- Helpers for spawning multiple XMobars (restart XMonad )
+--
+getScreens = do
+  screens <- do
+    dpy <- openDisplay ""
+    rects <- getScreenInfo dpy
+    closeDisplay dpy
+    return rects
+  pure $ toInteger $ length screens
+
+xmobarCommand :: Integer -> String
+xmobarCommand screen =
+  "xmobar -x " ++ show screen
+  ++ " /home/geoff/.config/xmobar/xmobarrc" ++ show screen
+
+------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
 --
+
 main :: IO ()
 main = do
-  xmob <- spawnPipe "xmobar /home/geoff/.config/xmobar/xmobarrc"
+  screens <- getScreens
+  xmobs <- mapM (spawnPipe . xmobarCommand) $ [0 .. (screens - 1)]
   xmonad
     $ dynamicProjects projects
     $ ewmh
-    $ defaults xmob
+    $ defaults xmobs
 
-defaults xmproc = def
+defaults xmprocs = def
   { terminal           = myTerminal
   , focusFollowsMouse  = myFocusFollowsMouse
   , clickJustFocuses   = myClickJustFocuses
@@ -424,7 +443,7 @@ defaults xmproc = def
   , layoutHook         = myLayoutHook
   , manageHook         = myManageHook <+> manageDocks
   , handleEventHook    = myEventHook
-  , logHook            = myLogHook xmproc
+  , logHook            = myLogHook xmprocs
   , startupHook        = myStartupHook
   }
 
