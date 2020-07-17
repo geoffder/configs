@@ -1,23 +1,15 @@
------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 -- |
--- Module : ClickableHook
--- Copyright : Geoff deRosenroll ( github.com/geoffder )
+-- Module      :  XMonad.Hooks.ClickableWsHook
+-- Copyright   :  (c) Geoff deRosenroll <geoffderosenroll@gmail.com>
+-- License     :  BSD3-style (see LICENSE)
 --
--- NOTE: requires `xdotool` on system and use of UnsafeStdinReader in xmobar.
+-- Maintainer  :  Geoff deRosenroll <geoffderosenroll@gmail.com>
+-- Stability   :  unstable
+-- Portability :  unportable
 --
--- Wrap doClickableWsHook and undoClickableWsHook around dynamicLogWithPP in the
--- LogHook, so workspace names are wrapped with clickable action tags only for
--- the moment that they are piped into XMobar.
---
--- In order for maintain sorting of workspaces on the status bar, set
--- { ppSort = getSortByClickableIndex } in xmobarPP.
---
--- e.g.
--- myLogHook xmproc = ... <+> doClickableHook <+> dynamicLogWithPP xmobarPP
---   { ...
---   , ppSort = getSortByClickableIndex
---   } <+> undoClickableHook
 -----------------------------------------------------------------------------
+
 module ClickableWsHook ( doClickableWsHook
                        , undoClickableWsHook
                        , getClickableSortByWsTag
@@ -42,9 +34,9 @@ import Data.Maybe (fromJust)
 import qualified Data.Map as M
 
 -----------------------------------------------------------------------------
--- | Wrapping workspace tags with on-click xdotool actions. Remember to replace
---   StdinReader with UnsafeStdinReader in your XMobar config to allow for these
---   action tags.
+-- | Wrapping workspace tags with on-click xdotool actions (requires
+--   xdotool in path). Also remember to replace StdinReader with
+--   UnsafeStdinReader in your XMobar config to allow for these action tags.
 
 -- In case workspace tags include any '<', escape them
 xmobarEscape :: String -> String
@@ -159,7 +151,14 @@ getClickableSortByXineramaPhysicalRuleAndIndex sc =
   mkWsSort $ getXineramaPhysicalClickableWsCompare sc clickableIndexOrdering
 
 -----------------------------------------------------------------------------
--- | The actual hooks (place around dynamicLogWithPP)
+-- | Place these hooks around dynamicLogWithPP in your LogHook, so workspace
+--   names are wrapped with clickable action tags only for the moment that they
+--   are piped into XMobar.
+--
+--   myLogHook xmproc = ... <+> doClickableHook <+> dynamicLogWithPP xmobarPP
+--     { ...
+--     , ppSort = getSortByClickableIndex
+--     } <+> undoClickableHook
 
 doClickableWsHook :: X ()
 doClickableWsHook = do
