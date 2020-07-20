@@ -98,9 +98,9 @@ myModMask = mod4Mask
 myWorkspaces :: [[Char]]
 myWorkspaces = named ++ map show [ next .. 9 ]
                where
-                 named = ["WWW", "DEV", "SCI", "DIR",  "SYS"]
+                 named = ["WWW", "DEV", "SCI", "DIR",  "SYS", "GAME", "PRV"]
                  next = 1 + length named
-                 
+
 -- Use XMonad.Actions.DynamicProjects to run startup hooks when switching to
 -- particular workspaces if they are empty.
 projects :: [Project]
@@ -111,7 +111,7 @@ projects =
                                                 spawnOn "WWW" "riot-desktop"
                 }
     , Project   { projectName       = "DEV"
-                , projectDirectory  = "~/"
+                , projectDirectory  = "~/GitRepos"
                 , projectStartHook  = Just $ do spawnOn "DEV" "emacs"
                                                 spawnOn "DEV" "firefox"
                                                 spawnOn "DEV" myTerminal
@@ -119,14 +119,22 @@ projects =
     , Project   { projectName       = "DIR"
                 , projectDirectory  = "~/"
                 , projectStartHook  = Just $ do spawnOn "DIR" "pcmanfm"
-                                                spawnOn "DIR" (terminalExec "ranger")
+                                                spawnOn "DIR" $ terminalExec "ranger"
                                                 spawnOn "DIR" myTerminal
                 }
     , Project   { projectName       = "SYS"
                 , projectDirectory  = "~/"
-                , projectStartHook  = Just $ do spawnOn "SYS" (terminalExec "htop")
+                , projectStartHook  = Just $ do spawnOn "SYS" $ terminalExec "htop"
                                                 spawnOn "SYS" myTerminal
                                                 spawnOn "SYS" myTerminal
+                }
+    , Project   { projectName       = "GAME"
+                , projectDirectory  = "~/"
+                , projectStartHook  = Just $ do spawnOn "GAME" "steam"
+                }
+    , Project   { projectName       = "PRV"
+                , projectDirectory  = "~/"
+                , projectStartHook  = Just $ do spawnOn "PRV" "firefox -private-window"
                 }
     ]
 
@@ -332,6 +340,9 @@ myManageHook = composeAll
     , className =? "Viewnior"              --> doFloat
     , className =? "Gnome-calculator"      --> doFloat
     , title     =? "StimGen 5.0"           --> doFloat
+    , className =? "Riot"                  --> doShift "WWW"
+    , className =? "discord"               --> doShift "WWW"
+    , className =? "Steam"                 --> doShift "GAME"
     , className =? "trayer"                --> doIgnore
     , resource  =? "trayer"                --> doIgnore
     , resource  =? "desktop_window"        --> doIgnore
@@ -376,6 +387,15 @@ myLogHook xmprocs =
 -- with M-S-r. Used by, e.g., XMonad.Layout.PerWorkspace to initialize
 -- per-workspace layout choices.
 --
+
+-- Activate project for current workspace (for activating WWW on startup)
+startupProject :: X ()
+startupProject =
+  withWindowSet (return . W.currentTag) >>= lookupProject >>= maybeActivate
+  where maybeActivate proj = case proj of
+                               Just proj -> activateProject proj
+                               Nothing   -> return ()
+
 myStartupHook :: X ()
 myStartupHook = do
   spawnOnce "nitrogen --restore &"
@@ -395,10 +415,12 @@ myStartupHook = do
               ++ "--tint 0x292d3e00 --height 24 &"
   -- spawnOnce "/usr/bin/emacs --daemon &"
   setWMName "LG3D"  -- may be useful for making some Java GUIs work.
+  startupProject
 
 ------------------------------------------------------------------------
--- Helpers for spawning multiple XMobars (restart XMonad )
+-- Helpers for spawning multiple XMobars
 --
+
 getScreens = do
   screens <- do
     dpy <- openDisplay ""
