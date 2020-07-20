@@ -263,33 +263,33 @@ myXPConfig = def
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
 
-tall slaves = renamed [Replace "tall"]
-              $ limitWindows 12
-              $ mySpacing 8
-              $ ResizableTall 1 ( 5 / 100 ) ( 1 / 2 ) slaves
+tall frac slvs = renamed [Replace "tall"]
+                 $ limitWindows 12
+                 $ mySpacing 8
+                 $ ResizableTall 1 ( 5 / 100 ) frac slvs
 
-magnify     = renamed [Replace "magnify"]
-              $ magnifier
-              $ limitWindows 12
-              $ mySpacing 8
-              $ ResizableTall 1 ( 5 / 100 ) ( 1 / 2 ) []
+magnify        = renamed [Replace "magnify"]
+                 $ magnifier
+                 $ limitWindows 12
+                 $ mySpacing 8
+                 $ ResizableTall 1 ( 5 / 100 ) ( 1 / 2 ) []
 
-monocle     = renamed [Replace "monocle"]
-              $ limitWindows 20
-              $ Full
+monocle        = renamed [Replace "monocle"]
+                 $ limitWindows 20
+                 $ Full
 
-floats      = renamed [Replace "floats"]
-              $ limitWindows 20 simplestFloat
+floats         = renamed [Replace "floats"]
+                 $ limitWindows 20 simplestFloat
 
-grid        = renamed [Replace "grid"]
-              $ limitWindows 12
-              $ mySpacing 8
-              $ mkToggle (single MIRROR)
-              $ Grid ( 16 / 10 )
+grid           = renamed [Replace "grid"]
+                 $ limitWindows 12
+                 $ mySpacing 8
+                 $ mkToggle (single MIRROR)
+                 $ Grid ( 16 / 10 )
 
-spirals     = renamed [Replace "spirals"]
-              $ limitWindows 10
-              $ spiral ( 6 / 7 )
+spirals        = renamed [Replace "spirals"]
+                 $ limitWindows 10
+                 $ spiral ( 6 / 7 )
 
 -- Theme for showWName which prints current workspace when you change workspaces
 myShowWNameTheme :: SWNConfig
@@ -306,14 +306,15 @@ myLayoutHook = showWName' myShowWNameTheme
                $ windowArrange
                $ T.toggleLayouts floats
                $ mkToggle (NBFULL ?? NOBORDERS ?? EOT)
-               $ onWorkspace "DEV" (myLayouts [0.5, 1.5])
-               $ myLayouts []
+               $ onWorkspace "WWW" (myLayouts 0.6 [])
+               $ onWorkspace "DEV" (myLayouts 0.5 [0.5, 1.5])
+               $ myLayouts 0.5 []
   where
-    myLayouts s = tall s
-                  -- ||| magnify
-                  ||| noBorders monocle
-                  -- ||| grid
-                  ||| spirals
+    myLayouts f s = tall f s
+                    -- ||| magnify
+                    ||| noBorders monocle
+                    -- ||| grid
+                    ||| spirals
 
 ------------------------------------------------------------------------
 -- Window rules:
@@ -393,8 +394,8 @@ startupProject :: X ()
 startupProject =
   withWindowSet (return . W.currentTag) >>= lookupProject >>= maybeActivate
   where maybeActivate proj = case proj of
-                               Just proj -> activateProject proj
-                               Nothing   -> return ()
+                               Just p  -> activateProject p
+                               Nothing -> return ()
 
 myStartupHook :: X ()
 myStartupHook = do
