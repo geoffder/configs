@@ -26,7 +26,7 @@ files = [
     home + ".config/xmobar",
     home + ".config/mimeapps.list",
     home + ".config/picom.conf",
-    home + ".config/kitty/kitty.conf",
+    home + ".config/kitty",
     home + ".config/nvim/init.vim",
     home + ".config/ranger/rc.conf",
     home + ".config/ranger/rifle.conf",
