@@ -22,12 +22,11 @@ import Data.Monoid
 import qualified Data.Map as M
 
 -- Hooks
-import ClickableWsHook
+import ClickableWorkspaces
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
 import XMonad.Hooks.EwmhDesktops  -- for some fullscreen events, also for xcomposite in obs.
 import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
 import XMonad.Hooks.SetWMName
-import XMonad.Hooks.WorkspaceHistory
 
 -- Layouts
 import XMonad.Layout.GridVariants (Grid(Grid))
@@ -65,6 +64,7 @@ import XMonad.Prompt.FuzzyMatch
 -- Utilities
 import XMonad.Util.EZConfig (mkKeymap)
 import XMonad.Util.SpawnOnce
+import XMonad.Util.WorkspaceCompare
 import XMonad.Util.Run (spawnPipe)
 
 -- The preferred terminal program, which is used in a binding below and by
@@ -363,11 +363,9 @@ myEventHook = docksEventHook
 -- Status bars and logging
 --
 -- Perform an arbitrary action on each internal state change or X event.
--- See the 'XMonad.Hooks.DynamicLog' extension for examples.
 --
 
-myLogHook xmprocs = 
-  workspaceHistoryHook <+> doClickableWsHook <+> dynamicLogWithPP xmobarPP
+myPP xmprocs = clickablePP $ xmobarPP
   { ppOutput  = composeAll [ \x -> hPutStrLn xmproc x | xmproc <- xmprocs ]
   , ppCurrent = xmobarColor "#c3e88d" "" . wrap "[" "]"  -- Current workspace in xmobar
   , ppVisible = xmobarColor "#c3e88d" ""                 -- Visible but not current workspace
@@ -378,15 +376,16 @@ myLogHook xmprocs =
   , ppUrgent  = xmobarColor "#C45500" "" . wrap "!" "!"  -- Urgent workspace
   , ppExtras  = [windowCount]                            -- # of windows current workspace
   , ppOrder   = \(ws:l:t:ex) -> [ws,l]++ex++[t]
-  , ppSort    = getSortByClickableIndex
-  } <+> undoClickableWsHook
+  , ppSort    = getSortByIndex
+  }
+  
+myLogHook xmprocs = myPP xmprocs >>= dynamicLogWithPP
 
 ------------------------------------------------------------------------
 -- Startup hook
 --
 -- Perform an arbitrary action each time xmonad starts or is restarted
--- with M-S-r. Used by, e.g., XMonad.Layout.PerWorkspace to initialize
--- per-workspace layout choices.
+-- with M-S-r.
 --
 
 -- Activate project for current workspace (for activating WWW on startup)
@@ -432,11 +431,10 @@ getScreens = do
 
 xmobarCommand :: Integer -> String
 xmobarCommand screen =
-  "xmobar -x " ++ show screen
-  ++ " /home/geoff/.config/xmobar/xmobarrc" ++ show screen
+  "xmobar -x " ++ show screen ++ " ~/.config/xmobar/xmobarrc" ++ show screen
 
 ------------------------------------------------------------------------
--- Now run xmonad with all the defaults we set up.
+-- Run the XMonad.
 --
 
 main :: IO ()
