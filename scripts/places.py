@@ -14,6 +14,7 @@ files = [
     home + ".xmonad/xmonad_notes.md",
     home + ".xmonad/xpm",
     home + ".xmonad/lib/ClickableWsHook.hs",
+    home + ".xmonad/lib/ClickableWorkspaces.hs",
     home + ".doom.d",
     home + ".themes/Monokai-ish",
     home + ".themes/Adapta-DeepPurple-Nokto-Eta",
