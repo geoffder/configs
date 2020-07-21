@@ -25,7 +25,7 @@ import qualified XMonad.StackSet as W
 
 import XMonad.Actions.PhysicalScreens ( ScreenComparator(ScreenComparator)
                                       , getScreenIdAndRectangle
-                                      , screenComparatorById)
+                                      , screenComparatorById )
 import XMonad.Util.WorkspaceCompare
 
 import Data.Function (on)
@@ -112,9 +112,10 @@ clickableTagOrdering :: X (WorkspaceId -> WorkspaceId -> Ordering)
 clickableTagOrdering =
   getWsTagFromClickable >>= \tag -> return $ \a b -> compare (tag a) (tag b)
 
-getXineramaPhysicalClickableWsCompare :: ScreenComparator
-                                         -> X (WorkspaceId -> WorkspaceId -> Ordering)
-                                         -> X WorkspaceCompare
+getXineramaPhysicalClickableWsCompare ::
+  ScreenComparator
+  -> X (WorkspaceId -> WorkspaceId -> Ordering)
+  -> X WorkspaceCompare
 getXineramaPhysicalClickableWsCompare (ScreenComparator sc) wsOrderer = do
     w <- gets windowset
     offscreenOrderer <- wsOrderer
@@ -129,8 +130,9 @@ getXineramaPhysicalClickableWsCompare (ScreenComparator sc) wsOrderer = do
     tagToScreen s x = fromJust $ find ((== x) . W.tag . W.workspace) s
     compareUsingScreen w = sc `on` getScreenIdAndRectangle . tagToScreen (onScreen w)
 
-getXineramaClickableWsCompare :: X (WorkspaceId -> WorkspaceId -> Ordering)
-                                 -> X WorkspaceCompare
+getXineramaClickableWsCompare ::
+  X (WorkspaceId -> WorkspaceId -> Ordering)
+  -> X WorkspaceCompare
 getXineramaClickableWsCompare wsOrderer =
   getXineramaPhysicalClickableWsCompare (screenComparatorById compare) wsOrderer
 
@@ -142,7 +144,7 @@ getClickableSortByXineramaRuleAndIndex :: X WorkspaceSort
 getClickableSortByXineramaRuleAndIndex =
   mkWsSort $ getXineramaClickableWsCompare clickableIndexOrdering
 
-getClickableSortByXineramaPhysicalRuleAndTag:: ScreenComparator -> X WorkspaceSort
+getClickableSortByXineramaPhysicalRuleAndTag :: ScreenComparator -> X WorkspaceSort
 getClickableSortByXineramaPhysicalRuleAndTag sc =
   mkWsSort $ getXineramaPhysicalClickableWsCompare sc clickableTagOrdering
 
