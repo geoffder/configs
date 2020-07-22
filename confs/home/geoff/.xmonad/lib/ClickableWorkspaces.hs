@@ -8,9 +8,14 @@
 -- Stability   :  unstable
 -- Portability :  unportable
 --
+-- Provides @clickablePP@, which when applied to the PP pretty-printer used by
+-- the "XMonad.Hooks.DynamicLog" hook, will make the workspace tags clickable in
+-- XMobar (for switching focus).
+--
 -----------------------------------------------------------------------------
 
 module ClickableWorkspaces (
+  -- * Usage
   -- $usage
   clickablePP
   ) where
@@ -19,11 +24,17 @@ import XMonad
 import XMonad.Util.WorkspaceCompare (getWsIndex)
 import XMonad.Hooks.DynamicLog (PP(..))
 
--- TODO: write usage block. 
 -- $usage
--- Wrapping workspace tags with on-click xdotool actions (requires
--- xdotool in path). Also remember to replace StdinReader with
--- UnsafeStdinReader in your XMobar config to allow for these action tags.
+-- However you have set up your PP, apply @clickablePP@ to it, and bind the result
+-- to "XMonad.Hooks.DynamicLog"\'s dynamicLogWithPP like so:
+-- 
+-- > logHook = clickablePP xmobarPP { ... } >>= dynamicLogWithPP
+--
+-- * Requirements:
+--   * wmctrl on system (in path)
+--   * "XMonad.Hooks.EwmhDesktops" for wmctrl support (see Hackage docs for setup)
+--   * use of UnsafeStdinReader in xmobarrc (rather than StdinReader)
+
 
 -- In case workspace tags include any '<', escape them
 xmobarEscape :: String -> String
@@ -34,16 +45,17 @@ xmobarEscape = concatMap doubleLts
 
 clickableWrap :: Integer -> String -> String
 clickableWrap num ws =
-  "<action=xdotool key super+" ++ show num ++ ">" ++ xmobarEscape ws ++ "</action>"
+  "<action=wmctrl -s " ++ show num ++ ">" ++ xmobarEscape ws ++ "</action>"
 
+-- Use index of workspace in users config to target workspace with wmctrl switch.
 getClickable :: X (WorkspaceId -> String)
 getClickable = do
   wsIndex <- getWsIndex
   return $ \ws -> case wsIndex ws of
-                    Just idx -> clickableWrap (indexToKey idx) ws
+                    Just idx -> clickableWrap (toInteger idx) ws
                     Nothing -> ws
-  where indexToKey = (+ 1) . toInteger
-  
+
+-- | Apply clickable wrapping to all workspace fields in given PP.
 clickablePP :: PP -> X PP
 clickablePP pp = do
   clickable <- getClickable
