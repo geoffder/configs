@@ -64,7 +64,7 @@ import XMonad.Prompt.FuzzyMatch
 -- Utilities
 import XMonad.Util.EZConfig (mkKeymap)
 import XMonad.Util.SpawnOnce
-import XMonad.Util.WorkspaceCompare
+import XMonad.Util.WorkspaceCompare (getSortByIndex)
 import XMonad.Util.Run (spawnPipe)
 
 -- The preferred terminal program, which is used in a binding below and by
@@ -365,7 +365,7 @@ myEventHook = docksEventHook
 -- Perform an arbitrary action on each internal state change or X event.
 --
 
-myPP xmprocs = clickablePP $ xmobarPP
+myLogHook xmprocs = clickablePP xmobarPP
   { ppOutput  = composeAll [ \x -> hPutStrLn xmproc x | xmproc <- xmprocs ]
   , ppCurrent = xmobarColor "#c3e88d" "" . wrap "[" "]"  -- Current workspace in xmobar
   , ppVisible = xmobarColor "#c3e88d" ""                 -- Visible but not current workspace
@@ -377,10 +377,8 @@ myPP xmprocs = clickablePP $ xmobarPP
   , ppExtras  = [windowCount]                            -- # of windows current workspace
   , ppOrder   = \(ws:l:t:ex) -> [ws,l]++ex++[t]
   , ppSort    = getSortByIndex
-  }
+  } >>= dynamicLogWithPP
   
-myLogHook xmprocs = myPP xmprocs >>= dynamicLogWithPP
-
 ------------------------------------------------------------------------
 -- Startup hook
 --
