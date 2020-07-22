@@ -36,4 +36,6 @@ files = [
     home + ".config/gtk-3.0/settings.ini",
     home + ".config/firefox",
     home + ".config/qt5ct/qt5ct.conf",
+    home + "miniconda3/etc/conda/activate.d",
+    home + "miniconda3/envs/neuron/etc/conda/activate.d",
 ]
