@@ -12,10 +12,10 @@ export ZSH="/home/geoff/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 
+ZSH_THEME="monokai_arrow"
 #ZSH_THEME="robbyrussell"
 #ZSH_THEME="agnoster"
 #ZSH_THEME="miloshadzic"
-ZSH_THEME="my_custom"
 #ZSH_THEME="random"
 
 # Set list of themes to pick from when loading at random
@@ -76,7 +76,7 @@ ZSH_THEME_RANDOM_CANDIDATES=( "agnoster" "miloshadzic" "robbyrussell")
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git colored-man-pages fast-syntax-highlighting zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 

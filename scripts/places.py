@@ -8,7 +8,7 @@ files = [
     home + ".Xresources",
     home + ".zshrc",
     home + ".gtkrc-2.0",
-    home + ".oh-my-zsh/themes/my_custom.zsh-theme",
+    home + ".oh-my-zsh/custom",
     home + ".i3/config",
     home + ".xmonad/xmonad.hs",
     home + ".xmonad/xmonad_notes.md",
