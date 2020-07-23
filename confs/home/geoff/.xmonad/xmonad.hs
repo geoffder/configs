@@ -98,7 +98,7 @@ myModMask = mod4Mask
 myWorkspaces :: [[Char]]
 myWorkspaces = named ++ map show [ next .. 9 ]
                where
-                 named = ["WWW", "DEV", "SCI", "DIR",  "SYS", "GAME", "PRV"]
+                 named = ["WWW", "DEV", "SCI", "DIR", "SYS", "GAME", "PRV"]
                  next = 1 + length named
 
 -- Use XMonad.Actions.DynamicProjects to run startup hooks when switching to
