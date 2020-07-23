@@ -20,7 +20,6 @@ files = [
     home + ".fsh/monokai.ini",
     home + ".config/kitty",
     home + "miniconda3/etc/conda/activate.d",
-    home + "miniconda3/envs/neuron/etc/conda/activate.d",
     # editors
     home + ".doom.d",
     home + ".config/nvim/init.vim",
