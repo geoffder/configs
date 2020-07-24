@@ -9,12 +9,10 @@ import System.Exit
 
 -- Actions
 import XMonad.Actions.DynamicProjects
--- import XMonad.Actions.GridSelect
 import XMonad.Actions.MouseResize
 import XMonad.Actions.Promote
 import XMonad.Actions.RotSlaves (rotSlavesDown, rotAllDown)
 import XMonad.Actions.SpawnOn
--- import qualified XMonad.Actions.TreeSelect as TS
 import XMonad.Actions.WithAll (sinkAll)
 
 -- Data
@@ -52,14 +50,7 @@ import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(T
 -- Prompts
 import XMonad.Prompt
 import XMonad.Prompt.ConfirmPrompt
--- import XMonad.Prompt.Input
 import XMonad.Prompt.FuzzyMatch
--- import XMonad.Prompt.Man
--- import XMonad.Prompt.Pass
--- import XMonad.Prompt.Shell (shellPrompt)
--- import XMonad.Prompt.Ssh
--- import XMonad.Prompt.XMonad
--- import Control.Arrow (first)
 
 -- Utilities
 import XMonad.Util.EZConfig (mkKeymap)
