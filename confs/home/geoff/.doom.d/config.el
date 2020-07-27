@@ -74,12 +74,13 @@
 
 ;; Start one level zoomed in for some buffers.
 (add-hook! '(csharp-mode-hook
-             python-mode-hook
              elixir-mode-hook
+             emacs-lisp-mode-hook
              fsharp-mode-hook
              haskell-mode-hook
-             emacs-lisp-mode-hook
-             sh-mode-hook)
+             python-mode-hook
+             sh-mode-hook
+             tuareg-mode-hook)
            '((lambda () (text-scale-set 1))))
 
 (setq fill-column 80)
@@ -94,9 +95,14 @@
   (setq hs-special-modes-alist
         (append
          '((fsharp-mode "\\s-*\\_<\\(?:[^(?:=|{)]+\\)\\_>"
-                      "(?:|})"
-                      "//"
-                      +fold-hideshow-forward-block-by-indent-fn nil))
+                        "(?:|})"
+                        "//"
+                        +fold-hideshow-forward-block-by-indent-fn nil)
+           (tuareg-mode "\\(=\\|{\\|struct\\)"
+                        "\\(}\\|end\\|in\\)"
+                        nil
+                        +fold-hideshow-forward-block-by-indent-fn nil)
+           )
          hs-special-modes-alist)))
 
 ;; Autocompletion config
