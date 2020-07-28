@@ -97,11 +97,13 @@
          '((fsharp-mode "\\s-*\\_<\\(?:[^(?:=|{)]+\\)\\_>"
                         "(?:|})"
                         "//"
-                        +fold-hideshow-forward-block-by-indent-fn nil)
-           (tuareg-mode "\\(=\\|{\\|struct\\)"
-                        "\\(}\\|end\\|in\\)"
+                        +fold-hideshow-forward-block-by-indent-fn
+                        nil)
+           (tuareg-mode "\\(struct\\|=\\|{\\)"
+                        "\\(end\\|in\\|}\\)"
                         nil
-                        +fold-hideshow-forward-block-by-indent-fn nil)
+                        nil
+                        nil)
            )
          hs-special-modes-alist)))
 
@@ -117,7 +119,7 @@
 ;; (require 'eglot-fsharp)  ;; if lsp is not working.
 ;; (add-hook 'fsharp-mode-hook 'eglot-ensure)
 (setq inferior-fsharp-program "/usr/bin/fsharpi --readline-")
-(setq-default fsharp-indent-offset 4)
+(setq-default fsharp-indent-offset 2)
 
 ;; Add match! to font-lock's keyword list for F#
 (add-hook 'fsharp-mode-hook
