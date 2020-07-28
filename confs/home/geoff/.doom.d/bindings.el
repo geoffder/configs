@@ -32,6 +32,9 @@
 (define-key evil-normal-state-map (kbd "g <backtab>") 'centaur-tabs-move-current-tab-to-left)
 (define-key evil-normal-state-map (kbd "g <tab>") 'centaur-tabs-move-current-tab-to-right)
 
+;; avoid accidental killing (evil (z x) bound to kill-current-buffer by default)
+(define-key evil-normal-state-map (kbd "z x") nil)
+
 (defun fold-given-level () (interactive)
   "Wait for a number, then recursively fold at that level (rel to curr block)."
   (let ((level (- (read-char) 48)))
