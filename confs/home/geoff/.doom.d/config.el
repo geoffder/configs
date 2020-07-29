@@ -83,6 +83,8 @@
              tuareg-mode-hook)
            '((lambda () (text-scale-set 1))))
 
+(custom-set-faces
+ '(hl-fill-column-face ((t (:background "black" :foreground "white")))))
 (setq fill-column 80)
 (setq display-line-numbers-type 'relative)
 
