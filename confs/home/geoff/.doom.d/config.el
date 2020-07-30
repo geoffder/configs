@@ -20,7 +20,7 @@
 ;; font string. You generally only need these two:
 ;; test
 (setq doom-font (font-spec :family "Fira Code" :size 14)
-      doom-variable-pitch-font (font-spec :family "Roboto"))
+      doom-variable-pitch-font (font-spec :family "Roboto" :size 18))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -42,7 +42,7 @@
 
 ;; If you want to change the style of line numbers, change this to `relative' or
 ;; `nil' to disable it:
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type 'relative)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -86,10 +86,11 @@
 (custom-set-faces
  '(hl-fill-column-face ((t (:background "black" :foreground "white")))))
 (setq fill-column 80)
-(setq display-line-numbers-type 'relative)
 
 ;; Only cycle through currently visible tabs
 (setq centaur-tabs-cycle-scope 'tabs)
+;; Match tab bar coloru with rest of theme.
+(after! centaur-tabs (centaur-tabs-headline-match))
 
 (use-package! hideshow
   :config
@@ -122,6 +123,8 @@
 ;; (add-hook 'fsharp-mode-hook 'eglot-ensure)
 (setq inferior-fsharp-program "/usr/bin/fsharpi --readline-")
 (setq-default fsharp-indent-offset 2)
+;; NOTE: fsharp buffers are super slow right now unless
+;; doom-modeline-mode is disabled.
 
 ;; Add match! to font-lock's keyword list for F#
 (add-hook 'fsharp-mode-hook
