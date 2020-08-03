@@ -194,10 +194,10 @@ myKeys = \c -> mkKeymap c $
       | (i, k) <- zip myWorkspaces [1 :: Integer .. 9]
       , (f, m) <- [(W.greedyView, ""), (W.shift, "S-")]]
   ++
-  -- mod-{F1,F2,F3}, Switch to physical/Xinerama screens 1, 2, or 3
-  -- mod-shift-{F1,F2,F3}, Move client to screen 1, 2, or 3
-  [("M-" ++ m ++ k, screenWorkspace sc >>= flip whenJust (windows . f))
-      | (k, sc) <- zip ["<F1>", "<F2>", "<F3>"] [0..]
+  -- mod-ctrl-{1,2,3}, Switch to physical/Xinerama screens 1, 2, or 3
+  -- mod-ctrl-shift-{1,2,3}, Move client to screen 1, 2, or 3
+  [("M-C-" ++ m ++ k, screenWorkspace sc >>= flip whenJust (windows . f))
+      | (k, sc) <- zip ["1", "2", "3"] [0..]
       , (f, m) <- [(W.view, ""), (W.shift, "S-")]]
   
   ----------------------------------------------------------------------
