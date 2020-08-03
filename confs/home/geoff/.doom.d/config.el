@@ -73,6 +73,7 @@
 (load! "daemon-cursor-fix")
 
 ;; Start one level zoomed in for some buffers.
+;; Also, turn off size indication (de-clutter modeline)
 (add-hook! '(csharp-mode-hook
              elixir-mode-hook
              emacs-lisp-mode-hook
@@ -81,11 +82,16 @@
              python-mode-hook
              sh-mode-hook
              tuareg-mode-hook)
-           '((lambda () (text-scale-set 1))))
+           '((lambda () (text-scale-set 1))
+             (lambda () (size-indication-mode -1))))
 
+;; Reminder to keep lines short.
 (custom-set-faces
  '(hl-fill-column-face ((t (:background "black" :foreground "white")))))
 (setq fill-column 80)
+
+;; Remove buffer encoding format from modeline (never need to know)
+(setq doom-modeline-buffer-encoding nil)
 
 ;; Only cycle through currently visible tabs
 (setq centaur-tabs-cycle-scope 'tabs)
@@ -123,8 +129,12 @@
 ;; (add-hook 'fsharp-mode-hook 'eglot-ensure)
 (setq inferior-fsharp-program "/usr/bin/fsharpi --readline-")
 (setq-default fsharp-indent-offset 2)
-;; NOTE: fsharp buffers are super slow right now unless
-;; doom-modeline-mode is disabled.
+;; NOTE: Attempting to use all-the-icons font for the tab-line in fsharp-mode
+;; buffers causes huge slowdowns when navigating or inserting, I imagine due to
+;; those actions triggering redraws.
+;; Disabling column-number-mode and line-number-mode restores speed in normal
+;; mode navigation, but this fixes both normal and insert modes.
+(add-hook 'fsharp-mode-hook '(lambda () (setq-local centaur-tabs-set-icons nil)))
 
 ;; Add match! to font-lock's keyword list for F#
 (add-hook 'fsharp-mode-hook
