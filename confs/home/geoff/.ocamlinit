@@ -2,3 +2,4 @@
 #thread;;
 #require "base";;
 open Base;;
+#require "stdio"
