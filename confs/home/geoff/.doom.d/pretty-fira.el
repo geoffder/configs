@@ -57,7 +57,6 @@
 
 (provide 'fira-code-mode)
 
-;; Use ligatures, and start one level zoomed in for code.
 (add-hook! '(csharp-mode-hook
              elixir-mode-hook
              emacs-lisp-mode-hook
