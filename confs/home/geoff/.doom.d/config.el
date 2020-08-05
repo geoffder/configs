@@ -72,6 +72,9 @@
 ;; Set cursor colour (explicitly) to solve issue with emacsclient
 (load! "daemon-cursor-fix")
 
+;; Paint hex colour codes with the colour the represent (in some modes).
+(load! "hexcolour-font-lock")
+
 ;; Start one level zoomed in for some buffers.
 ;; Also, turn off size indication (de-clutter modeline)
 (add-hook! '(csharp-mode-hook
