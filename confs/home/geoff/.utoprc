@@ -6,9 +6,9 @@
 ! See: https://github.com/ocaml-community/utop/blob/master/utoprc-dark
 
 ! monokai
-! magenta = #F92672
-! blue    = #66D9EF
-! orange  = #FD971F
+! magenta = #f92672
+! blue    = #66d9ef
+! orange  = #fd971f
 
 ! molokai
 ! grey    = #525254
@@ -20,15 +20,15 @@
 
 profile:                  dark
 identifier.foreground:    none
-module.foreground:        #66D9EF
+module.foreground:        #66d9ef
 comment.foreground:       #525254
-doc.foreground:           #E2C770
+doc.foreground:           #e2c770
 constant.foreground:      #ff00ff
-keyword.foreground:       #F92672
+keyword.foreground:       #f92672
 symbol.foreground:        x-palegreen
 string.foreground:        #ffd700
 char.foreground:          #ffd700
 quotation.foreground:     #ff00ff
 error.foreground:         #ff0000
 directive.foreground:     #ff00ff
-parenthesis.background:   #FD971F
+parenthesis.background:   #fd971f
