@@ -76,7 +76,7 @@
 (load! "hexcolour-font-lock")
 
 ;; Start one level zoomed in for some buffers.
-;; Also, turn off size indication (de-clutter modeline)
+;; Also, turn off size indication (de-clutter modeline).
 (add-hook! '(csharp-mode-hook
              elixir-mode-hook
              emacs-lisp-mode-hook
@@ -92,6 +92,12 @@
 (custom-set-faces
  '(hl-fill-column-face ((t (:background "black" :foreground "white")))))
 (setq fill-column 80)
+
+;; Automatic physical wrapping of lines longer than fill-column in select modes.
+(add-hook! '(markdown-mode-hook
+             text-mode-hook
+             latex-mode-hook)
+           '(lambda () (auto-fill-mode t)))
 
 ;; Remove buffer encoding format from modeline (never need to know)
 (setq doom-modeline-buffer-encoding nil)
