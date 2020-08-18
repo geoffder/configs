@@ -99,7 +99,7 @@ projects =
     [ Project   { projectName       = "WWW"
                 , projectDirectory  = "~/"
                 , projectStartHook  = Just $ do spawnOn "WWW" "firefox"
-                                                spawnOn "WWW" "riot-desktop"
+                                                spawnOn "WWW" "element-desktop"
                 }
     , Project   { projectName       = "DEV"
                 , projectDirectory  = "~/GitRepos"
@@ -152,7 +152,7 @@ myKeys = \c -> mkKeymap c $
   , (("M-S-o"),      spawn $ terminalExec "htop")
   , (("M-p"),        spawn "pcmanfm")
   , (("M-S-s"),      spawn "flameshot gui")
-  , (("M-i"),        spawn "riot-desktop")
+  , (("M-i"),        spawn "element-desktop")
   , (("M-M1-d"),     spawn "discord")
 
   , ("M-S-q",        kill)                             -- close focused window
