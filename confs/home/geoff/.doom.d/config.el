@@ -162,3 +162,8 @@
           (lambda ()
             (setq lsp-python-ms-extra-paths
                   (vconcat lsp-python-ms-extra-paths (vector (get-dir))))))
+
+;; Support for reason-ml
+;; Requires { ... "@opam/merlin": "*", } in esy package.json dependencies.
+(load! "esy-mode")
+(add-hook! 'reason-mode-hook '(merlin-mode esy-mode))
