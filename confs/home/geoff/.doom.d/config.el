@@ -161,8 +161,24 @@
           (lambda ()
             (setq lsp-python-ms-extra-paths
                   (vconcat lsp-python-ms-extra-paths (vector (get-dir))))))
+;; Remove prettify rules for "and" and "or" keywords in python buffers.
+(add-hook 'python-mode-hook
+          (lambda () (setq-local
+                 prettify-symbols-alist
+                 (assoc-delete-all "and"
+                                   (assoc-delete-all "or"
+                                                     prettify-symbols-alist)))))
 
 ;; Support for reason-ml
 ;; Requires { ... "@opam/merlin": "*", } in esy package.json dependencies.
 (load! "esy-mode")
-(add-hook! 'reason-mode-hook '(merlin-mode esy-mode))
+
+(defun my-reason-font-lock ()
+  (interactive)
+  (font-lock-add-keywords
+   nil
+   '(("let%" 0 font-lock-keyword-face)
+     ;; Apply highlighting to second group (1)
+     ("\\(?:let%\\)\\([a-z]+\\)" 1 font-lock-type-face))))
+
+(add-hook! 'reason-mode-hook '(merlin-mode esy-mode my-reason-font-lock))
