@@ -149,8 +149,7 @@
 (add-hook 'fsharp-mode-hook
          (lambda ()
           (font-lock-add-keywords nil
-           '(("match!" 0
-              font-lock-keyword-face t)))))
+           '(("match!" (0 font-lock-keyword-face))))))
 
 (custom-set-variables
  '(conda-anaconda-home "/home/geoff/miniconda3"))
