@@ -62,6 +62,11 @@
 
 (provide 'fira-code-mode)
 
+(defun maybe-fira-mode ()
+  (interactive)
+  (when (string-match "Fira" (format "%s" doom-font))
+    (fira-code-mode t)))
+
 (add-hook! '(csharp-mode-hook
              elixir-mode-hook
              emacs-lisp-mode-hook
@@ -70,4 +75,4 @@
              python-mode-hook
              sh-mode-hook
              tuareg-mode-hook)
-           'fira-code-mode)
+           'maybe-fira-mode)
