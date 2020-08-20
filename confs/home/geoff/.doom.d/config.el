@@ -42,6 +42,17 @@
 (victor-font-settings)
 (setq doom-variable-pitch-font (font-spec :family "Roboto" :size 18))
 
+;; Helpers to remove some prettify rules that I don't like.
+(require 'seq)
+(defun assoc-delete-all-multi (keys alist)
+  (seq-reduce (lambda (al key) (assoc-delete-all key al)) keys alist))
+
+(defun trim-prettify-rules ()
+  (interactive)
+  (setq-local
+   prettify-symbols-alist (assoc-delete-all-multi
+                           '("and" "or" "&&" "||") prettify-symbols-alist)))
+
 ;; transparency with toggle function (bound in bindings.el)
 (load! "transparency")
 
@@ -74,8 +85,8 @@
 ;; Personal bindings file
 (load! "bindings")
 
-;; Enable FiraCode ligatures.
-(load! "pretty-fira")
+;; Enable FiraCode ligatures.  (obsolete in emacs28 ?)
+;; (load! "pretty-fira")
 
 ;; Enable VictorMono ligatures. (not working, trouble with my hacky symbol font)
 ;; (load! "pretty-victor")
@@ -89,6 +100,7 @@
 ;; Start one level zoomed in for some buffers.
 ;; Also, turn off size indication (de-clutter modeline)
 ;; Also, turn on vertical rule (fill column).
+;; Also, remove some prettify symbols.
 (add-hook! '(csharp-mode-hook
              elixir-mode-hook
              emacs-lisp-mode-hook
@@ -100,8 +112,8 @@
              reason-mode-hook)
            '((lambda () (text-scale-set 1))
              (lambda () (size-indication-mode -1))
-             display-fill-column-indicator-mode))
-             ;; prettify-symbols-mode))  ;; while I'm not using Fira ligs?
+             display-fill-column-indicator-mode
+             trim-prettify-rules))
 
 ;; Reminder to keep lines short. (display-fill-column-indicator-mode)
 (setq fill-column 80)
@@ -174,13 +186,6 @@
           (lambda ()
             (setq lsp-python-ms-extra-paths
                   (vconcat lsp-python-ms-extra-paths (vector (get-dir))))))
-;; Remove prettify rules for "and" and "or" keywords in python buffers.
-(add-hook 'python-mode-hook
-          (lambda () (setq-local
-                 prettify-symbols-alist
-                 (assoc-delete-all "and"
-                                   (assoc-delete-all "or"
-                                                     prettify-symbols-alist)))))
 
 ;; Support for reason-ml
 ;; Requires { ... "@opam/merlin": "*", } in esy package.json dependencies.
