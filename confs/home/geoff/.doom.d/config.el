@@ -9,6 +9,15 @@
 (setq user-full-name "Geoff deRosenroll"
       user-mail-address "geoffderosenroll@gmail.com")
 
+;; There are two ways to load a theme. Both assume the theme is installed and
+;; available. You can either set `doom-theme' or manually load a theme with the
+;; `load-theme' function. These are the defaults.
+(use-package doom-themes
+  :config
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t)
+  (load-theme 'doom-molokai t))
+
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
@@ -19,20 +28,19 @@
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
 ;; test
-(setq doom-font (font-spec :family "Fira Code" :size 14)
-      doom-variable-pitch-font (font-spec :family "Roboto" :size 18))
+(defun victor-font-settings ()
+  (setq doom-font (font-spec :name "Victor Mono" :size 14 :weight 'semi-bold))
+  (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
+  (set-face-attribute 'font-lock-keyword-face nil :weight 'bold :slant 'italic))
 
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. These are the defaults.
-(use-package doom-themes
-  :config
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t)
-  (load-theme 'doom-molokai t))
+(defun fira-font-settings ()
+  (setq doom-font (font-spec :family "Fira Code" :size 14))
+  (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
+  (set-face-attribute 'font-lock-keyword-face nil :weight 'semi-bold))
 
-(set-face-attribute 'font-lock-comment-face nil :slant 'italic)
-(set-face-attribute 'font-lock-keyword-face nil :weight 'semi-bold)
+;; (fira-font-settings)
+(victor-font-settings)
+(setq doom-variable-pitch-font (font-spec :family "Roboto" :size 18))
 
 ;; transparency with toggle function (bound in bindings.el)
 (load! "transparency")
@@ -69,6 +77,9 @@
 ;; Enable FiraCode ligatures.
 (load! "pretty-fira")
 
+;; Enable VictorMono ligatures. (not working, trouble with my hacky symbol font)
+;; (load! "pretty-victor")
+
 ;; Set cursor colour (explicitly) to solve issue with emacsclient
 (load! "daemon-cursor-fix")
 
@@ -76,7 +87,8 @@
 (load! "hexcolour-font-lock")
 
 ;; Start one level zoomed in for some buffers.
-;; Also, turn off size indication (de-clutter modeline).
+;; Also, turn off size indication (de-clutter modeline)
+;; Also, turn on vertical rule (fill column).
 (add-hook! '(csharp-mode-hook
              elixir-mode-hook
              emacs-lisp-mode-hook
@@ -84,13 +96,14 @@
              haskell-mode-hook
              python-mode-hook
              sh-mode-hook
-             tuareg-mode-hook)
+             tuareg-mode-hook
+             reason-mode-hook)
            '((lambda () (text-scale-set 1))
-             (lambda () (size-indication-mode -1))))
+             (lambda () (size-indication-mode -1))
+             display-fill-column-indicator-mode))
+             ;; prettify-symbols-mode))  ;; while I'm not using Fira ligs?
 
-;; Reminder to keep lines short.
-(custom-set-faces
- '(hl-fill-column-face ((t (:background "black" :foreground "white")))))
+;; Reminder to keep lines short. (display-fill-column-indicator-mode)
 (setq fill-column 80)
 
 ;; Automatic physical wrapping of lines longer than fill-column in select modes.
