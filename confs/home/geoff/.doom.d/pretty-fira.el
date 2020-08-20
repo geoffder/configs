@@ -74,5 +74,6 @@
              haskell-mode-hook
              python-mode-hook
              sh-mode-hook
-             tuareg-mode-hook)
+             tuareg-mode-hook
+             reason-mode-hook)
            'maybe-fira-mode)
