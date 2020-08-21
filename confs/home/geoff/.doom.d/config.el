@@ -1,68 +1,5 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; refresh' after modifying this file!
-
-
-;; These are used for a number of things, particularly for GPG configuration,
-;; some email clients, file templates and snippets.
-(setq user-full-name "Geoff deRosenroll"
-      user-mail-address "geoffderosenroll@gmail.com")
-
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. These are the defaults.
-(use-package doom-themes
-  :config
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t)
-  (load-theme 'doom-molokai t))
-
-;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
-;; are the three important ones:
-;;
-;; + `doom-font'
-;; + `doom-variable-pitch-font'
-;; + `doom-big-font' -- used for `doom-big-font-mode'
-;;
-;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
-;; font string. You generally only need these two:
-;; test
-(defun victor-font-settings ()
-  (setq doom-font (font-spec :name "Victor Mono" :size 14 :weight 'semi-bold))
-  (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
-  (set-face-attribute 'font-lock-keyword-face nil :weight 'bold :slant 'italic))
-
-(defun fira-font-settings ()
-  (setq doom-font (font-spec :family "Fira Code" :size 14))
-  (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
-  (set-face-attribute 'font-lock-keyword-face nil :weight 'semi-bold))
-
-;; (fira-font-settings)
-(victor-font-settings)
-(setq doom-variable-pitch-font (font-spec :family "Roboto" :size 18))
-
-;; Helpers to remove some prettify rules that I don't like.
-(require 'seq)
-(defun assoc-delete-all-multi (keys alist)
-  (seq-reduce (lambda (al key) (assoc-delete-all key al)) keys alist))
-
-(defun trim-prettify-rules ()
-  (interactive)
-  (setq-local
-   prettify-symbols-alist (assoc-delete-all-multi
-                           '("and" "or" "&&" "||") prettify-symbols-alist)))
-
-;; transparency with toggle function (bound in bindings.el)
-(load! "transparency")
-
-;; If you intend to use org, it is recommended you change this!
-(setq org-directory "~/org/")
-
-;; If you want to change the style of line numbers, change this to `relative' or
-;; `nil' to disable it:
-(setq display-line-numbers-type 'relative)
-
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
@@ -79,17 +16,32 @@
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
 
+;; These are used for a number of things, particularly for GPG configuration,
+;; some email clients, file templates and snippets.
+(setq user-full-name "Geoff deRosenroll"
+      user-mail-address "geoffderosenroll@gmail.com")
+
+(use-package doom-themes
+  :config
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t)
+  (load-theme 'doom-molokai t))
+
+(setq org-directory "~/org/")
+
+(setq display-line-numbers-type 'relative)
+
+;; font related settings
+(load! "fonts")
+
+;; transparency with toggle function (bound in bindings.el)
+(load! "transparency")
+
 ;; Config related to remote editing / ssh
 (load! "remote")
 
 ;; Personal bindings file
 (load! "bindings")
-
-;; Enable FiraCode ligatures.  (obsolete in emacs28 ?)
-;; (load! "pretty-fira")
-
-;; Enable VictorMono ligatures. (not working, trouble with my hacky symbol font)
-;; (load! "pretty-victor")
 
 ;; Set cursor colour (explicitly) to solve issue with emacsclient
 (load! "daemon-cursor-fix")
@@ -97,10 +49,6 @@
 ;; Paint hex colour codes with the colour the represent (in some modes).
 (load! "hexcolour-font-lock")
 
-;; Start one level zoomed in for some buffers.
-;; Also, turn off size indication (de-clutter modeline)
-;; Also, turn on vertical rule (fill column).
-;; Also, remove some prettify symbols.
 (add-hook! '(csharp-mode-hook
              elixir-mode-hook
              emacs-lisp-mode-hook
@@ -110,10 +58,10 @@
              sh-mode-hook
              tuareg-mode-hook
              reason-mode-hook)
-           '((lambda () (text-scale-set 1))
-             (lambda () (size-indication-mode -1))
-             display-fill-column-indicator-mode
-             trim-prettify-rules))
+           '((lambda () (text-scale-set 1))           ;; zoom one level
+             (lambda () (size-indication-mode -1))    ;; de-clutter from modeline
+             display-fill-column-indicator-mode  ;; vertical rule
+             trim-prettify-rules))               ;; remove some symbols
 
 ;; Reminder to keep lines short. (display-fill-column-indicator-mode)
 (setq fill-column 80)
