@@ -60,7 +60,5 @@
         (:prefix-map ("o" . "open")
           :desc "sudo into shake" "s" #'connect-shake-sudo))
 
-;; TODO: Add some quality of life to haskell-mode.
-;; (map! :localleader
-;;       :map dante-mode-map
-;;       :desc "auto type signature" "s")
+;; Close auto-complete suggestions without selecting one.
+(define-key key-translation-map (kbd "S-<return>") 'company-abort)
