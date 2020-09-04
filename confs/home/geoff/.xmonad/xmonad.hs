@@ -116,7 +116,7 @@ projects =
     , Project   { projectName       = "SYS"
                 , projectDirectory  = "~/"
                 , projectStartHook  = Just $ do spawnOn "SYS" $ terminalExec "htop"
-                                                spawnOn "SYS" myTerminal
+                                                spawnOn "SYS" $ terminalExec "ytop -c monokai"
                                                 spawnOn "SYS" myTerminal
                 }
     , Project   { projectName       = "GAME"
