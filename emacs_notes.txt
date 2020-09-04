@@ -5,6 +5,9 @@ Normal gzu -> kill cursors
 
 Normal za -> toggle fold
 
+Normal ysw -> surround word (stops on non-word characters like '_')
+Normal ysio -> surround symbol that includes non-word characters like '_'
+
 Alt-% -> basic emacs find and replace
 C-x u -> emacs undo tree
 
@@ -14,5 +17,5 @@ Magit:
 
 f-sharp-mode HACK to fix nested block indentation bug.
 /home/geoff/.emacs.d/.local/straight/build/fsharp-mode/fsharp-mode-structure.el
-commented lines 637 -> 641 as per:  
+commented lines 637 -> 641 as per:
 https://github.com/fsharp/emacs-fsharp-mode/issues/211
