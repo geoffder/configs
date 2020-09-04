@@ -135,6 +135,14 @@
             (setq lsp-python-ms-extra-paths
                   (vconcat lsp-python-ms-extra-paths (vector (get-dir))))))
 
+;; OCaml automatic block closing pairs.
+(use-package! smartparens-config
+  :config
+  (add-hook 'tuareg-mode-hook (lambda () (setq-local sp-max-pair-length 6)))
+  (sp-local-pair 'tuareg-mode "begin"  "\nend")
+  (sp-local-pair 'tuareg-mode "struct" "\nend")
+  (sp-local-pair 'tuareg-mode "sig"    "\nend"))
+
 ;; Support for reason-ml
 ;; Requires { ... "@opam/merlin": "*", } in esy package.json dependencies.
 (load! "esy-mode")
