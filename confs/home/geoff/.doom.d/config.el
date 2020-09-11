@@ -138,10 +138,10 @@
 ;; OCaml automatic block closing pairs.
 (use-package! smartparens-config
   :config
-  (add-hook 'tuareg-mode-hook (lambda () (setq-local sp-max-pair-length 6)))
+  (add-hook 'tuareg-mode-hook (lambda () (setq-local sp-max-pair-length 8)))
   (sp-local-pair 'tuareg-mode "begin"  "\nend")
-  (sp-local-pair 'tuareg-mode "struct" "\nend")
-  (sp-local-pair 'tuareg-mode "sig"    "\nend"))
+  (sp-local-pair 'tuareg-mode "struct\n" "\nend")
+  (sp-local-pair 'tuareg-mode "sig\n" "\nend"))
 
 ;; Support for reason-ml
 ;; Requires { ... "@opam/merlin": "*", } in esy package.json dependencies.
