@@ -72,6 +72,11 @@
              latex-mode-hook)
            '(lambda () (auto-fill-mode t)))
 
+;; might make this pair a defun and add to the general coding mode hooks above
+(add-hook! '(tuareg-mode-hook)
+           '((lambda () (auto-fill-mode t))
+             (lambda () (setq-local comment-auto-fill-only-comments t))))
+
 ;; Remove buffer encoding format from modeline (never need to know)
 (setq doom-modeline-buffer-encoding nil)
 
@@ -90,7 +95,7 @@
                         "//"
                         +fold-hideshow-forward-block-by-indent-fn
                         nil)
-           (tuareg-mode "\\(struct\\|=\\|{\\)"
+           (tuareg-mode "\\(struct\\|: sig\\|=\\|{\\)"
                         "\\(end\\|in\\|}\\)"
                         nil
                         nil
