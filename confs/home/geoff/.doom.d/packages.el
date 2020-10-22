@@ -51,3 +51,4 @@
 ;(package! builtin-package :recipe (:branch "develop"))
 
 (package! reason-mode)
+(package! seq)
