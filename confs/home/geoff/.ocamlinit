@@ -1,5 +1,4 @@
 #use "topfind";;
 #thread;;
-#require "base";;
-open Base;;
-#require "stdio"
+#require "core.top";;
+open Core;;
