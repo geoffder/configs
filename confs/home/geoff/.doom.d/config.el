@@ -77,6 +77,10 @@
            '((lambda () (auto-fill-mode t))
              (lambda () (setq-local comment-auto-fill-only-comments t))))
 
+;; Leads to insertion of asterisk outside of comment at inappropriate times, like
+;; when newline inserting (NORMAL 'o')
+;; (add-hook 'tuareg-mode-hook '(lambda () (setq-local fill-prefix " *")))
+
 ;; Remove buffer encoding format from modeline (never need to know)
 (setq doom-modeline-buffer-encoding nil)
 
@@ -99,8 +103,7 @@
                         "\\(end\\|in\\|}\\)"
                         nil
                         nil
-                        nil)
-           )
+                        nil))
          hs-special-modes-alist)))
 
 ;; Autocompletion config
@@ -139,6 +142,21 @@
           (lambda ()
             (setq lsp-python-ms-extra-paths
                   (vconcat lsp-python-ms-extra-paths (vector (get-dir))))))
+
+;; Replace the hs-special-modes-alist entry that python-mode creates.
+(require 'seq)
+(defun replace-python-hs-rules ()
+  (interactive)
+  (setq hs-special-modes-alist
+        (append '((python-mode "\\(?:def\\|class\\|{\\|if.*:\\|for.*:\\)"
+                               "\\(}\\)"
+                               "#"
+                               +fold-hideshow-forward-block-by-indent-fn
+                               nil))
+                (seq-filter (lambda (l) (not (eq (car l) 'fsharp-mode)))
+                            hs-special-modes-alist))))
+
+(add-hook! 'python-mode-hook 'replace-python-hs-rules)
 
 ;; OCaml automatic block closing pairs.
 (use-package! smartparens-config
