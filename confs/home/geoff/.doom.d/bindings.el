@@ -62,3 +62,10 @@
 
 ;; Close auto-complete suggestions without selecting one.
 (define-key key-translation-map (kbd "S-<return>") 'company-abort)
+
+;; add binding for signature copying
+(add-hook 'tuareg-mode-hook
+          (lambda ()
+            (map! :leader
+                  (:prefix-map ("m")
+                   :desc "copy type enclosing" "c" #'merlin-copy-enclosing))))
