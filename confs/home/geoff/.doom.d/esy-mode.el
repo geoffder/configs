@@ -1,6 +1,6 @@
-;;; esy.el --- Minor mode for assist esy, the package manager.
+;;; esy.el --- Minor mode for esy, the package manager.
 
-;; Copyright (C) 2010-2019 Manas Jayanth
+;; Copyright (C) 2020 Manas Jayanth
 
 ;; Author: Manas Jayanth <prometheansacrifice@gmail.com>
 ;; Created: 1 Jan 2020
@@ -27,11 +27,13 @@
   :group 'tools
   :group 'convenience
   :link '(url-link :tag "github"
-		   "https://github.com/prometheansacrifice/esy-mode"))
+                   "https://github.com/prometheansacrifice/esy-mode"))
 
-;; Units
-(defun add-two (p)
-  (+ p 2))
+(defvar esy-command "esy"
+  "The 'esy' command. Can be full path to the esy binary.")
+
+(defvar esy-mode-callback (lambda ())
+  "The callback that can be run once an esy project is initialised. Common use case is to enable ask lsp client to connect to the server (since this can only be done after the esy project is ready)")
 
 (defun esy/f--read (file-path)
   "Return file content."
@@ -53,23 +55,23 @@ it returns the manifest file"
   "Returns an abstract structure that can later
 be used to obtain more info about the project"
   (let* ((default-directory project-path)
-	 (json-str (shell-command-to-string "esy status"))
-	 (json-array-type 'list)
-	 (json-key-type 'string)
-	 (json-false 'nil)
-	 (json-object-type 'hash-table)
-	 (esy-status-json
-	  (condition-case nil
-	      (json-read-from-string json-str)
-	    (error (progn
-		     (message "Error while json parsing \
+         (json-str (shell-command-to-string (concat esy-command " status")))
+         (json-array-type 'list)
+         (json-key-type 'string)
+         (json-false 'nil)
+         (json-object-type 'hash-table)
+         (esy-status-json
+          (condition-case nil
+              (json-read-from-string json-str)
+            (error (progn
+                     (message "Error while json parsing \
 'esy status'")
-		     (make-hash-table))))))
+                     (make-hash-table))))))
     (list 'json esy-status-json
-	  'path (let* ((manifest-path (esy/internal--project--get-manifest-file-path esy-status-json)))
-		  (if manifest-path
-		      (file-name-directory manifest-path)
-		    nil)))))
+          'path (let* ((manifest-path (esy/internal--project--get-manifest-file-path esy-status-json)))
+                  (if manifest-path
+                      (file-name-directory manifest-path)
+                    nil)))))
 
 (defun esy/project--get-path (project)
   "Returns the root of the project"
@@ -86,9 +88,9 @@ later be used to obtain more info about the esy project"
   (let* ((parent-path (file-name-directory file-path)))
     (progn
       (when (not
-	     (file-directory-p parent-path))
-	(make-directory parent-path t)
-	(message (format "esy-mode just created %s for you. If this is annoying, please raise a ticket." parent-path)))
+             (file-directory-p parent-path))
+        (make-directory parent-path t)
+        (message (format "esy-mode just created %s for you. If this is annoying, please raise a ticket." parent-path)))
       (esy/project--of-path parent-path))))
 
 (defun esy/project--of-buffer (buffer)
@@ -113,50 +115,50 @@ command-env"
       ((project-path (esy/project--get-path project))
        (default-directory project-path)
        (json-str
-	(condition-case
-	    nil
-	    (shell-command-to-string
-	     "esy command-env --json")
-	  (error (progn
-		   (message
-		    "Error while running 'esy command-env --json'")
-		   "{}"))))
-	 (json-array-type 'list)
-	 (json-key-type 'string)
-	 (json-false 'nil)
-	 (json-object-type 'hash-table)
-	 (esy-command-env-json
-	  (json-read-from-string json-str)))
+        (condition-case
+            nil
+            (shell-command-to-string
+             "esy command-env --json")
+          (error (progn
+                   (message
+                    "Error while running 'esy command-env --json'")
+                   "{}"))))
+         (json-array-type 'list)
+         (json-key-type 'string)
+         (json-false 'nil)
+         (json-object-type 'hash-table)
+         (esy-command-env-json
+          (json-read-from-string json-str)))
     (list 'command-env esy-command-env-json)))
 
 (defun esy/command-env--to-process-environment (command-env)
   "Given a command-env, it turns it into a list
 that can be assigned to 'process-environment"
   (let ((command-env-json
-	 (plist-get command-env 'command-env))
-	(penv '()))
+         (plist-get command-env 'command-env))
+        (penv '()))
     (progn
       (maphash (lambda (k v)
-		 (setq penv (cons (format "%s=%s" k v) penv)))
-	       command-env-json)
+                 (setq penv (cons (format "%s=%s" k v) penv)))
+               command-env-json)
       penv)))
 
 (defun esy/command-env--get-exec-path (command-env)
   "Given a command-env, it turns it into a list that
 can be assigned to 'exec-path"
   (let* ((penv
-	  (esy/command-env--to-process-environment
-	   command-env))
-	 (exec-path-list '())
-	 (path-env-str-list (seq-filter
-			(lambda (s) (string-match "^path$" s))
-			penv)))
+          (esy/command-env--to-process-environment
+           command-env))
+         (exec-path-list '())
+         (path-env-str-list (seq-filter
+                        (lambda (s) (string-match "^path$" s))
+                        penv)))
     (setq exec-path-list
-			(split-string
-			 (gethash "PATH" (nth 1 command-env))
-			 (if (string=
-			      system-type
-			      "windows-nt") ";" ":")))))
+                        (split-string
+                         (gethash "PATH" (nth 1 command-env))
+                         (if (string=
+                              system-type
+                              "windows-nt") ";" ":")))))
 
 (defun esy/setup--esy-get-available-tools (project)
 
@@ -170,15 +172,13 @@ it looks for
 
 "
   (let* ((command-env (esy/command-env--of-project project))
-	(tools '()))
+        (tools '()))
     (progn
-      (make-local-variable 'process-environment)
       (setq process-environment
-	    (esy/command-env--to-process-environment
-	     command-env))
-      (make-local-variable 'exec-path)
+            (esy/command-env--to-process-environment
+             command-env))
       (setq exec-path
-	    (esy/command-env--get-exec-path command-env))
+            (esy/command-env--get-exec-path command-env))
       (setq tools (plist-put tools 'build "esy"))
       (setq tools (plist-put tools 'refmt (executable-find "refmt")))
       (setq tools (plist-put tools 'merlin (executable-find "ocamlmerlin")))
@@ -190,16 +190,16 @@ it looks for
 for development"
   (if (esy/project--ready-p project)
       (progn
-	(message "Project ready for development")
-	(funcall callback
-		 (esy/setup--esy-get-available-tools project)))
+        (message "Project ready for development")
+        (funcall callback
+                 (esy/setup--esy-get-available-tools project)))
     ;; (progn
     ;;   (setq lexical-binding t)
     ;;   (make-local-variable 'compilation-finish-functions)
     ;;   (add-hook
     ;;    'compilation-finish-functions
     ;;    (lambda (buffer desc)
-    ;; 	 (funcall callback (esy/setup--esy-get-available-tools project))))
+    ;;           (funcall callback (esy/setup--esy-get-available-tools project))))
     ;;   (compile "esy"))
     nil))
 
@@ -219,19 +219,19 @@ npm is incapable of
 "
 ;;   (if (y-or-n-p "Seems like an npm/bsb project. It is recommended that you we drop and esy.json for you. Go ahead?")
 ;;       (progn
-;; 	(esy/f--write
-;; 	 (concat
-;; 	  (file-name-as-directory
-;; 	   (esy/project--get-path project))
-;; 	  "esy.json")
-;; 	 "{
+;;      (esy/f--write
+;;       (concat
+;;        (file-name-as-directory
+;;         (esy/project--get-path project))
+;;        "esy.json")
+;;       "{
 ;;  \"dependencies\": {
 ;;     \"ocaml\": \"4.6.x\",
 ;;     \"@esy-ocaml/reason\": \"*\",
 ;;     \"@opam/ocaml-lsp-server\": \"ocaml/ocaml-lsp:ocaml-lsp-server.opam#e5e6ebf9dcf157\"
 ;;   }
 ;; }")
-  ;; 	(esy/setup--esy project callback)))
+  ;;    (esy/setup--esy project callback)))
 
   nil)
 
@@ -239,16 +239,16 @@ npm is incapable of
   "Creates an abstract manifest structure given file path"
   (if (esy/manifest--json-p file-path)
       (let ((json-str (esy/f--read file-path))
-	 (json-array-type 'list)
-	 (json-key-type 'string)
-	 (json-false 'nil)
-	 (json-object-type 'hash-table))
+         (json-array-type 'list)
+         (json-key-type 'string)
+         (json-false 'nil)
+         (json-object-type 'hash-table))
     (progn
     (condition-case nil
-	(json-read-from-string json-str)
+        (json-read-from-string json-str)
       (error (progn
-	       (message "Error while json parsing")
-	       nil))))
+               (message "Error while json parsing")
+               nil))))
     (progn
       (message "Non JSON manifest not supported yet")
       nil))))
@@ -272,68 +272,79 @@ package.json or not"
   "Detect the package manager of the project. Returns either
 'esy|'opam|'npm"
   (let* ((manifest-file-path
-	  (esy/project--get-manifest-file-path project)))
-	 (if (esy/manifest--json-p manifest-file-path)
-	     ;; The manifest file is a json.
-	     (if (esy/manifest--package-json-p
-		  manifest-file-path)
-		 ;; Could be npm or esy
-		 (if (esy/project--ready-p project)
-		     ;; esy says this project with package.json
-		     ;; is ready for development i.e. all it's
-		     ;; dependencies were fetched and installed
-		     ;; by esy. Definitely an esy project
-		     'esy
-		   (progn
-		     ;; Checking if there is an esy field in
-		     ;; the package.json. If there is one,
-		     ;; it's an esy project
-		     (if (esy/manifest--contains-esy-field-p
-			  (esy/manifest--of-path manifest-file-path))
-			 'esy
-		       'npm)))
-	       'esy)
-	   'opam)))
+          (esy/project--get-manifest-file-path project)))
+         (if (esy/manifest--json-p manifest-file-path)
+             ;; The manifest file is a json.
+             (if (esy/manifest--package-json-p
+                  manifest-file-path)
+                 ;; Could be npm or esy
+                 (if (esy/project--ready-p project)
+                     ;; esy says this project with package.json
+                     ;; is ready for development i.e. all it's
+                     ;; dependencies were fetched and installed
+                     ;; by esy. Definitely an esy project
+                     'esy
+                   (progn
+                     ;; Checking if there is an esy field in
+                     ;; the package.json. If there is one,
+                     ;; it's an esy project
+                     (if (esy/manifest--contains-esy-field-p
+                          (esy/manifest--of-path manifest-file-path))
+                         'esy
+                       'npm)))
+               'esy)
+           'opam)))
 
+(defun esy-mode-init ()
+  "Initialises esy-mode with necessary config. Relies on global vars like esy-command esy-mode-callback"
+ (make-local-variable 'process-environment)
+ (make-local-variable 'exec-path)
+ (if (file-exists-p esy-command)
+     (let ((esy-bin-dir (file-name-directory esy-command)))
+       (add-to-list 'exec-path esy-bin-dir)
+       (setenv "PATH" (concat (getenv "PATH") (concat path-separator esy-bin-dir)))
+ ))
+ (not (not (executable-find "esy"))))
 
 ;;;###autoload
 (define-minor-mode esy-mode ()
   "Minor mode for esy - the package manager for Reason/OCaml"
   :lighter " esy"
   (progn
-    ;; TODO: Check if esy is available on the system
+    (if (esy-mode-init)
     (let* ((project (esy/project--of-buffer (current-buffer))))
       (if (esy/project--p project)
-	  (progn
+          (progn
 
-	    ;;All npm and opam projects are valid esy projects
-	    ;;too! Picking the right package manager is important
-	    ;;- we don't want to run `esy` for a user who never
-	    ;;intended to. Example: bsb/npm users. Similarly,
-	    ;;opam users wouldn't want prompts to run `esy`. Why
-	    ;;is prompting `esy i` even necessary in the first
-	    ;;place? `esy ocamlmerlin-lsp` needs projects to
-	    ;;install/solve deps
+            ;;All npm and opam projects are valid esy projects
+            ;;too! Picking the right package manager is important
+            ;;- we don't want to run `esy` for a user who never
+            ;;intended to. Example: bsb/npm users. Similarly,
+            ;;opam users wouldn't want prompts to run `esy`. Why
+            ;;is prompting `esy i` even necessary in the first
+            ;;place? `esy ocamlmerlin-lsp` needs projects to
+            ;;install/solve deps
 
-	    (let ((config-plist
-		   (let* ((project-type
-			  (esy/package-manager--of-project
-			   project))
-			 (callback
-			  (lambda (config-plist)
-			    (setq merlin-command (executable-find "ocamlmerlin"))
-			    nil)))
-		     (cond ((eq project-type 'opam)
-			    (esy/setup--opam project
-					     callback))
-			    ((eq project-type 'esy)
-			     (esy/setup--esy project
-					     callback))
-			    ((eq project-type 'npm)
-			     (esy/setup--npm project
-					     callback))))))
-	      ))
-	(message "Doesn't look like an esy project. esy-mode will stay dormant")))))
+            (let ((config-plist
+                   (let* ((project-type
+                          (esy/package-manager--of-project
+                           project))
+                         (callback
+                          (lambda (config-plist)
+                            (setq merlin-command (executable-find "ocamlmerlin"))
+                            (funcall esy-mode-callback))))
+                     (cond ((eq project-type 'opam)
+                            (esy/setup--opam project
+                                             callback))
+                            ((eq project-type 'esy)
+                             (esy/setup--esy project
+                                             callback))
+                            ((eq project-type 'npm)
+                             (esy/setup--npm project
+                                             callback))))))
+              ))
+        (message "Doesn't look like an esy project. esy-mode will stay dormant")))
+     (message "esy command not found. Try 'npm i -g esy' or refer https://esy.sh"))))
 
 (provide 'esy-mode)
 ;;; esy.el ends here
