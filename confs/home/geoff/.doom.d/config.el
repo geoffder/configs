@@ -151,7 +151,7 @@
 (defun replace-python-hs-rules ()
   (interactive)
   (setq hs-special-modes-alist
-        (append '((python-mode "\\(?:def\\|class\\|{\\|if.*:\\|for.*:\\)"
+        (append '((python-mode "\\(?:def.*:\\|class\\|{\n\\|if.*:\\|for.*:\\|):\n\\)"
                                "\\(}\\)"
                                "#"
                                +fold-hideshow-forward-block-by-indent-fn
@@ -169,9 +169,28 @@
   (sp-local-pair 'tuareg-mode "struct\n" "\nend")
   (sp-local-pair 'tuareg-mode "sig\n" "\nend"))
 
+(require 'lsp-mode)
+
+(defcustom lsp-ocaml-lsp-server-command
+  '("ocamllsp")
+  "Command to start ocaml-language-server."
+  :group 'lsp-ocaml
+  :type '(choice
+          (string :tag "Single string value")
+          (repeat :tag "List of string values"
+                  string)))
+
+(lsp-register-client
+ (make-lsp-client
+  :new-connection
+  (lsp-stdio-connection (lambda () lsp-ocaml-lsp-server-command))
+  :major-modes '(caml-mode tuareg-mode)
+  :priority 0
+  :server-id 'ocaml-lsp-server))
+
 ;; Support for reason-ml
 ;; Requires { ... "@opam/merlin": "*", } in esy package.json dependencies.
-(load! "esy-mode")
+(load! "esy-mode-new")
 
 (defun my-reason-font-lock ()
   (interactive)
