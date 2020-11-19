@@ -48,6 +48,20 @@
 ;; in the correct position, but it's finicky and I can't toggle it back to
 ;; closed in the same position with the same command. Would be nice to
 ;; have toggline actually behave like it does in NVim.
+
+(defun copy-whole-buffer ()
+  (interactive)
+  "Select and copy the entire content of a buffer."
+  (copy-region-as-kill (point-min) (point-max)))
+
+(defun lsp-copy-signature ()
+  (interactive)
+  "Copy the results of lsp-describe-thing-point (type signature)."
+  (lsp-describe-thing-at-point)
+  (other-popup)
+  (copy-region-as-kill (point-min) (point-max))
+  (kill-buffer-and-window))
+
 (map! :leader
         (:prefix-map ("z" . "folding")
          :desc "open all" "o" #'+fold/open-all
@@ -57,8 +71,11 @@
         (:prefix-map ("t" . "toggle")
           :desc "transparency" "t" #'toggle-transparency
           :desc "dired sudo" "s" #'dired-toggle-sudo)
+        (:prefix-map ("b" . "buffer")
+          :desc "Yank All" "y" #'copy-whole-buffer)
         (:prefix-map ("c" . "code")
-          :desc "lsp describe at point" "p" #'lsp-describe-thing-at-point)
+          :desc "LSP -> Describe At Point" "p" #'lsp-describe-thing-at-point
+          :desc "LSP -> Copy Description" "y" #'lsp-copy-signature)
         (:prefix-map ("o" . "open")
           :desc "sudo into shake" "s" #'connect-shake-sudo))
 
