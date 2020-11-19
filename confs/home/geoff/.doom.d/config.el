@@ -190,7 +190,7 @@
 
 ;; Support for reason-ml
 ;; Requires { ... "@opam/merlin": "*", } in esy package.json dependencies.
-(load! "esy-mode-new")
+(load! "esy-mode")
 (load! "esy-ocaml-lsp-fix")
 (setq esy-mode-callback (lambda () (register-esy-ocaml-lsp) (lsp-restart-workspace)))
 
