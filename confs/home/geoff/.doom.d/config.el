@@ -169,6 +169,14 @@
   (sp-local-pair 'tuareg-mode "struct\n" "\nend")
   (sp-local-pair 'tuareg-mode "sig\n" "\nend"))
 
+(add-hook 'tuareg-mode-hook (lambda () (add-hook 'before-save-hook
+                                            (lambda ()
+                                              (ocamlformat)
+                                              (ocp-indent-buffer)))))
+(load! "esy-mode")
+
+(add-hook 'tuareg-mode-hook 'esy-mode)
+
 (require 'lsp-mode)
 
 (defcustom lsp-ocaml-lsp-server-command
@@ -190,9 +198,6 @@
 
 ;; Support for reason-ml
 ;; Requires { ... "@opam/merlin": "*", } in esy package.json dependencies.
-(load! "esy-mode")
-(load! "esy-ocaml-lsp-fix")
-(setq esy-mode-callback (lambda () (register-esy-ocaml-lsp) (lsp-restart-workspace)))
 
 (defun my-reason-font-lock ()
   (interactive)
@@ -202,4 +207,4 @@
      ;; Apply highlighting to second group (1)
      ("\\(?:let%\\)\\([a-z]+\\)" 1 font-lock-type-face))))
 
-(add-hook! 'reason-mode-hook '(merlin-mode esy-mode my-reason-font-lock))
+(add-hook! 'reason-mode-hook '(esy-mode my-reason-font-lock))
