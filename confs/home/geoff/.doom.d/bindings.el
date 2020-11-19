@@ -57,6 +57,8 @@
         (:prefix-map ("t" . "toggle")
           :desc "transparency" "t" #'toggle-transparency
           :desc "dired sudo" "s" #'dired-toggle-sudo)
+        (:prefix-map ("c" . "code")
+          :desc "lsp describe at point" "p" #'lsp-describe-thing-at-point)
         (:prefix-map ("o" . "open")
           :desc "sudo into shake" "s" #'connect-shake-sudo))
 
@@ -64,6 +66,8 @@
 (define-key key-translation-map (kbd "S-<return>") 'company-abort)
 
 ;; add binding for signature copying
+;; NOTE: Can also accomplish this with C-w, yanking what 'merlin-type-enclosing
+;; is currently disp layin in the echo area.
 (add-hook 'tuareg-mode-hook
           (lambda ()
             (map! :leader
