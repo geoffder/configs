@@ -113,6 +113,9 @@
   '(csharp-mode python-mode fsharp-mode haskell-mode sh-mode)
   'company-files)
 
+(require 'company-lsp)
+(push 'company-lsp company-backends)
+
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; (require 'eglot-fsharp)  ;; if lsp is not working.
