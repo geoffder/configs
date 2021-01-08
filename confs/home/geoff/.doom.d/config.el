@@ -73,13 +73,13 @@
            '(lambda () (auto-fill-mode t)))
 
 ;; might make this pair a defun and add to the general coding mode hooks above
-(add-hook! '(tuareg-mode-hook)
-           '((lambda () (auto-fill-mode t))
-             (lambda () (setq-local comment-auto-fill-only-comments t))))
-
-;; Leads to insertion of asterisk outside of comment at inappropriate times, like
-;; when newline inserting (NORMAL 'o')
-;; (add-hook 'tuareg-mode-hook '(lambda () (setq-local fill-prefix " *")))
+;; (add-hook! '(tuareg-mode-hook)
+;;            '((lambda ()
+;;                (auto-fill-mode t)
+;;                (setq-local comment-auto-fill-only-comments t))))
+               ;; (setq-local comment-continue "   ")
+               ;; (setq-local fill-prefix " *")
+               ;; (setq-local comment-multi-line t))))
 
 ;; Remove buffer encoding format from modeline (never need to know)
 (setq doom-modeline-buffer-encoding nil)
@@ -131,9 +131,9 @@
 
 ;; Add match! to font-lock's keyword list for F#
 (add-hook 'fsharp-mode-hook
-         (lambda ()
-          (font-lock-add-keywords nil
-           '(("match!" (0 font-lock-keyword-face))))))
+          (lambda ()
+            (font-lock-add-keywords nil
+                                    '(("match!" (0 font-lock-keyword-face))))))
 
 (custom-set-variables
  '(conda-anaconda-home "/home/geoff/miniconda3"))
@@ -161,6 +161,14 @@
 
 (add-hook! 'python-mode-hook 'replace-python-hs-rules)
 
+;; autoformatting for python
+(set-formatter! 'yapf '("yapf" "-q"
+  "--style={\
+based_on_style: facebook,\
+column_limit: 90,\
+}"))
+(setq-hook! 'python-mode-hook +format-with 'yapf)
+
 ;; OCaml automatic block closing pairs.
 (use-package! smartparens-config
   :config
@@ -169,10 +177,6 @@
   (sp-local-pair 'tuareg-mode "struct\n" "\nend")
   (sp-local-pair 'tuareg-mode "sig\n" "\nend"))
 
-(add-hook 'tuareg-mode-hook (lambda () (add-hook 'before-save-hook
-                                            (lambda ()
-                                              (ocamlformat)
-                                              (ocp-indent-buffer)))))
 (load! "esy-mode")
 
 (add-hook 'tuareg-mode-hook 'esy-mode)
