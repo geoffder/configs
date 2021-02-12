@@ -181,25 +181,6 @@ column_limit: 90,\
 
 (add-hook 'tuareg-mode-hook 'esy-mode)
 
-(require 'lsp-mode)
-
-(defcustom lsp-ocaml-lsp-server-command
-  '("ocamllsp")
-  "Command to start ocaml-language-server."
-  :group 'lsp-ocaml
-  :type '(choice
-          (string :tag "Single string value")
-          (repeat :tag "List of string values"
-                  string)))
-
-(lsp-register-client
- (make-lsp-client
-  :new-connection
-  (lsp-stdio-connection (lambda () lsp-ocaml-lsp-server-command))
-  :major-modes '(caml-mode tuareg-mode)
-  :priority 0
-  :server-id 'ocaml-lsp-server))
-
 ;; Support for reason-ml
 ;; Requires { ... "@opam/merlin": "*", } in esy package.json dependencies.
 
