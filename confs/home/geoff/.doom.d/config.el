@@ -211,4 +211,34 @@ column_limit: 90,\
      ;; Apply highlighting to second group (1)
      ("\\(?:let%\\)\\([a-z]+\\)" 1 font-lock-type-face))))
 
-(add-hook! 'reason-mode-hook '(esy-mode my-reason-font-lock))
+(after! reason-mode
+  (add-hook! reason-mode #'lsp)
+  (add-hook! 'reason-mode-hook '(esy-mode my-reason-font-lock)))
+
+(require 'lsp-mode)
+
+(defcustom lsp-ocaml-lsp-server-command
+  '("ocamllsp")
+  "Command to start ocaml-language-server."
+  :group 'lsp-ocaml
+  :type '(choice
+          (string :tag "Single string value")
+          (repeat :tag "List of string values"
+                  string)))
+
+(after! lsp-mode
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection
+    (lsp-stdio-connection (lambda () lsp-ocaml-lsp-server-command))
+    :major-modes '(caml-mode tuareg-mode reason-mode)
+    :priority 0
+    :server-id 'ocaml-lsp-server))
+  ;; not sure why this is necessary, I guess it doesn't like that extensions are different
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection
+    (lsp-stdio-connection (lambda () lsp-ocaml-lsp-server-command))
+    :major-modes '(reason-mode)
+    :priority 1
+    :server-id 'reason-lsp-server)))
