@@ -5,12 +5,31 @@ import socket
 import subprocess
 from libqtile.config import KeyChord, Key, Screen, Group, Drag, Click, Match
 from libqtile.command import lazy
-from libqtile import layout, bar, widget, hook
+from libqtile import layout, bar, widget, hook, qtile
 from libqtile.lazy import lazy
+from libqtile.log_utils import logger
 from typing import List  # noqa: F401
 
-# NOTE: mod1 = ALT
-mod = "mod4"  # SUPER/WINDOWS
+
+def focus_master(qtile):
+    grp = qtile.current_group
+    if grp.layout.clients.current_index > 0:
+        grp.layout.clients._current_index = 0
+        c = grp.layout.clients.focus_first()
+        grp.focus(c, True)
+    elif grp.layout.clients._current_index == 0 and len(grp.layout.clients.clients) > 0:
+        grp.layout.cmd_down()
+
+
+def swap_master(qtile):
+    grp = qtile.current_group
+    if grp.layout.clients.current_index > 0:
+        grp.layout.cmd_swap_main()
+    elif grp.layout.clients._current_index == 0 and len(grp.layout.clients.clients) > 0:
+        grp.layout.cmd_shuffle_down()
+
+
+mod = "mod4"  # SUPER (NOTE: mod1 = ALT)
 myTerm = "kitty"
 termExec = myTerm + " -e "
 myConfig = "/home/dt/.config/qtile/config.py"  # The Qtile config file location
@@ -28,22 +47,9 @@ keys = [
     Key([mod, "control"], "1", lazy.to_screen(0), desc='Keyboard focus to monitor 1'),
     Key([mod, "control"], "2", lazy.to_screen(1), desc='Keyboard focus to monitor 2'),
     Key([mod, "control"], "3", lazy.to_screen(2), desc='Keyboard focus to monitor 3'),
-    ### Treetab controls
-    Key(
-        [mod, "control"],
-        "k",
-        lazy.layout.section_up(),
-        desc='Move up a section in treetab'
-    ),
-    Key(
-        [mod, "control"],
-        "j",
-        lazy.layout.section_down(),
-        desc='Move down a section in treetab'
-    ),
     ### Window controls
-    Key([mod], "k", lazy.layout.down(), desc='Move focus down in current stack pane'),
-    Key([mod], "j", lazy.layout.up(), desc='Move focus up in current stack pane'),
+    Key([mod], "j", lazy.layout.down(), desc='Move focus down in current stack pane'),
+    Key([mod], "k", lazy.layout.up(), desc='Move focus up in current stack pane'),
     Key(
         [mod, "shift"],
         "j",
@@ -77,10 +83,12 @@ keys = [
         lazy.layout.maximize(),
         desc='toggle window between minimum and maximum sizes'
     ),
+    Key([mod], "m", lazy.function(focus_master), desc="Focus on master."),
     Key(
         [mod, "shift"],
         "m",
-        lazy.layout.swap_main(),
+        # lazy.layout.swap_main(),
+        lazy.function(swap_master),
         desc="Swap current window with master."
     ),
     Key([mod, "shift"], "f", lazy.window.toggle_floating(), desc='toggle floating'),
@@ -93,14 +101,6 @@ keys = [
         lazy.layout.flip(),
         desc='Switch which side main pane occupies (XmonadTall)'
     ),
-    # Key([mod], "space",
-    #     lazy.layout.next(),
-    #     desc='Switch window focus to other pane(s) of stack'
-    #     ),
-    # Key([mod, "control"], "Return",
-    #     lazy.layout.toggle_split(),
-    #     desc='Toggle between split and unsplit sides of stack'
-    #     ),
     ### Misc Applications
     Key([mod, "shift"], "Return", lazy.spawn("firefox"), desc="Internet Browser"),
     Key([mod], "p", lazy.spawn("pcmanfm"), desc="Graphical File Manager"),
@@ -111,57 +111,6 @@ keys = [
     Key([mod, "shift"], "o", lazy.spawn(termExec + "htop"), desc="Htop"),
 ]
 
-group_names = [
-    ("WWW", {
-        "layout": "monadtall",
-        "spawn": ["firefox", "element-desktop"]
-    }),
-    ("DEV", {
-        "layout": "monadtall",
-        "spawn": ["emacs", "firefox", "kitty"],
-    }),
-    ("SCI", {
-        "layout": "monadtall"
-    }),
-    ("DIR", {
-        "layout": "monadtall",
-        "spawn": ["pcmanfm", termExec + "ranger", myTerm],
-    }),
-    (
-        "SYS", {
-            "layout": "monadtall",
-            "spawn": [termExec + "htop", termExec + "ytop -c monokai", myTerm],
-        }
-    ),
-    ("GAME", {
-        "layout": "monadtall",
-        "matches": [Match(wm_class=["Steam"])],
-    }),
-    (
-        "PRV",
-        {
-            "layout": "monadtall",
-            # "spawn": ["firefox -private-window"],
-        }
-    ),
-    ("8", {
-        "layout": "monadtall"
-    }),
-    ("9", {
-        "layout": "monadtall"
-    })
-]
-
-groups = [Group(name, **kwargs) for name, kwargs in group_names]
-
-for i, (name, kwargs) in enumerate(group_names, 1):
-    keys.append(
-        Key([mod], str(i), lazy.group[name].toscreen())
-    )  # Switch to another group
-    keys.append(
-        Key([mod, "shift"], str(i), lazy.window.togroup(name))
-    )  # Send current window to another group
-
 layout_theme = {
     "border_width": 3,
     "margin": 12,
@@ -169,6 +118,11 @@ layout_theme = {
     "border_normal": "422773"
 }
 
+default_tall = layout.MonadTall(**layout_theme)
+default_max = layout.Max(**layout_theme)
+www_tall = layout.MonadTall(**layout_theme, ratio=.6)
+
+### Special name, this is used as the default layouts list
 layouts = [
     #layout.MonadWide(**layout_theme),
     #layout.Bsp(**layout_theme),
@@ -178,36 +132,54 @@ layouts = [
     #layout.VerticalTile(**layout_theme),
     #layout.Matrix(**layout_theme),
     #layout.Zoomy(**layout_theme),
-    layout.MonadTall(**layout_theme),
-    layout.Max(**layout_theme),
+    default_tall,
+    default_max,
     # layout.Tile(shift_windows=True, **layout_theme),
     # layout.Stack(num_stacks=2),
-    # layout.TreeTab(
-    #     font="Ubuntu",
-    #     fontsize=10,
-    #     sections=["FIRST", "SECOND"],
-    #     section_fontsize=11,
-    #     bg_color="141414",
-    #     active_bg="90C435",
-    #     active_fg="000000",
-    #     inactive_bg="384323",
-    #     inactive_fg="a0a0a0",
-    #     padding_y=5,
-    #     section_top=10,
-    #     panel_width=320
-    # ),
     # layout.Floating(**layout_theme)
 ]
+
+group_names = [
+    ("WWW", {
+        "layout": "monadtall",
+        "layouts": [www_tall, default_max]
+    }), ("DEV", {
+        "layout": "monadtall",
+    }), ("SCI", {
+        "layout": "monadtall"
+    }), ("DIR", {
+        "layout": "monadtall",
+    }), ("SYS", {
+        "layout": "monadtall",
+    }), ("GAME", {
+        "layout": "monadtall",
+        "matches": [Match(wm_class=["Steam"])],
+    }), ("PRV", {
+        "layout": "monadtall",
+    }), ("8", {
+        "layout": "monadtall"
+    }), ("9", {
+        "layout": "monadtall"
+    })
+]
+
+groups = [Group(name, **kwargs) for name, kwargs in group_names]
+
+for i, (name, kwargs) in enumerate(group_names, 1):
+    # Switch to another group
+    keys.append(Key([mod], str(i), lazy.group[name].toscreen()))
+    # Send current window to another group
+    keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name)))
 
 colors = [
     ["#282c34", "#282c34"],  # panel background
     ["#434758", "#434758"],  # background for current screen tab
     ["#ffffff", "#ffffff"],  # font color for group names
-    ["#ff5555", "#ff5555"],  # border line color for current tab
-    ["#8d62a9", "#8d62a9"],  # border line color for other tab and odd widgets
-    ["#668bd7", "#668bd7"],  # color for the even widgets
-    ["#e1acff", "#e1acff"]
-]  # window name
+    ["#6623df", "#6623df"],  # border line color for current tab
+    ["#730c7d", "#730c7d"],  # border line color for other tab and odd widgets
+    ["#422773", "#422773"],  # color for the even widgets
+    ["#6df1d8", "#6df1d8"],  # window name
+]
 
 prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
 
@@ -225,7 +197,7 @@ def init_widgets_list():
         ),
         widget.GroupBox(
             font="FiraCode",
-            fontsize=12,
+            fontsize=14,
             margin_y=3,
             margin_x=0,
             padding_y=5,
@@ -250,8 +222,10 @@ def init_widgets_list():
             foreground=colors[3],
             background=colors[1]
         ),
-        widget.Sep(linewidth=0, padding=40, foreground=colors[2], background=colors[0]),
-        widget.WindowName(foreground=colors[6], background=colors[0], padding=0),
+        widget.Sep(linewidth=1, padding=20, foreground=colors[2], background=colors[0]),
+        widget.WindowName(
+            foreground=colors[6], background=colors[0], padding=0, fontsize=13
+        ),
         widget.TextBox(
             text='', background=colors[0], foreground=colors[4], padding=0, fontsize=37
         ),
@@ -278,7 +252,6 @@ def init_widgets_list():
             update_interval=1800,
             foreground=colors[2],
             mouse_callbacks={
-                # 'Button1': lambda qtile: qtile.cmd_spawn(myTerm + ' -e sudo pacman -Syu')
                 'Button1': lambda qtile: qtile.cmd_spawn(termExec + "sudo pamac update")
             },
             background=colors[4]
@@ -287,7 +260,6 @@ def init_widgets_list():
             text="Updates",
             padding=5,
             mouse_callbacks={
-                # 'Button1': lambda qtile: qtile.cmd_spawn(myTerm + ' -e sudo pacman -Syu')
                 'Button1': lambda qtile: qtile.cmd_spawn(termExec + "sudo pamac update")
             },
             foreground=colors[2],
@@ -308,38 +280,30 @@ def init_widgets_list():
         widget.TextBox(
             text='', background=colors[5], foreground=colors[4], padding=0, fontsize=37
         ),
-        widget.Net(
-            interface="enp6s0",
-            format='{down} ↓↑ {up}',
-            foreground=colors[2],
-            background=colors[4],
-            padding=5
+        widget.TextBox(
+            text=" Vol:", foreground=colors[2], background=colors[4], padding=0
         ),
+        widget.Volume(foreground=colors[2], background=colors[4], padding=5),
         widget.TextBox(
             text='', background=colors[4], foreground=colors[5], padding=0, fontsize=37
-        ),
-        widget.TextBox(
-            text=" Vol:", foreground=colors[2], background=colors[5], padding=0
-        ),
-        widget.Volume(foreground=colors[2], background=colors[5], padding=5),
-        widget.TextBox(
-            text='', background=colors[5], foreground=colors[4], padding=0, fontsize=37
         ),
         widget.CurrentLayoutIcon(
             custom_icon_paths=[os.path.expanduser("~/.config/qtile/icons")],
             foreground=colors[0],
-            background=colors[4],
+            background=colors[5],
             padding=0,
             scale=0.7
         ),
-        widget.CurrentLayout(foreground=colors[2], background=colors[4], padding=5),
+        widget.CurrentLayout(foreground=colors[2], background=colors[5], padding=5),
         widget.TextBox(
-            text='', background=colors[4], foreground=colors[5], padding=0, fontsize=37
+            text='', background=colors[5], foreground=colors[4], padding=0, fontsize=37
         ),
         widget.Clock(
-            foreground=colors[2], background=colors[5], format="%A, %B %d  [ %H:%M ]"
+            foreground=colors[2], background=colors[4], format="%A, %B %d  [ %H:%M ]"
         ),
-        widget.Sep(linewidth=0, padding=10, foreground=colors[0], background=colors[5]),
+        widget.TextBox(
+            text='', background=colors[4], foreground=colors[0], padding=0, fontsize=37
+        ),
         widget.Systray(background=colors[0], padding=5),
     ]
     return widgets_list
@@ -359,7 +323,6 @@ def init_screens():
     return [
         Screen(top=bar.Bar(widgets=init_widgets_screen1(), opacity=1.0, size=20)),
         Screen(top=bar.Bar(widgets=init_widgets_screen2(), opacity=1.0, size=20)),
-        # Screen(top=bar.Bar(widgets=init_widgets_screen1(), opacity=1.0, size=20))
     ]
 
 
@@ -368,39 +331,6 @@ if __name__ in ["config", "__main__"]:
     widgets_list = init_widgets_list()
     widgets_screen1 = init_widgets_screen1()
     widgets_screen2 = init_widgets_screen2()
-
-
-def window_to_prev_group(qtile):
-    if qtile.currentWindow is not None:
-        i = qtile.groups.index(qtile.currentGroup)
-        qtile.currentWindow.togroup(qtile.groups[i - 1].name)
-
-
-def window_to_next_group(qtile):
-    if qtile.currentWindow is not None:
-        i = qtile.groups.index(qtile.currentGroup)
-        qtile.currentWindow.togroup(qtile.groups[i + 1].name)
-
-
-def window_to_previous_screen(qtile):
-    i = qtile.screens.index(qtile.current_screen)
-    if i != 0:
-        group = qtile.screens[i - 1].group.name
-        qtile.current_window.togroup(group)
-
-
-def window_to_next_screen(qtile):
-    i = qtile.screens.index(qtile.current_screen)
-    if i + 1 != len(qtile.screens):
-        group = qtile.screens[i + 1].group.name
-        qtile.current_window.togroup(group)
-
-
-def switch_screens(qtile):
-    i = qtile.screens.index(qtile.current_screen)
-    group = qtile.screens[i - 1].group
-    qtile.current_screen.set_group(group)
-
 
 mouse = [
     Drag(
@@ -420,6 +350,9 @@ follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
 
+# This isn't actually used in this config right now. For app specific float
+# rules examples, see this config:
+# https://github.com/qtile/qtile-examples/blob/master/cjbarnes/config.py
 floating_layout = layout.Floating(
     float_rules=[
         {
@@ -464,8 +397,39 @@ floating_layout = layout.Floating(
         {
             'wmclass': 'ssh-askpass'
         },  # ssh-askpass
+        {
+            'wmclass': 'MPlayer'
+        },  # MPlayer
+        {
+            'wmclass': 'Gimp'
+        },  # Gimp
+        {
+            'wmclass': 'Nitrogen'
+        },  # Wallpaper tool
+        {
+            'wmclass': 'Lightdm-settings'
+        },  # Login screen settings
+        {
+            'wmclass': 'Pavucontrol'
+        },  # audio controls
+        {
+            'wmclass': 'NEURON'
+        },  # Neuron simulator GUI
+        {
+            'wmclass': 'matplotlib'
+        },  # pyplot figures
+        {
+            'wmclass': 'Viewnior'
+        },  # image viewer
+        {
+            'wmclass': 'Gnome-calculator'
+        },  # calculator
+        {
+            'wname': 'StimGen 5.0'
+        },  # BMB Stimulus Generator
     ]
 )
+
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 
@@ -475,5 +439,78 @@ def start_once():
     home = os.path.expanduser('~')
     subprocess.call([home + '/.config/qtile/autostart.sh'])
 
+
+@hook.subscribe.screen_change
+def restart_on_randr(qtile, ev):
+    qtile.cmd_restart()
+    qtile.cmd_spawn("nitrogen --restore")
+
+
+auto_spawns = {
+    "WWW": {
+        "spawn": [termExec + "htop", termExec + "ytop -c monokai", myTerm],
+    },
+    "DEV": {
+        "spawn": ["emacs", "firefox", "kitty"],
+    },
+    "DIR": {
+        "spawn": ["pcmanfm", termExec + "ranger", myTerm],
+    },
+    "SYS": {
+        "spawn": [termExec + "htop", termExec + "ytop -c monokai", myTerm],
+    },
+    "GAME": {
+        "spawn": ["steam"],
+    },
+    "PRV": {
+        "spawn": ["firefox -private-window"],
+    },
+}
+
+
+def group_spawn(grp):
+    if grp.name in auto_spawns and len(grp.windows) == 0:
+        for s in auto_spawns[grp.name]["spawn"]:
+            qtile.cmd_spawn(s)
+
+
+restarting = True
+
+
+@hook.subscribe.startup_complete
+def finished_restarting():
+    """hack to prevent auto-spawner from firing off during restart.
+    TODO: Perhaps make a class that offers a more clean solution."""
+    global restarting
+    restarting = False
+    group_spawn(qtile.current_group)
+
+
+@hook.subscribe.setgroup
+def auto_spawner():
+    if not restarting:
+        grp = qtile.current_group
+        if grp.name in auto_spawns and len(grp.windows) == 0:
+            for s in auto_spawns[grp.name]["spawn"]:
+                qtile.cmd_spawn(s)
+
+
+# NOTE: Currently this is a failed experiment. It "works" for the narrow case
+# that there are two windows present, and a terminal is opened. Since the terminal
+# will load first during an autostart though, it fails at the primary use case.
+# Need to look into how to have more direct control over the relative sizes in
+# the layout instead.
+# @hook.subscribe.client_managed
+# def dev_term_shrinker(c):
+#     grp = qtile.current_group
+#     if qtile.current_group.name == "DEV" and c.name == myTerm:
+#         clients = grp.layout.clients.clients
+#         n = len(clients)
+#         if n == 3:
+#             idx = clients.index(c)
+#             for _ in range(n - idx):
+#                 grp.layout.cmd_shuffle_down()
+#             for _ in range(14):
+#                 grp.layout.cmd_shrink()
 
 wmname = "LG3D"
