@@ -39,6 +39,10 @@ files = [
     home + ".xmonad/lib/ClickableWsHook.hs",
     home + ".xmonad/lib/ClickableWorkspaces.hs",
     home + ".config/xmobar",
+    # Qtile
+    home + ".config/qtile/icons",
+    home + ".config/qtile/config.py",
+    home + ".config/qtile/autostart.sh",
     # Openbox
     home + ".themes/Monokai-ish",
     home + ".config/openbox",
