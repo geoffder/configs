@@ -146,6 +146,16 @@
             (setq lsp-python-ms-extra-paths
                   (vconcat lsp-python-ms-extra-paths (vector (get-dir))))))
 
+;; Qtile does not live in conda, so adding the system-wide packages to path
+;; when working on it's config
+(add-hook 'python-mode-hook
+          (lambda ()
+            (if (string-equal (get-dir) "/home/geoff/.config/qtile")
+                (setq lsp-python-ms-extra-paths
+                      (vconcat
+                       lsp-python-ms-extra-paths
+                       (vector "/usr/lib/python3.9/site-packages"))))))
+
 ;; Replace the hs-special-modes-alist entry that python-mode creates.
 (require 'seq)
 (defun replace-python-hs-rules ()
