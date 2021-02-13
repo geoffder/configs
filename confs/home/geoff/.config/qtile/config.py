@@ -12,27 +12,36 @@ from typing import List  # noqa: F401
 
 
 def focus_master(qtile):
+    """Focus on window in the Master position, if focus is already there, move
+    focus to the next position."""
     grp = qtile.current_group
     if grp.layout.clients.current_index > 0:
-        grp.layout.clients._current_index = 0
         c = grp.layout.clients.focus_first()
         grp.focus(c, True)
-    elif grp.layout.clients._current_index == 0 and len(grp.layout.clients.clients) > 0:
+    elif grp.layout.clients.current_index == 0 and len(grp.layout.clients.clients) > 0:
         grp.layout.cmd_down()
 
 
 def swap_master(qtile):
+    """Swap focused window to Master position. If focus is on Master, swap it
+    with the next window, placing focus on the new Master."""
     grp = qtile.current_group
     if grp.layout.clients.current_index > 0:
         grp.layout.cmd_swap_main()
-    elif grp.layout.clients._current_index == 0 and len(grp.layout.clients.clients) > 0:
+    elif grp.layout.clients.current_index == 0 and len(grp.layout.clients.clients) > 0:
         grp.layout.cmd_shuffle_down()
+        c = grp.layout.clients.focus_first()
+        grp.focus(c, True)
 
+
+# Special configs
+auto_fullscreen = True
+focus_on_window_activation = "smart"
+myConfig = "/home/dt/.config/qtile/config.py"  # The Qtile config file location
 
 mod = "mod4"  # SUPER (NOTE: mod1 = ALT)
 myTerm = "kitty"
 termExec = myTerm + " -e "
-myConfig = "/home/dt/.config/qtile/config.py"  # The Qtile config file location
 
 keys = [
     ### The essentials
@@ -87,7 +96,6 @@ keys = [
     Key(
         [mod, "shift"],
         "m",
-        # lazy.layout.swap_main(),
         lazy.function(swap_master),
         desc="Swap current window with master."
     ),
@@ -115,7 +123,8 @@ layout_theme = {
     "border_width": 3,
     "margin": 12,
     "border_focus": "6623df",
-    "border_normal": "422773"
+    "border_normal": "422773",
+    "new_at_current": True,
 }
 
 default_tall = layout.MonadTall(**layout_theme)
@@ -248,19 +257,19 @@ def init_widgets_list():
         widget.TextBox(
             text=" ⟳", padding=2, foreground=colors[2], background=colors[4], fontsize=14
         ),
-        widget.Pacman(
+        widget.CheckUpdates(
             update_interval=1800,
             foreground=colors[2],
             mouse_callbacks={
-                'Button1': lambda qtile: qtile.cmd_spawn(termExec + "sudo pamac update")
+                'Button1': lambda qtile: qtile.cmd_spawn(termExec + "pamac update")
             },
-            background=colors[4]
+            background=colors[4],
         ),
         widget.TextBox(
             text="Updates",
             padding=5,
             mouse_callbacks={
-                'Button1': lambda qtile: qtile.cmd_spawn(termExec + "sudo pamac update")
+                'Button1': lambda qtile: qtile.cmd_spawn(termExec + "pamac update")
             },
             foreground=colors[2],
             background=colors[4]
@@ -346,11 +355,12 @@ mouse = [
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
 main = None
-follow_mouse_focus = True
+follow_mouse_focus = False
 bring_front_click = False
 cursor_warp = False
 
-# This isn't actually used in this config right now. For app specific float
+# Could be a special name.
+# Not sure if this is actually used in this config right now. For app specific float
 # rules examples, see this config:
 # https://github.com/qtile/qtile-examples/blob/master/cjbarnes/config.py
 floating_layout = layout.Floating(
@@ -430,9 +440,6 @@ floating_layout = layout.Floating(
     ]
 )
 
-auto_fullscreen = True
-focus_on_window_activation = "smart"
-
 
 @hook.subscribe.startup_once
 def start_once():
@@ -443,15 +450,19 @@ def start_once():
 @hook.subscribe.screen_change
 def restart_on_randr(qtile, ev):
     qtile.cmd_restart()
+
+
+@hook.subscribe.startup_complete
+def refresh_wallpaper():
     qtile.cmd_spawn("nitrogen --restore")
 
 
 auto_spawns = {
     "WWW": {
-        "spawn": [termExec + "htop", termExec + "ytop -c monokai", myTerm],
+        "spawn": ["firefox", "element-desktop"],
     },
     "DEV": {
-        "spawn": ["emacs", "firefox", "kitty"],
+        "spawn": ["emacs", "firefox", "kitty -d ~/GitRepos"],
     },
     "DIR": {
         "spawn": ["pcmanfm", termExec + "ranger", myTerm],
@@ -495,22 +506,20 @@ def auto_spawner():
                 qtile.cmd_spawn(s)
 
 
-# NOTE: Currently this is a failed experiment. It "works" for the narrow case
-# that there are two windows present, and a terminal is opened. Since the terminal
-# will load first during an autostart though, it fails at the primary use case.
-# Need to look into how to have more direct control over the relative sizes in
-# the layout instead.
-# @hook.subscribe.client_managed
-# def dev_term_shrinker(c):
-#     grp = qtile.current_group
-#     if qtile.current_group.name == "DEV" and c.name == myTerm:
-#         clients = grp.layout.clients.clients
-#         n = len(clients)
-#         if n == 3:
-#             idx = clients.index(c)
-#             for _ in range(n - idx):
-#                 grp.layout.cmd_shuffle_down()
-#             for _ in range(14):
-#                 grp.layout.cmd_shrink()
+@hook.subscribe.client_managed
+def dev_term_shrinker(c):
+    grp = qtile.current_group
+    if qtile.current_group.name == "DEV":
+        clients = grp.layout.clients.clients
+        n = len(clients)
+        if n == 3:
+            is_term = [myTerm in c.window.get_wm_class() for c in clients]
+            if True in is_term:
+                term_idx = is_term.index(True)
+                grp.focus(clients[term_idx], True)
+                for _ in range(n - term_idx):
+                    grp.layout.cmd_shuffle_down()
+                grp.layout._shrink_secondary(grp.layout.change_size * 15)
+
 
 wmname = "LG3D"
