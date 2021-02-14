@@ -512,7 +512,8 @@ def dev_term_shrinker(c):
     if qtile.current_group.name == "DEV":
         clients = grp.layout.clients.clients
         n = len(clients)
-        if n == 3:
+        # check that new window is client of the group (ignore transient popups)
+        if n == 3 and c in clients:
             is_term = [myTerm in c.window.get_wm_class() for c in clients]
             if True in is_term:
                 term_idx = is_term.index(True)

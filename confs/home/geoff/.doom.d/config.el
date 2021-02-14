@@ -118,6 +118,9 @@
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+(setq projectile-globally-ignored-directories
+      (append '("**/_build/" "*_build") projectile-globally-ignored-directories))
+
 ;; (require 'eglot-fsharp)  ;; if lsp is not working.
 ;; (add-hook 'fsharp-mode-hook 'eglot-ensure)
 (setq inferior-fsharp-program "/usr/bin/fsharpi --readline-")
@@ -222,7 +225,7 @@ column_limit: 90,\
    (make-lsp-client
     :new-connection
     (lsp-stdio-connection (lambda () lsp-ocaml-lsp-server-command))
-    :major-modes '(caml-mode tuareg-mode reason-mode)
+    :major-modes '(caml-mode tuareg-mode)
     :priority 0
     :server-id 'ocaml-lsp-server))
   ;; not sure why this is necessary, I guess it doesn't like that extensions are different

@@ -15,9 +15,11 @@ files = [
     home + ".themes/Papirus-Adapta-Nokto-Violet",
     home + ".config/picom.conf",
     # shell / terminal
-    home + ".zshrc",
-    home + ".oh-my-zsh/custom/themes",
+    # home + ".zshrc",
+    # home + ".oh-my-zsh/custom/themes",
     home + ".fsh/monokai.ini",
+    home + ".config/fish",
+    home + ".config/starship.toml",
     home + ".config/kitty",
     home + "miniconda3/etc/conda/activate.d",
     home + ".ocamlinit",
