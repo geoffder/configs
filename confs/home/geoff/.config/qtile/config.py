@@ -6,6 +6,7 @@ import subprocess
 from libqtile.config import KeyChord, Key, Screen, Group, Drag, Click, Match
 from libqtile.command import lazy
 from libqtile import layout, bar, widget, hook, qtile
+from libqtile.popup import Popup
 from libqtile.lazy import lazy
 from libqtile.log_utils import logger
 from typing import List  # noqa: F401
@@ -231,48 +232,29 @@ def init_widgets_list():
             foreground=colors[3],
             background=colors[1]
         ),
-        widget.Sep(linewidth=1, padding=20, foreground=colors[2], background=colors[0]),
+        widget.Sep(linewidth=1, padding=15, foreground=colors[2], background=colors[0]),
         widget.WindowName(
             foreground=colors[6], background=colors[0], padding=0, fontsize=13
         ),
         widget.TextBox(
-            text='', background=colors[0], foreground=colors[4], padding=0, fontsize=37
+            text='', background=colors[0], foreground=colors[5], padding=0, fontsize=37
         ),
-        widget.TextBox(
-            text=" ₿", padding=0, foreground=colors[2], background=colors[4], fontsize=12
+        widget.CurrentLayoutIcon(
+            custom_icon_paths=[os.path.expanduser("~/.config/qtile/icons")],
+            foreground=colors[0],
+            background=colors[5],
+            padding=0,
+            scale=0.7
         ),
-        widget.BitcoinTicker(foreground=colors[2], background=colors[4], padding=5),
-        widget.TextBox(
-            text='', background=colors[4], foreground=colors[5], padding=0, fontsize=37
-        ),
-        widget.TextBox(
-            text=" 🌡", padding=2, foreground=colors[2], background=colors[5], fontsize=11
-        ),
-        widget.ThermalSensor(
-            foreground=colors[2], background=colors[5], threshold=90, padding=5
-        ),
+        widget.CurrentLayout(foreground=colors[2], background=colors[5], padding=5),
         widget.TextBox(
             text='', background=colors[5], foreground=colors[4], padding=0, fontsize=37
         ),
         widget.TextBox(
-            text=" ⟳", padding=2, foreground=colors[2], background=colors[4], fontsize=14
+            text=" 🌡", padding=2, foreground=colors[2], background=colors[4], fontsize=11
         ),
-        widget.CheckUpdates(
-            update_interval=1800,
-            foreground=colors[2],
-            mouse_callbacks={
-                'Button1': lambda qtile: qtile.cmd_spawn(termExec + "pamac update")
-            },
-            background=colors[4],
-        ),
-        widget.TextBox(
-            text="Updates",
-            padding=5,
-            mouse_callbacks={
-                'Button1': lambda qtile: qtile.cmd_spawn(termExec + "pamac update")
-            },
-            foreground=colors[2],
-            background=colors[4]
+        widget.ThermalSensor(
+            foreground=colors[2], background=colors[4], threshold=90, padding=5
         ),
         widget.TextBox(
             text='', background=colors[4], foreground=colors[5], padding=0, fontsize=37
@@ -289,21 +271,30 @@ def init_widgets_list():
         widget.TextBox(
             text='', background=colors[5], foreground=colors[4], padding=0, fontsize=37
         ),
-        widget.TextBox(
-            text=" Vol:", foreground=colors[2], background=colors[4], padding=0
-        ),
-        widget.Volume(foreground=colors[2], background=colors[4], padding=5),
+        widget.CPU(foreground=colors[2], background=colors[4], padding=5),
         widget.TextBox(
             text='', background=colors[4], foreground=colors[5], padding=0, fontsize=37
         ),
-        widget.CurrentLayoutIcon(
-            custom_icon_paths=[os.path.expanduser("~/.config/qtile/icons")],
-            foreground=colors[0],
-            background=colors[5],
-            padding=0,
-            scale=0.7
+        widget.TextBox(
+            text=" ⟳", padding=2, foreground=colors[2], background=colors[5], fontsize=14
         ),
-        widget.CurrentLayout(foreground=colors[2], background=colors[5], padding=5),
+        widget.CheckUpdates(
+            update_interval=1800,
+            foreground=colors[2],
+            mouse_callbacks={
+                'Button1': lambda qtile: qtile.cmd_spawn(termExec + "pamac update")
+            },
+            background=colors[5],
+        ),
+        widget.TextBox(
+            text="Updates",
+            padding=5,
+            mouse_callbacks={
+                'Button1': lambda qtile: qtile.cmd_spawn(termExec + "pamac update")
+            },
+            foreground=colors[2],
+            background=colors[5]
+        ),
         widget.TextBox(
             text='', background=colors[5], foreground=colors[4], padding=0, fontsize=37
         ),
@@ -522,5 +513,70 @@ def dev_term_shrinker(c):
                     grp.layout.cmd_shuffle_down()
                 grp.layout._shrink_secondary(grp.layout.change_size * 15)
 
+
+class ShowGroupName:
+    def __init__(self, duration=0.8, x_incr=50, fmt="{}", **popup_config):
+        """Display popup on screen when switching to a group for `duration` in
+        seconds. `x_incr` should be roughly the width of a character in the given
+        `font` (monospace) at the specified `font_size`."""
+        # HACK: changing width later doesn't paint more background
+        popup_config["width"] = 1920
+        self.duration, self.x_incr, self.fmt = duration, x_incr, fmt
+        self.popup = Popup(qtile, **popup_config)
+        self.pending_hide = None  # asyncio.Handle object from qtile.call_later.
+        self.suppressed = False
+        hook.subscribe.setgroup(self.show)
+        hook.subscribe.current_screen_change(self.suppress_screen_change)
+
+    def suppress_screen_change(self):
+        """When the current screen changes, suppress the show() which would
+        immediately follow due to the accompanying group change. Since the
+        current_screen_change hook is fired before setgroup, this seems to be
+        adequate."""
+        self.suppressed = True
+
+    def cancel_hide(self):
+        """Cancel the deferred popup hide. Important when switching groups before
+        the the duration is up on the last show."""
+        if self.pending_hide is not None:
+            self.pending_hide.cancel()
+
+    def draw(self):
+        self.popup.clear()
+        self.popup.place()
+        self.popup.unhide()
+        self.popup.draw_text()
+        self.popup.draw()
+
+    def show(self):
+        if not restarting:
+            if self.suppressed:
+                self.suppressed = False
+            else:
+                self.cancel_hide()
+                grp = qtile.current_group
+                scrn = grp.screen
+                text = self.fmt.format(grp.name)
+                self.popup.width = self.popup.horizontal_padding * 2 + (
+                    len(text) * self.x_incr
+                )
+                self.popup.text = text
+                self.popup.x = int(scrn.x + (scrn.width / 2 - self.popup.width / 2))
+                self.popup.y = int(scrn.y + (scrn.height / 2 - self.popup.height / 2))
+                self.draw()
+                self.pending_hide = qtile.call_later(self.duration, self.popup.hide)
+
+
+s = ShowGroupName(
+    font="FiraCode",
+    font_size=80,
+    x_incr=50,
+    fmt="[{}]",
+    height=125,
+    horizontal_padding=25,
+    vertical_padding=15,
+    background="#292d3e",
+    foreground="#d0d0d0",
+)
 
 wmname = "LG3D"
