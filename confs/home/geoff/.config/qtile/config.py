@@ -54,9 +54,9 @@ keys = [
     Key([mod, "shift"], "e", lazy.shutdown(), desc='Shutdown Qtile'),
     Key([mod], "e", lazy.spawn("emacs"), desc='Doom Emacs'),
     ### Switch focus to specific monitor (out of three)
-    Key([mod, "control"], "1", lazy.to_screen(0), desc='Keyboard focus to monitor 1'),
-    Key([mod, "control"], "2", lazy.to_screen(1), desc='Keyboard focus to monitor 2'),
-    Key([mod, "control"], "3", lazy.to_screen(2), desc='Keyboard focus to monitor 3'),
+    Key([mod], "z", lazy.to_screen(0), desc='Keyboard focus to monitor 1'),
+    Key([mod], "x", lazy.to_screen(1), desc='Keyboard focus to monitor 2'),
+    Key([mod], "c", lazy.to_screen(2), desc='Keyboard focus to monitor 3'),
     ### Window controls
     Key([mod], "j", lazy.layout.down(), desc='Move focus down in current stack pane'),
     Key([mod], "k", lazy.layout.up(), desc='Move focus up in current stack pane'),
@@ -113,7 +113,6 @@ keys = [
     ### Misc Applications
     Key([mod, "shift"], "Return", lazy.spawn("firefox"), desc="Internet Browser"),
     Key([mod], "p", lazy.spawn("pcmanfm"), desc="Graphical File Manager"),
-    Key([mod, "shift"], "s", lazy.spawn("flameshot gui"), desc="Screenshot Tool"),
     Key([mod, "shift"], "s", lazy.spawn("flameshot gui"), desc="Screenshot Tool"),
     Key([mod, "mod1"], "d", lazy.spawn("discord"), desc="Discord"),
     Key([mod], "v", lazy.spawn(termExec + "nvim"), desc="Neovim"),
