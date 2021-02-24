@@ -10,6 +10,7 @@ files = [
     home + ".gtkrc-2.0",
     home + ".config/gtk-3.0/settings.ini",
     home + ".config/qt5ct/qt5ct.conf",
+    # TODO: I need to move these, I believe this is the wrong spot.
     home + ".themes/Adapta-DeepPurple-Nokto-Eta",
     home + ".themes/Papirus-Dark-Places-Violet",
     home + ".themes/Papirus-Adapta-Nokto-Violet",
@@ -53,4 +54,6 @@ files = [
     home + ".i3/config",
     home + ".config/i3-scrot.conf",
     home + ".config/i3status/config",
+    # QMK
+    home + "qmk_firmware/keyboards/preonic/keymaps/geoffder",
 ]
