@@ -236,3 +236,8 @@ column_limit: 90,\
     :major-modes '(reason-mode)
     :priority 1
     :server-id 'reason-lsp-server)))
+
+;; prevent auto-format in qmk configs
+(add-hook 'c-mode-hook
+  (if (string= (buffer-name) "keymap.c")
+      (setq +format-with-lsp nil)))
