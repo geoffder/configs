@@ -12,6 +12,62 @@ from libqtile.log_utils import logger
 from typing import List  # noqa: F401
 
 
+class Confirm:
+    def __init__(self, label, action, x_incr=50, **popup_config):
+        """Confirmation popup."""
+        # HACK: changing width later doesn't paint more background
+        popup_config["width"] = 1920
+        self.label, self.action, self.x_incr = label, action, x_incr
+        self.popup = Popup(qtile, **popup_config)
+        self.question = "Are you sure you want to %s?" % label
+        self.instruction = "\n\ty / n"
+        self.popup.win.handle_ButtonPress = self.handle_button_press
+        self.popup.win.handle_KeyPress = self.handle_key_press
+
+    def handle_button_press(self, ev):
+        self.popup.win.cmd_focus()
+
+    def handle_key_press(self, ev):
+        if ev.detail == 29:  # y
+            self.popup.hide()
+            self.action()
+        elif ev.detail == 57:  # n
+            self.popup.hide()
+
+    def draw(self):
+        self.popup.clear()
+        self.popup.place()
+        self.popup.unhide()
+        self.popup.draw_text()
+        self.popup.draw()
+
+    def show(self, qtile):
+        grp = qtile.current_group
+        scrn = grp.screen
+        self.popup.width = self.popup.horizontal_padding * 2 + (
+            len(self.question) * self.x_incr
+        )
+        self.popup.text = self.question + self.instruction
+        self.popup.x = int(scrn.x + (scrn.width / 2 - self.popup.width / 2))
+        self.popup.y = int(scrn.y + (scrn.height / 2 - self.popup.height / 2))
+        self.draw()
+        self.popup.win.cmd_focus()
+
+
+confirm_exit = Confirm(
+    "exit",
+    qtile.cmd_shutdown,
+    font="FiraCode",
+    font_size=40,
+    x_incr=25,
+    height=125,
+    horizontal_padding=30,
+    vertical_padding=15,
+    background="#292d3e",
+    foreground="#d0d0d0",
+)
+
+
 def focus_master(qtile):
     """Focus on window in the Master position, if focus is already there, move
     focus to the next position."""
@@ -51,7 +107,7 @@ keys = [
     Key([mod], "Tab", lazy.next_layout(), desc='Toggle through layouts'),
     Key([mod, "shift"], "q", lazy.window.kill(), desc='Kill active window'),
     Key([mod, "shift"], "r", lazy.restart(), desc='Restart Qtile'),
-    Key([mod, "shift"], "e", lazy.shutdown(), desc='Shutdown Qtile'),
+    Key([mod, "shift"], "e", lazy.function(confirm_exit.show), desc='Shutdown Qtile'),
     Key([mod], "e", lazy.spawn("emacs"), desc='Doom Emacs'),
     ### Switch focus to specific monitor (out of three)
     Key([mod], "z", lazy.to_screen(0), desc='Keyboard focus to monitor 1'),
