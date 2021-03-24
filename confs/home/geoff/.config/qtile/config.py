@@ -19,10 +19,15 @@ class Confirm:
         popup_config["width"] = 1920
         self.label, self.action, self.x_incr = label, action, x_incr
         self.popup = Popup(qtile, **popup_config)
-        self.question = "Are you sure you want to %s?" % label
-        self.instruction = "\n\ty / n"
+        self.build_message(label)
         self.popup.win.handle_ButtonPress = self.handle_button_press
         self.popup.win.handle_KeyPress = self.handle_key_press
+
+    def build_message(self, label):
+        self.question = "Are you sure you want to %s?" % label
+        self.instruction = "y / n"
+        self.pad = " " * ((len(self.question) - len(self.instruction)) // 2)
+        self.message = self.question + "\n" + self.pad + self.instruction
 
     def handle_button_press(self, ev):
         self.popup.win.cmd_focus()
@@ -47,7 +52,7 @@ class Confirm:
         self.popup.width = self.popup.horizontal_padding * 2 + (
             len(self.question) * self.x_incr
         )
-        self.popup.text = self.question + self.instruction
+        self.popup.text = self.message
         self.popup.x = int(scrn.x + (scrn.width / 2 - self.popup.width / 2))
         self.popup.y = int(scrn.y + (scrn.height / 2 - self.popup.height / 2))
         self.draw()
@@ -334,21 +339,13 @@ def init_widgets_list():
             text=" ⟳", padding=2, foreground=colors[2], background=colors[5], fontsize=14
         ),
         widget.CheckUpdates(
+            no_update_string="Fresh ",
             update_interval=1800,
             foreground=colors[2],
             mouse_callbacks={
                 'Button1': lambda qtile: qtile.cmd_spawn(termExec + "pamac update")
             },
             background=colors[5],
-        ),
-        widget.TextBox(
-            text="Updates",
-            padding=5,
-            mouse_callbacks={
-                'Button1': lambda qtile: qtile.cmd_spawn(termExec + "pamac update")
-            },
-            foreground=colors[2],
-            background=colors[5]
         ),
         widget.TextBox(
             text='', background=colors[5], foreground=colors[4], padding=0, fontsize=37
