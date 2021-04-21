@@ -57,4 +57,5 @@ files = [
     # QMK
     home + "qmk_firmware/keyboards/preonic/keymaps/geoffder",
     home + "qmk_firmware/keyboards/keebio/iris/keymaps/geoffder",
+    home + "qmk_firmware/keyboards/bastardkb/skeletyl",
 ]
