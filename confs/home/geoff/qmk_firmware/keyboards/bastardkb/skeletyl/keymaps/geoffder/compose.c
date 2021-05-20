@@ -1,4 +1,4 @@
-uint16_t compose_timeout = 1000;
+uint16_t COMPOSE_TIMEOUT = 800;
 
 static uint16_t codes[3] = {KC_NO, KC_NO, KC_NO};
 static int next_code = 0;
