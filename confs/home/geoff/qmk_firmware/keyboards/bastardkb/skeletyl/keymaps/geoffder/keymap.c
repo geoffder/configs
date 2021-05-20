@@ -1,4 +1,5 @@
 #include QMK_KEYBOARD_H
+#include "compose.c"
 
 #define _COLEMAKDHM 0
 #define _LOWER 1
@@ -43,11 +44,14 @@
 /* #define BS_LOW LT(_LOWER, KC_BSPC) */
 #define DEL_ADJ LT(_ADJUST, KC_DEL)
 
+#define UC_INPT LSFT(LCTL(KC_U))
+
 enum custom_keycodes {
   COLEMAKDHM = SAFE_RANGE,
   LOWER,
   RAISE,
   ADJUST,
+  COMPOSE,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -90,7 +94,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_ADJUST] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┐             ┌────────┬────────┬────────┬────────┬────────┐
-     KC_F12,  KC_F7,   KC_F8,   KC_F9,   KC_PSCR,               _______, _______, _______, _______, RESET,
+     KC_F12,  KC_F7,   KC_F8,   KC_F9,   KC_PSCR,               RESET,   COMPOSE, UC_INPT, _______, _______,
   //├────────┼────────┼────────┼────────┼────────┐             ├────────┼────────┼────────┼────────┼────────┼
      KC_F11,  KC_F4,   KC_F5,   KC_F6,   KC_SLCK,               _______, KC_MPRV, KC_VOLU, KC_VOLD, KC_MNXT,
   //├────────┼────────┼────────┼────────┼────────┐             ┼────────┼────────┼────────┼────────┼────────┼
@@ -100,6 +104,135 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                        // └────────┴────────┴────────┘    └────────┴────────┴────────┘
   )
 };
+
+/* static uint16_t codes[3] = {KC_NO, KC_NO, KC_NO}; */
+/* static int next_code = 0; */
+/* static bool composing = false; */
+/* static uint16_t compose_timer; */
+/* static uint16_t compose_timeout = 1000; */
+
+/* void reset_compose(void) { */
+/*   for (int i = 0; i < 3; ++i) { */
+/*     codes[i] = KC_NO; */
+/*   } */
+/*   next_code = 0; */
+/*   composing = false; */
+/* } */
+
+/* bool code_matches(uint16_t m1, uint16_t m2, uint16_t m3, bool flex) { */
+/*   return */
+/*     ((codes[0] == m1 && codes[1] == m2) || */
+/*      (flex && ((codes[1] == m1 && codes[0] == m2)))) */
+/*     && codes[2] == m3; */
+/* } */
+
+/* bool circum_match(uint16_t keycode, bool flex) { */
+/*   return code_matches(KC_CIRC, keycode, KC_NO, flex) */
+/*     || code_matches(KC_GT, keycode, KC_NO, flex); */
+/* } */
+
+
+/* void send_compose(void) { */
+/*   if (code_matches(KC_GRV, KC_A, KC_NO, true)) { */
+/*     send_unicode_hex_string("0x0e0"); // à */
+/*   } else if (code_matches(KC_GRV, LSFT(KC_A), KC_NO, true)) { */
+/*     send_unicode_hex_string("0x0c0"); // À */
+/*   } else if (circum_match(KC_A, true)) { */
+/*     send_unicode_hex_string("0x0e2"); // â */
+/*   } else if (circum_match(LSFT(KC_A), true)) { */
+/*     send_unicode_hex_string("0x0c2"); // Â */
+/*   } else if (code_matches(KC_GRV, KC_E, KC_NO, true)) { */
+/*     send_unicode_hex_string("0x0e8"); // è */
+/*   } else if (code_matches(KC_GRV, LSFT(KC_E), KC_NO, true)) { */
+/*     send_unicode_hex_string("0x0c8"); // È */
+/*   } else if (code_matches(KC_QUOT, KC_E, KC_NO, true)) { */
+/*     send_unicode_hex_string("0x0e9"); // é */
+/*   } else if (code_matches(KC_QUOT, LSFT(KC_E), KC_NO, true)) { */
+/*     send_unicode_hex_string("0x0c9"); // É */
+/*   } else if (circum_match(KC_E, true)) { */
+/*     send_unicode_hex_string("0x0ea"); // ê */
+/*   } else if (circum_match(LSFT(KC_E), true)) { */
+/*     send_unicode_hex_string("0x0ca"); // Ê */
+/*   } else if (code_matches(KC_DQUO, KC_E, KC_NO, true)) { */
+/*     send_unicode_hex_string("0x0eb"); // ë */
+/*   } else if (code_matches(KC_DQUO, LSFT(KC_E), KC_NO, true)) { */
+/*     send_unicode_hex_string("0x0cb"); // Ë */
+/*   } else if (circum_match(KC_I, true)) { */
+/*     send_unicode_hex_string("0x0ee"); // î */
+/*   } else if (circum_match(LSFT(KC_I), true)) { */
+/*     send_unicode_hex_string("0x0ce"); // Î */
+/*   } else if (code_matches(KC_DQUO, KC_I, KC_NO, true)) { */
+/*     send_unicode_hex_string("0x0ef"); // ï */
+/*   } else if (code_matches(KC_DQUO, LSFT(KC_I), KC_NO, true)) { */
+/*     send_unicode_hex_string("0x0cf"); // Ï */
+/*   } else if (circum_match(KC_O, true)) { */
+/*     send_unicode_hex_string("0x0f4"); // ô */
+/*   } else if (circum_match(LSFT(KC_O), true)) { */
+/*     send_unicode_hex_string("0x0d4"); // Ô */
+/*   } else if (code_matches(KC_GRV, KC_U, KC_NO, true)) { */
+/*     send_unicode_hex_string("0x0f9"); // ù */
+/*   } else if (code_matches(KC_GRV, LSFT(KC_U), KC_NO, true)) { */
+/*     send_unicode_hex_string("0x0d9"); // Ù */
+/*   } else if (circum_match(KC_U, true)) { */
+/*     send_unicode_hex_string("0x0fb"); // û */
+/*   } else if (circum_match(LSFT(KC_U), true)) { */
+/*     send_unicode_hex_string("0x0fb"); // Û */
+/*   } else if (code_matches(KC_DQUO, KC_U, KC_NO, true)) { */
+/*     send_unicode_hex_string("0x0fc"); // ü */
+/*   } else if (code_matches(KC_DQUO, LSFT(KC_U), KC_NO, true)) { */
+/*     send_unicode_hex_string("0x0dc"); // Ü */
+/*   } else if (code_matches(KC_DQUO, KC_Y, KC_NO, true)) { */
+/*     send_unicode_hex_string("0x0ff"); // ÿ */
+/*   } else if (code_matches(KC_DQUO, LSFT(KC_Y), KC_NO, true)) { */
+/*     send_unicode_hex_string("0x178"); // Ÿ */
+/*   } else if (code_matches(KC_COMM, KC_C, KC_NO, true)) { */
+/*     send_unicode_hex_string("0x0e7"); // ç */
+/*   } else if (code_matches(KC_COMM, LSFT(KC_C), KC_NO, true)) { */
+/*     send_unicode_hex_string("0x0c7"); // Ç */
+/*   } else if (code_matches(KC_O, KC_E, KC_NO, false)) { */
+/*     send_unicode_hex_string("0x153"); // œ */
+/*   } else if (code_matches(LSFT(KC_O), LSFT(KC_E), KC_NO, false)) { */
+/*     send_unicode_hex_string("0x152"); // Œ */
+/*   } */
+
+/*   reset_compose(); */
+/* } */
+
+/* bool compose(uint16_t keycode, keyrecord_t *record) { */
+/*   // Get the base keycode of a mod or layer tap key */
+/*   if ((QK_MOD_TAP <= keycode && keycode <= QK_MOD_TAP_MAX) */
+/*     || (QK_LAYER_TAP <= keycode && keycode <= QK_LAYER_TAP_MAX)) { */
+/*     // Earlier return if this has not been considered tapped yet */
+/*     if (record->tap.count == 0) { */
+/*         return true; */
+/*     } */
+/*     keycode = keycode & 0xFF; */
+/*   } */
+/*   // let through anything above normal keyboard keycode or a mod */
+/*   if ((keycode < KC_A || keycode > KC_CAPSLOCK) && (keycode < QK_MODS || keycode > QK_MODS_MAX)) { */
+/*     return true; */
+/*   } */
+
+/*   if (keycode == KC_ENT) { */
+/*     send_compose(); */
+/*   } else { */
+/*     codes[next_code] = get_mods() & MOD_MASK_SHIFT ? LSFT(keycode) : keycode; */
+/*     next_code++; */
+
+/*     if (next_code < 3) { */
+/*       compose_timer = timer_read(); */
+/*     } else { */
+/*       send_compose(); */
+/*     } */
+/*   } */
+/*   return false; */
+/* } */
+
+void matrix_scan_user(void) {
+    if (composing && (timer_elapsed(compose_timer) > compose_timeout)) {
+      send_compose();
+    }
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
@@ -137,6 +270,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
+    case COMPOSE:
+      if (record->event.pressed) {
+        composing = true;
+        compose_timer = timer_read();
+      }
+      return false;
+      break;
+    default:
+      if (composing && record->event.pressed) {
+        return compose(keycode, record);
+      }
+      break;
   }
   return true;
 }
@@ -144,14 +289,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case HOME_A:
-            return TAPPING_TERM + 75;
+          return TAPPING_TERM + 125;
         case HOME_R:
-            return TAPPING_TERM + 75;
+          return TAPPING_TERM + 125;
+        case HOME_S:
+          return TAPPING_TERM;
+        case HOME_T:
+          return TAPPING_TERM + 25;
+        case HOME_N:
+          return TAPPING_TERM + 25;
+        case HOME_E:
+          return TAPPING_TERM;
         case HOME_I:
-            return TAPPING_TERM + 75;
+          return TAPPING_TERM + 125;
         case HOME_O:
-            return TAPPING_TERM + 75;
+          return TAPPING_TERM + 125;
+        case SPC_LOW:
+          return TAPPING_TERM + 75;
+        case BS_RSE:
+          return TAPPING_TERM + 75;
         default:
-            return TAPPING_TERM;
+          return TAPPING_TERM;
     }
 }
