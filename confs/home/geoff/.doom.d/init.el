@@ -65,6 +65,7 @@
        electric            ; smarter, keyword-based electric-indent
        ibuffer             ; interactive buffer management
        vc                  ; version-control and Emacs, sitting in a tree
+       undo                ; persistent, smarter undo for your inevitable mistakes
 
        :term
        ;;eshell            ; a consistent, cross-platform shell (WIP)
@@ -104,8 +105,8 @@
        :lang
        ;;agda              ; types of types of types of types...
        ;;assembly          ; assembly for fun or debugging
-       cc                  ; C/C++/Obj-C madness
-       clojure           ; java with a lisp
+       (cc +lsp)           ; C/C++/Obj-C madness
+       clojure             ; java with a lisp
        ;;common-lisp       ; if you've seen one lisp, you've seen them all
        ;;coq               ; proofs-as-programs
        ;;crystal           ; ruby at the speed of c
