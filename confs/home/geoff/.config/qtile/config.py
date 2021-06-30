@@ -340,6 +340,7 @@ def init_widgets_list():
         ),
         widget.CheckUpdates(
             no_update_string="Fresh ",
+            display_format="Updates: {updates}",
             update_interval=1800,
             foreground=colors[2],
             mouse_callbacks={
@@ -520,6 +521,20 @@ auto_spawns = {
         "spawn": ["firefox -private-window"],
     },
 }
+
+
+@hook.subscribe.client_new
+def dialogs(window):
+    if (window.window.get_wm_type() == 'dialog' or window.window.get_wm_transient_for()):
+        window.floating = True
+
+
+@hook.subscribe.client_new
+def firefox_dialogues(window):
+    if (window.window.get_wm_class() == ("Firefox", "firefox")):
+        name = window.window.get_name()
+        if (name.startswith("Save") or name.startswith("Open")):
+            window.floating = True
 
 
 def group_spawn(grp):
