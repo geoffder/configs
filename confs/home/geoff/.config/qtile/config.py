@@ -96,12 +96,27 @@ def swap_master(qtile):
         grp.focus(c, True)
 
 
+def float_to_front(qtile):
+    """Bring all floating windows of the group to front."""
+    for window in qtile.current_group.windows:
+        if window.floating:
+            window.cmd_bring_to_front()
+
+
+def sink_floats(qtile):
+    """Bring all floating windows of the group to front."""
+    for window in qtile.current_group.windows:
+        if window.floating:
+            window.toggle_floating()
+
+
 # Special configs
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 myConfig = "/home/dt/.config/qtile/config.py"  # The Qtile config file location
 
-mod = "mod4"  # SUPER (NOTE: mod1 = ALT)
+mod = "mod4"  # SUPER
+alt = "mod1"
 myTerm = "kitty"
 termExec = myTerm + " -e "
 
@@ -162,6 +177,18 @@ keys = [
         desc="Swap current window with master."
     ),
     Key([mod, "shift"], "f", lazy.window.toggle_floating(), desc='toggle floating'),
+    Key(
+        [mod, alt],
+        "f",
+        lazy.function(float_to_front),
+        desc="Uncover all floating windows."
+    ),
+    Key(
+        [mod],
+        "t",
+        lazy.function(sink_floats),
+        desc="Drop all floating windows into tiled layer."
+    ),
     Key([mod], "f", lazy.window.toggle_fullscreen(), desc='toggle fullscreen'),
     ### Stack controls
     Key(
@@ -175,7 +202,7 @@ keys = [
     Key([mod, "shift"], "Return", lazy.spawn("firefox"), desc="Internet Browser"),
     Key([mod], "p", lazy.spawn("pcmanfm"), desc="Graphical File Manager"),
     Key([mod, "shift"], "s", lazy.spawn("flameshot gui"), desc="Screenshot Tool"),
-    Key([mod, "mod1"], "d", lazy.spawn("discord"), desc="Discord"),
+    Key([mod, alt], "d", lazy.spawn("discord"), desc="Discord"),
     Key([mod], "v", lazy.spawn(termExec + "nvim"), desc="Neovim"),
     Key([mod, "shift"], "o", lazy.spawn(termExec + "htop"), desc="Htop"),
 ]
