@@ -403,84 +403,23 @@ follow_mouse_focus = False
 bring_front_click = False
 cursor_warp = False
 
-# Could be a special name.
-# Not sure if this is actually used in this config right now. For app specific float
-# rules examples, see this config:
-# https://github.com/qtile/qtile-examples/blob/master/cjbarnes/config.py
+# windows caught with these rules will spawn as floating
 floating_layout = layout.Floating(
     float_rules=[
-        {
-            'wmclass': 'confirm'
-        },
-        {
-            'wmclass': 'dialog'
-        },
-        {
-            'wmclass': 'download'
-        },
-        {
-            'wmclass': 'error'
-        },
-        {
-            'wmclass': 'file_progress'
-        },
-        {
-            'wmclass': 'notification'
-        },
-        {
-            'wmclass': 'splash'
-        },
-        {
-            'wmclass': 'toolbar'
-        },
-        {
-            'wmclass': 'confirmreset'
-        },  # gitk
-        {
-            'wmclass': 'makebranch'
-        },  # gitk
-        {
-            'wmclass': 'maketag'
-        },  # gitk
-        {
-            'wname': 'branchdialog'
-        },  # gitk
-        {
-            'wname': 'pinentry'
-        },  # GPG key password entry
-        {
-            'wmclass': 'ssh-askpass'
-        },  # ssh-askpass
-        {
-            'wmclass': 'MPlayer'
-        },  # MPlayer
-        {
-            'wmclass': 'Gimp'
-        },  # Gimp
-        {
-            'wmclass': 'Nitrogen'
-        },  # Wallpaper tool
-        {
-            'wmclass': 'Lightdm-settings'
-        },  # Login screen settings
-        {
-            'wmclass': 'Pavucontrol'
-        },  # audio controls
-        {
-            'wmclass': 'NEURON'
-        },  # Neuron simulator GUI
-        {
-            'wmclass': 'matplotlib'
-        },  # pyplot figures
-        {
-            'wmclass': 'Viewnior'
-        },  # image viewer
-        {
-            'wmclass': 'Gnome-calculator'
-        },  # calculator
-        {
-            'wname': 'StimGen 5.0'
-        },  # BMB Stimulus Generator
+        *layout.Floating.default_float_rules,
+        Match(title='Confirmation'),  # tastyworks exit box
+        Match(title='Qalculate!'),  # qalculate-gtk
+        Match(wm_class='kdenlive'),  # kdenlive
+        Match(wm_class='pinentry-gtk-2'),  # GPG key password entry
+        Match(wm_class="Gimp"),
+        Match(wm_class="Nitrogen"),
+        Match(wm_class="Lightdm-settings"),
+        Match(wm_class="Pavucontrol"),
+        Match(wm_class="NEURON"),
+        Match(wm_class="matplotlib"),
+        Match(wm_class="Viewnior"),
+        Match(wm_class="Gnome-calculator"),
+        Match(wm_class="StimGen 5.0"),  # BMB stimulus generator
     ]
 )
 
@@ -521,20 +460,6 @@ auto_spawns = {
         "spawn": ["firefox -private-window"],
     },
 }
-
-
-@hook.subscribe.client_new
-def dialogs(window):
-    if (window.window.get_wm_type() == 'dialog' or window.window.get_wm_transient_for()):
-        window.floating = True
-
-
-@hook.subscribe.client_new
-def firefox_dialogues(window):
-    if (window.window.get_wm_class() == ("Firefox", "firefox")):
-        name = window.window.get_name()
-        if (name.startswith("Save") or name.startswith("Open")):
-            window.floating = True
 
 
 def group_spawn(grp):
