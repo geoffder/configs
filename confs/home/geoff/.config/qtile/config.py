@@ -113,16 +113,15 @@ def sink_floats(qtile):
 # Special configs
 auto_fullscreen = True
 focus_on_window_activation = "smart"
-myConfig = "/home/dt/.config/qtile/config.py"  # The Qtile config file location
 
 mod = "mod4"  # SUPER
 alt = "mod1"
-myTerm = "kitty"
-termExec = myTerm + " -e "
+my_term = "kitty"
+term_exec = my_term + " -e "
 
 keys = [
     ### The essentials
-    Key([mod], "Return", lazy.spawn(myTerm), desc='Launches Terminal'),
+    Key([mod], "Return", lazy.spawn(my_term), desc='Launches Terminal'),
     Key([mod], "space", lazy.spawn("rofi -show drun"), desc='Run Launcher'),
     Key([mod], "Tab", lazy.next_layout(), desc='Toggle through layouts'),
     Key([mod, "shift"], "q", lazy.window.kill(), desc='Kill active window'),
@@ -203,8 +202,11 @@ keys = [
     Key([mod], "p", lazy.spawn("pcmanfm"), desc="Graphical File Manager"),
     Key([mod, "shift"], "s", lazy.spawn("flameshot gui"), desc="Screenshot Tool"),
     Key([mod, alt], "d", lazy.spawn("discord"), desc="Discord"),
-    Key([mod], "v", lazy.spawn(termExec + "nvim"), desc="Neovim"),
-    Key([mod, "shift"], "o", lazy.spawn(termExec + "htop"), desc="Htop"),
+    Key([mod], "v", lazy.spawn(term_exec + "nvim"), desc="Neovim"),
+    Key([mod, "shift"], "o", lazy.spawn(term_exec + "htop"), desc="Htop"),
+    ### Scripts
+    Key([mod, alt], "w", lazy.spawn("sh /home/geoff/.screenlayout/work_right_hdmi.sh")),
+    Key([mod, alt], "h", lazy.spawn("sh /home/geoff/.screenlayout/right_hdmi.sh")),
 ]
 
 layout_theme = {
@@ -352,7 +354,9 @@ def init_widgets_list():
         widget.Memory(
             foreground=colors[2],
             background=colors[5],
-            mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn(termExec + "htop")},
+            mouse_callbacks={
+                'Button1': lambda qtile: qtile.cmd_spawn(term_exec + "htop")
+            },
             padding=5
         ),
         widget.TextBox(
@@ -371,7 +375,7 @@ def init_widgets_list():
             update_interval=1800,
             foreground=colors[2],
             mouse_callbacks={
-                'Button1': lambda qtile: qtile.cmd_spawn(termExec + "pamac update")
+                'Button1': lambda qtile: qtile.cmd_spawn(term_exec + "pamac update")
             },
             background=colors[5],
         ),
@@ -458,7 +462,7 @@ def start_once():
 
 
 @hook.subscribe.screen_change
-def restart_on_randr(qtile, ev):
+def restart_on_randr(qtile, event):
     qtile.cmd_restart()
 
 
@@ -475,10 +479,10 @@ auto_spawns = {
         "spawn": ["emacs", "firefox", "kitty -d ~/GitRepos"],
     },
     "DIR": {
-        "spawn": ["pcmanfm", termExec + "ranger", myTerm],
+        "spawn": ["pcmanfm", term_exec + "ranger", my_term],
     },
     "SYS": {
-        "spawn": [termExec + "htop", termExec + "ytop -c monokai", myTerm],
+        "spawn": [term_exec + "htop", term_exec + "ytop -c monokai", my_term],
     },
     "GAME": {
         "spawn": ["steam"],
@@ -524,7 +528,7 @@ def dev_term_shrinker(c):
         n = len(clients)
         # check that new window is client of the group (ignore transient popups)
         if n == 3 and c in clients:
-            is_term = [myTerm in c.window.get_wm_class() for c in clients]
+            is_term = [my_term in c.window.get_wm_class() for c in clients]
             if True in is_term:
                 term_idx = is_term.index(True)
                 grp.focus(clients[term_idx], True)
