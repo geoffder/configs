@@ -110,6 +110,16 @@ def sink_floats(qtile):
             window.toggle_floating()
 
 
+def load_randr_layout(name):
+    cmd = "sh /home/geoff/.screenlayout/%s.sh" % name
+
+    def load(qtile):
+        qtile.cmd_spawn(cmd)
+        qtile.call_later(0.075, qtile.cmd_restart)
+
+    return load
+
+
 # Special configs
 auto_fullscreen = True
 focus_on_window_activation = "smart"
@@ -204,9 +214,9 @@ keys = [
     Key([mod, alt], "d", lazy.spawn("discord"), desc="Discord"),
     Key([mod], "v", lazy.spawn(term_exec + "nvim"), desc="Neovim"),
     Key([mod, "shift"], "o", lazy.spawn(term_exec + "htop"), desc="Htop"),
-    ### Scripts
-    Key([mod, alt], "w", lazy.spawn("sh /home/geoff/.screenlayout/work_right_hdmi.sh")),
-    Key([mod, alt], "h", lazy.spawn("sh /home/geoff/.screenlayout/right_hdmi.sh")),
+    ### RANDR Layouts
+    Key([mod, alt], "h", lazy.function(load_randr_layout("right_hdmi"))),
+    Key([mod, alt], "w", lazy.function(load_randr_layout("work_right_hdmi"))),
 ]
 
 layout_theme = {
@@ -219,7 +229,7 @@ layout_theme = {
 
 default_tall = layout.MonadTall(**layout_theme)
 default_max = layout.Max(**layout_theme)
-www_tall = layout.MonadTall(**layout_theme, ratio=.6)
+www_tall = layout.MonadTall(**layout_theme, ratio=.6, align=layout.MonadTall._right)
 
 ### Special name, this is used as the default layouts list
 layouts = [
