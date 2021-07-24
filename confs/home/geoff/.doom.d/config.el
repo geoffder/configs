@@ -68,7 +68,7 @@
 
 ;; Automatic physical wrapping of lines longer than fill-column in select modes.
 (add-hook! '(markdown-mode-hook
-             text-mode-hook
+             ;; text-mode-hook
              latex-mode-hook)
            '(lambda () (auto-fill-mode t)))
 
@@ -118,8 +118,9 @@
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-(setq projectile-globally-ignored-directories
-      (append '("**/_build/" "*_build") projectile-globally-ignored-directories))
+(after! projectile
+  (setq projectile-globally-ignored-directories
+        (append '("**/_build/" "*_build") projectile-globally-ignored-directories)))
 
 ;; (require 'eglot-fsharp)  ;; if lsp is not working.
 ;; (add-hook 'fsharp-mode-hook 'eglot-ensure)
@@ -175,12 +176,13 @@
 (add-hook! 'python-mode-hook 'replace-python-hs-rules)
 
 ;; autoformatting for python
-(set-formatter! 'yapf '("yapf" "-q"
-  "--style={\
-based_on_style: facebook,\
-column_limit: 90,\
-}"))
-(setq-hook! 'python-mode-hook +format-with 'yapf)
+;; (set-formatter! 'yapf '("yapf" "-q"
+;;   "--style={\
+;; based_on_style: facebook,\
+;; column_limit: 90,\
+;; }"))
+;; (after! format-all (advice-add 'format-all-buffer :around #'envrc-propagate-environment))
+;; (setq-hook! 'python-mode-hook +format-with 'yapf)
 
 ;; OCaml automatic block closing pairs.
 (use-package! smartparens-config

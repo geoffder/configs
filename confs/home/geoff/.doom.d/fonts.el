@@ -13,7 +13,7 @@
 ;; (fira-font-settings)
 (victor-font-settings)
 (setq doom-variable-pitch-font (font-spec :family "Roboto" :size 18))
-(setq doom-unicode-extra-fonts (append '("PowerlineSymbols") doom-unicode-extra-fonts))
+;; (setq doom-unicode-extra-fonts (append '("PowerlineSymbols") doom-unicode-extra-fonts))
 
 ;; Helpers to remove some prettify rules that I don't like.
 (require 'seq)
