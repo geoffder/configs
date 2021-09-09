@@ -17,7 +17,8 @@
         +auto)             ; automatically give suggestions while typing
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
-       ivy                 ; a search engine for love and life
+       ;; ivy              ; a search engine for love and life
+       vertico             ; the search engine of the future
 
        :ui
        ;;deft              ; notational velocity for Emacs
@@ -74,9 +75,9 @@
        ;;vterm             ; another terminals in Emacs
 
        :checkers
-       syntax
-       ;;spell
-       ;;grammar
+       syntax              ; tasing you for every semicolon you forget
+       ;;(spell +flyspell) ; tasing you for misspelling mispelling
+       ;;grammar           ; tasing grammar mistake every you make
 
        :tools
        ;;ansible
@@ -91,16 +92,20 @@
        (lookup             ; helps you navigate your code and documentation
         +docsets)          ; ...or in Dash docsets locally
        lsp
-       ;;macos             ; MacOS-specific commands
        magit               ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
        ;;pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
        ;;rgb               ; creating color strings
+       ;;taskrunner        ; taskrunner for all your projects
        ;;terraform         ; infrastructure as code
        ;;tmux              ; an API for interacting with tmux
        ;;upload            ; map local to remote projects via ssh/ftp
+
+       :os
+       ;;(:if IS-MAC macos) ; improve compatibility with macOS
+       ;;tty                ; improve the terminal Emacs experience
 
        :lang
        ;;agda              ; types of types of types of types...
@@ -176,6 +181,8 @@
 
        :app
        ;;calendar
+       ;;emms
+       ;;everywhere        ; *leave* Emacs!? You must be joking
        ;;irc               ; how neckbeards socialize
        ;;(rss +org)        ; emacs as an RSS reader
        ;;twitter           ; twitter client https://twitter.com/vnought

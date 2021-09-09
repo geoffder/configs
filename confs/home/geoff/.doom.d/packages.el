@@ -53,3 +53,4 @@
 (package! reason-mode)
 (package! seq)
 (package! company-lsp)
+(package! evil-markdown)

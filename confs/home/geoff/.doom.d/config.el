@@ -116,7 +116,7 @@
 (require 'company-lsp)
 (push 'company-lsp company-backends)
 
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook! 'before-save-hook '(delete-trailing-whitespace ocamlformat-before-save))
 
 (after! projectile
   (setq projectile-globally-ignored-directories
