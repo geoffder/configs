@@ -1,6 +1,0 @@
-rofi.theme: Monokai_purple.rasi
-rofi.modi: window,run,ssh,drun
-rofi.fullscreen: false
-rofi.lines: 8
-rofi.width: 30
-rofi.show-icons: true
