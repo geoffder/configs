@@ -10,10 +10,10 @@
         "opencsg-face-back" :  "#965dcf",
         "cgal-face-front" :    "#49abba",
         "cgal-face-back" :     "#965dcf",
-	"cgal-face-2d" :       "#b83eb4",
-        "cgal-edge-front" :    "#c5c8c6",
-        "cgal-edge-back" :     "#c5c8c6",
-        "cgal-edge-2d" :       "#cc6666",
-        "crosshair" :          "#b294bb"
+	    "cgal-face-2d" :       "#b83eb4",
+        "cgal-edge-front" :    "#c486c4",
+        "cgal-edge-back" :     "#c486c4",
+        "cgal-edge-2d" :       "#8fb9c9",
+        "crosshair" :          "#d648db"
     }
 }
