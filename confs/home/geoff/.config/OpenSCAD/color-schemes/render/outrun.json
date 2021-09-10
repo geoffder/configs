@@ -1,0 +1,19 @@
+{
+    "name" : "Outrun",
+    "index" : 1100,
+    "show-in-gui" : true,
+
+    "colors" : {
+        "background" :         "#282A36",
+        "axes-color" :         "#e8e8e8",
+        "opencsg-face-front" : "#49abba",
+        "opencsg-face-back" :  "#965dcf",
+        "cgal-face-front" :    "#49abba",
+        "cgal-face-back" :     "#965dcf",
+	"cgal-face-2d" :       "#b83eb4",
+        "cgal-edge-front" :    "#c5c8c6",
+        "cgal-edge-back" :     "#c5c8c6",
+        "cgal-edge-2d" :       "#cc6666",
+        "crosshair" :          "#b294bb"
+    }
+}
