@@ -61,6 +61,14 @@ def load_randr_layout(name):
     return load
 
 
+def grab_cursor(qtile):
+    grp = qtile.current_group
+    current_win = qtile.current_group.windows[grp.layout.clients.current_index]
+    x, y = current_win.cmd_get_position()
+    w, h = current_win.cmd_get_size()
+    qtile.cmd_spawn("xdotool mousemove %i %i" % (x + w / 2, y + h / 2))
+
+
 # globals (flags, and placeholder Nones)
 class Flags:
     def __init__(self):
@@ -230,6 +238,7 @@ keys = [
         desc="Drop all floating windows into tiled layer.",
     ),
     Key([mod], "f", lazy.window.toggle_fullscreen(), desc="toggle fullscreen"),
+    Key([mod], "c", lazy.function(grab_cursor), desc="bring cursor to current window"),
     ### Stack controls
     Key(
         [mod, "shift"],
