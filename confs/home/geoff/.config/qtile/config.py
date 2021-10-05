@@ -62,8 +62,7 @@ def load_randr_layout(name):
 
 
 def grab_cursor(qtile):
-    grp = qtile.current_group
-    current_win = qtile.current_group.windows[grp.layout.clients.current_index]
+    current_win = qtile.current_group.layout.clients.current_client
     x, y = current_win.cmd_get_position()
     w, h = current_win.cmd_get_size()
     qtile.cmd_spawn("xdotool mousemove %i %i" % (x + w / 2, y + h / 2))
