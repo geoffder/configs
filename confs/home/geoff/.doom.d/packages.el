@@ -54,3 +54,4 @@
 (package! seq)
 (package! company-lsp)
 (package! evil-markdown)
+(package! dune-format)

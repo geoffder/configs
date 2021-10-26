@@ -67,19 +67,22 @@
 (setq fill-column 80)
 
 ;; Automatic physical wrapping of lines longer than fill-column in select modes.
-(add-hook! '(markdown-mode-hook
-             ;; text-mode-hook
-             latex-mode-hook)
-           '(lambda () (auto-fill-mode t)))
+;; (add-hook! '(markdown-mode-hook
+;;              ;; text-mode-hook
+;;              latex-mode-hook)
+;;            '(lambda () (auto-fill-mode t)))
+(add-hook 'markdown-mode-hook '(lambda () (auto-fill-mode t)))
+(add-hook 'text-mode-hook '(lambda () (auto-fill-mode t)))
 
 ;; might make this pair a defun and add to the general coding mode hooks above
-;; (add-hook! '(tuareg-mode-hook)
-;;            '((lambda ()
-;;                (auto-fill-mode t)
-;;                (setq-local comment-auto-fill-only-comments t))))
+(add-hook! '(tuareg-mode-hook)
+           '((lambda ()
+               (auto-fill-mode t)
+               (setq-local comment-auto-fill-only-comments t)
                ;; (setq-local comment-continue "   ")
-               ;; (setq-local fill-prefix " *")
-               ;; (setq-local comment-multi-line t))))
+               (setq-local fill-prefix "   ")
+               (setq-local comment-multi-line t)
+               )))
 
 ;; Remove buffer encoding format from modeline (never need to know)
 (setq doom-modeline-buffer-encoding nil)
@@ -117,6 +120,7 @@
 (push 'company-lsp company-backends)
 
 (add-hook! 'before-save-hook '(delete-trailing-whitespace ocamlformat-before-save))
+(add-hook 'dune-mode-hook 'dune-format-on-save-mode)
 
 (after! projectile
   (setq projectile-globally-ignored-directories
@@ -241,5 +245,6 @@
 
 ;; prevent auto-format in qmk configs
 (add-hook 'c-mode-hook
-  (if (string= (buffer-name) "keymap.c")
-      (setq +format-with-lsp nil)))
+  (lambda () (if (equal "keymap.c" (file-name-nondirectory buffer-file-name))
+      (setq-local +format-with-lsp nil
+                  +format-with :none))))

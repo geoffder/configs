@@ -495,7 +495,7 @@ def refresh_wallpaper():
 
 auto_spawns = {
     "WWW": {"spawn": ["firefox", "element-desktop"],},
-    "DEV": {"spawn": ["emacs", "firefox", "kitty -d ~/GitRepos"],},
+    "DEV": {"spawn": ["emacs", "firefox", "kitty -d ~/git"],},
     "DIR": {"spawn": ["pcmanfm", term_exec + "ranger", my_term],},
     "SYS": {"spawn": [term_exec + "htop", term_exec + "ytop -c monokai", my_term],},
     "GAME": {"spawn": ["steam"],},

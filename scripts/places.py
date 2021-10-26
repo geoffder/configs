@@ -1,7 +1,7 @@
 import os
 
 home = os.path.expanduser("~/")
-base = home + "GitRepos/configs/confs/"
+base = home + "git/configs/confs/"
 
 # full path (or directory) for each config to copy
 files = [
@@ -16,9 +16,11 @@ files = [
     home + ".themes/Papirus-Adapta-Nokto-Violet",
     home + ".config/picom.conf",
     # shell / terminal
-    # home + ".zshrc",
-    # home + ".oh-my-zsh/custom/themes",
-    home + ".fsh/monokai.ini",
+    home + ".zshenv",
+    home + ".config/zsh/.zshrc",
+    home + ".config/zsh/completion.zsh",
+    home + ".config/zsh/setup.sh",
+    home + ".config/fsh/monokai.ini",
     home + ".config/fish",
     home + ".config/starship.toml",
     home + ".config/kitty",

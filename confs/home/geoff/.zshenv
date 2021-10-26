@@ -1,0 +1,15 @@
+export ZDOTDIR="~/.config/zsh"
+
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='nvim'
+fi
+export VISUAL="emacs"
+
+export HISTFILE="~/.config/zsh/.zhistory"  # History filepath
+export HISTSIZE=10000                      # Maximum events for internal history
+export SAVEHIST=10000                      # Maximum events in history file
+
+alias doom='~/.emacs.d/bin/doom'
