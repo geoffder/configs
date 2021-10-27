@@ -3,10 +3,10 @@ DEFAULT_USER="geoff"
 
 ### Completions and History ###
 
-fpath=(path/to/zsh-completions/src $fpath)
+fpath=($ZDOTDIR/zsh-completions/src $fpath)
 autoload -U compinit; compinit
 _comp_options+=(globdots) # With hidden files
-source ~/.config/zsh/completion.zsh
+source $ZDOTDIR/completion.zsh
 
 zmodload zsh/complist
 bindkey -M menuselect 'h' vi-backward-char
@@ -70,8 +70,8 @@ cursor_mode
 
 ### Syntax Highlighting ###
 
-source ~/.config/zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-FAST_WORK_DIR=~/.config/fsh
+source $ZDOTDIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+FAST_WORK_DIR=$ZDOTDIR/fsh
 
 ###########################
 
