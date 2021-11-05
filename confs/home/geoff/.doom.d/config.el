@@ -245,6 +245,6 @@
 
 ;; prevent auto-format in qmk configs
 (add-hook 'c-mode-hook
-  (lambda () (if (equal "keymap.c" (file-name-nondirectory buffer-file-name))
+  (lambda () (if (string-match-p (regexp-quote "qmk_firmware") (file-name-directory buffer-file-name))
       (setq-local +format-with-lsp nil
                   +format-with :none))))
