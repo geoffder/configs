@@ -60,6 +60,7 @@ files = [
     home + "qmk_firmware/keyboards/preonic/keymaps/geoffder",
     home + "qmk_firmware/keyboards/keebio/iris/keymaps/geoffder",
     home + "qmk_firmware/keyboards/bastardkb/skeletyl",
+    home + "qmk_firmware/keyboards/handwired/dometyl",
     # OpenSCAD
     home + ".config/OpenSCAD",
 ]
