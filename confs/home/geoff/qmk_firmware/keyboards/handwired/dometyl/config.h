@@ -45,8 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define UNUSED_PINS
 
-/* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */
-#define DEBOUNCE 5
+#define DEBOUNCE 0  // no need for debounce (no contact switching)
 
 /* Serial settings */
 #define USE_SERIAL

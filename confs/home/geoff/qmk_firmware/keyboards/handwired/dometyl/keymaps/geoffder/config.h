@@ -4,7 +4,7 @@
 // e.g. qmk flash -bl dfu-split-left -kb bastardkb/skeletyl -km geoffder
 /* #define EE_HANDS */
 
-#define MASTER_RIGHT
+#define MASTER_LEFT
 
 // Configure the global tapping term (default: 200ms)
 #define TAPPING_TERM 150
