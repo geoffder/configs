@@ -58,6 +58,7 @@ files = [
     home + ".config/i3status/config",
     # QMK
     home + "qmk_firmware/keyboards/preonic/keymaps/geoffder",
+    home + "qmk_firmware/keyboards/preonic/keymaps/geoffder_steno",
     home + "qmk_firmware/keyboards/keebio/iris/keymaps/geoffder",
     home + "qmk_firmware/keyboards/bastardkb/skeletyl",
     home + "qmk_firmware/keyboards/handwired/dometyl",
