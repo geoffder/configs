@@ -98,6 +98,6 @@ export PATH=$PATH:/home/geoff/neuron/nrn/x86_64/bin
 # opam configuration
 test -r /home/geoff/.opam/opam-init/init.zsh && . /home/geoff/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
-source <("/usr/local/bin/starship" init zsh --print-full-init)
+source <("/bin/starship" init zsh --print-full-init)
 
 ###########################

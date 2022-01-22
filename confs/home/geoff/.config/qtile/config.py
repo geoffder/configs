@@ -11,7 +11,7 @@ from libqtile.lazy import lazy
 from libqtile.log_utils import logger
 from typing import List  # noqa: F401
 
-from custom_popups import Confirm, ShowGroupName
+#from custom_popups import Confirm, ShowGroupName
 
 
 def focus_master(qtile):
@@ -88,45 +88,45 @@ confirm_exit = None
 # assertion in the Popup class that I was getting when passing in the global qtile
 # object at the top-level. It seems that the Popup objects were being instantiated
 # before qtile was given a value.
-@hook.subscribe.startup_complete
-def instantiate_popups():
-    global group_shower, confirm_exit
-
-    group_shower = ShowGroupName(
-        qtile,
-        flags.get_restarting,
-        font="FiraCode",
-        font_size=80,
-        x_incr=50,
-        fmt="[{}]",
-        height=125,
-        horizontal_padding=25,
-        vertical_padding=15,
-        background="#292d3e",
-        foreground="#d0d0d0",
-    )
-    confirm_exit = Confirm(
-        qtile,
-        "exit",
-        qtile.cmd_shutdown,
-        font="FiraCode",
-        font_size=40,
-        x_incr=25,
-        height=125,
-        horizontal_padding=30,
-        vertical_padding=15,
-        background="#292d3e",
-        foreground="#d0d0d0",
-    )
-    # dynamically add keybindings using popups
-    qtile.grab_key(
-        Key(
-            [mod, "shift"],
-            "e",
-            lazy.function(confirm_exit.show),
-            desc="Shutdown Qtile",
-        )
-    )
+#@hook.subscribe.startup_complete
+#def instantiate_popups():
+#    global group_shower, confirm_exit
+#
+#    group_shower = ShowGroupName(
+#        qtile,
+#        flags.get_restarting,
+#        font="FiraCode",
+#        font_size=80,
+#        x_incr=50,
+#        fmt="[{}]",
+#        height=125,
+#        horizontal_padding=25,
+#        vertical_padding=15,
+#        background="#292d3e",
+#        foreground="#d0d0d0",
+#    )
+#    confirm_exit = Confirm(
+#        qtile,
+#        "exit",
+#        qtile.cmd_shutdown,
+#        font="FiraCode",
+#        font_size=40,
+#        x_incr=25,
+#        height=125,
+#        horizontal_padding=30,
+#        vertical_padding=15,
+#        background="#292d3e",
+#        foreground="#d0d0d0",
+#    )
+#    # dynamically add keybindings using popups
+#    qtile.grab_key(
+#        Key(
+#            [mod, "shift"],
+#            "e",
+#            lazy.function(confirm_exit.show),
+#            desc="Shutdown Qtile",
+#        )
+#    )
 
 
 # Special configs
@@ -300,7 +300,7 @@ def init_widgets_list():
         widget.Sep(linewidth=0, padding=6, foreground=colors[2], background=colors[0]),
         widget.Image(
             filename="~/.config/qtile/icons/python.png",
-            mouse_callbacks={"Button1": lambda qtile: qtile.cmd_spawn("dmenu_run")},
+            mouse_callbacks={"Button1": lambda : qtile.cmd_spawn("rofi -show drun")},
         ),
         widget.GroupBox(
             font="FiraCode",
@@ -371,7 +371,7 @@ def init_widgets_list():
             foreground=colors[2],
             background=colors[5],
             mouse_callbacks={
-                "Button1": lambda qtile: qtile.cmd_spawn(term_exec + "htop")
+                "Button1": lambda : qtile.cmd_spawn(term_exec + "htop")
             },
             padding=5,
         ),
@@ -390,12 +390,13 @@ def init_widgets_list():
             fontsize=14,
         ),
         widget.CheckUpdates(
+            distro="Arch",
             no_update_string="Fresh ",
             display_format="Updates: {updates}",
             update_interval=1800,
             foreground=colors[2],
             mouse_callbacks={
-                "Button1": lambda qtile: qtile.cmd_spawn(term_exec + "pamac update")
+                "Button1": lambda : qtile.cmd_spawn(term_exec + "sudo pacman -Syyu")
             },
             background=colors[5],
         ),

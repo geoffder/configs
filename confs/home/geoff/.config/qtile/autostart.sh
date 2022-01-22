@@ -13,3 +13,4 @@ redshift-gtk -t 6500:4000 &
 xautolock -time 10 -locker "i3lock-fancy-rapid 5 3" &
 flameshot &
 xfce4-power-manager &
+udiskie &

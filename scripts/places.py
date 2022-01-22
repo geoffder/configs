@@ -24,9 +24,9 @@ files = [
     home + ".config/fish",
     home + ".config/starship.toml",
     home + ".config/kitty",
-    home + "miniconda3/etc/conda/activate.d",
     home + ".ocamlinit",
     home + ".utoprc",
+    home + ".condarc",
     # editors
     home + ".doom.d",
     home + ".config/nvim/init.vim",
@@ -47,6 +47,7 @@ files = [
     # Qtile
     home + ".config/qtile/icons",
     home + ".config/qtile/config.py",
+    home + ".config/qtile/custom_popups.py",
     home + ".config/qtile/autostart.sh",
     # Openbox
     home + ".themes/Monokai-ish",

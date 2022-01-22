@@ -13,7 +13,7 @@ def grabber(from_root, dest_root, paths):
         from_path = os.path.join(from_root, pth)
 
         # get directories and filename from path
-        parts = pth.split('/')
+        parts = pth.split("/")
         folds, name = parts[:-1], parts[-1]
 
         # new folders if they don't exist
@@ -35,6 +35,6 @@ def grabber(from_root, dest_root, paths):
     return "Configuration files copied to %s" % dest_root
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(grabber("/", base, files))
     # print(grabber(base, "/", files))

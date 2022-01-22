@@ -1,5 +1,5 @@
 (defun victor-font-settings ()
-  (setq doom-font (font-spec :name "Victor Mono" :size 14 :weight 'semi-bold))
+  (setq doom-font (font-spec :name "VictorMono Nerd Font" :size 14 :weight 'semi-bold))
   (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
   (set-face-attribute 'font-lock-keyword-face nil :weight 'bold :slant 'italic)
   (add-hook 'tuareg-mode-hook
