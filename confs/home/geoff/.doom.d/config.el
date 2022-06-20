@@ -84,15 +84,15 @@
 
 ;; TODO: check if the wrap already exists, since I might need to add the advice to
 ;; some additional functions to make sure this happens more reliably (avoid nested wrapping)
+(defun is-mld ()
+  (string-equal "mld" (file-name-extension buffer-file-name)))
+
 (defun doc-wrap ()
   (save-excursion
     (goto-char (point-min))
     (insert "(** ")
     (goto-char (point-max))
     (insert " *)")))
-
-(defun is-mld ()
-  (string-equal "mld" (file-name-extension buffer-file-name)))
 
 (defun doc-unwrap ()
   (save-excursion
@@ -129,8 +129,8 @@
                ;; (setq-local comment-continue "   ")
                (setq-local fill-prefix "   ")
                (setq-local comment-multi-line t)
-               (advice-add 'font-lock-fontify-region :around #'doc-wrapping-advice)
-            )))
+               ;; (advice-add 'font-lock-fontify-region :around #'doc-wrapping-advice)
+               (advice-add 'jit-lock--run-functions :around #'doc-wrapping-advice))))
 
 (use-package org-tempo
   :ensure nil) ;; tell use-package not to try to install org-tempo since it's already there.
