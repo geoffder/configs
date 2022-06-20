@@ -7,6 +7,7 @@ fpath=($ZDOTDIR/zsh-completions/src $fpath)
 autoload -U compinit; compinit
 _comp_options+=(globdots) # With hidden files
 source $ZDOTDIR/completion.zsh
+source $ZDOTDIR/aliases.zsh
 
 zmodload zsh/complist
 bindkey -M menuselect 'h' vi-backward-char

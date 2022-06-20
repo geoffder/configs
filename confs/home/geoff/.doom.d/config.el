@@ -31,6 +31,9 @@
 
 (setq display-line-numbers-type 'relative)
 
+;; org-mode related settings
+(load! "org-config")
+
 ;; font related settings
 (load! "fonts")
 
@@ -73,8 +76,52 @@
 ;;            '(lambda () (auto-fill-mode t)))
 (add-hook 'markdown-mode-hook '(lambda () (auto-fill-mode t)))
 (add-hook 'text-mode-hook '(lambda () (auto-fill-mode t)))
+;; (add-hook 'org-mode-hook '(lambda () (auto-fill-mode t)))
 
 ;; might make this pair a defun and add to the general coding mode hooks above
+
+(add-to-list 'auto-mode-alist '("\\.mld\\'" . tuareg-mode))
+
+;; TODO: check if the wrap already exists, since I might need to add the advice to
+;; some additional functions to make sure this happens more reliably (avoid nested wrapping)
+(defun doc-wrap ()
+  (save-excursion
+    (goto-char (point-min))
+    (insert "(** ")
+    (goto-char (point-max))
+    (insert " *)")))
+
+(defun is-mld ()
+  (string-equal "mld" (file-name-extension buffer-file-name)))
+
+(defun doc-unwrap ()
+  (save-excursion
+    (goto-char (point-min))
+    (delete-char 4)
+    (goto-char (point-max))
+    (delete-char -3)))
+
+(defun doc-wrapping-advice (fontify &rest args)
+  (if (is-mld)
+     (progn
+       (doc-wrap)
+       (apply fontify args)
+       (doc-unwrap))
+     (apply fontify args)))
+
+(add-hook 'before-save-hook
+          (lambda ()
+            (when (and (eq major-mode 'tuareg-mode)
+                       (not (is-mld)))
+              (ocamlformat))))
+
+(add-hook 'lsp-mode-hook
+          (lambda ()
+            (when (and (eq major-mode 'tuareg-mode)
+                      lsp-mode
+                      (is-mld))
+              (lsp-disconnect))))
+
 (add-hook! '(tuareg-mode-hook)
            '((lambda ()
                (auto-fill-mode t)
@@ -82,7 +129,11 @@
                ;; (setq-local comment-continue "   ")
                (setq-local fill-prefix "   ")
                (setq-local comment-multi-line t)
-               )))
+               (advice-add 'font-lock-fontify-region :around #'doc-wrapping-advice)
+            )))
+
+(use-package org-tempo
+  :ensure nil) ;; tell use-package not to try to install org-tempo since it's already there.
 
 ;; Remove buffer encoding format from modeline (never need to know)
 (setq doom-modeline-buffer-encoding nil)
@@ -119,7 +170,7 @@
 (require 'company-lsp)
 (push 'company-lsp company-backends)
 
-(add-hook! 'before-save-hook '(delete-trailing-whitespace ocamlformat-before-save))
+(add-hook! 'before-save-hook '(delete-trailing-whitespace))
 (add-hook 'dune-mode-hook 'dune-format-on-save-mode)
 
 (after! projectile
@@ -197,7 +248,6 @@
   (sp-local-pair 'tuareg-mode "sig\n" "\nend"))
 
 (load! "esy-mode")
-
 (add-hook 'tuareg-mode-hook 'esy-mode)
 
 ;; Support for reason-ml
@@ -241,7 +291,11 @@
     (lsp-stdio-connection (lambda () lsp-ocaml-lsp-server-command))
     :major-modes '(reason-mode)
     :priority 1
-    :server-id 'reason-lsp-server)))
+    :server-id 'reason-lsp-server))
+
+  ;; (add-hook 'tuareg-mode-hook (lambda () (lsp-lens-mode -1))))
+  (setq lsp-lens-enable nil))
+
 
 ;; prevent auto-format in qmk configs
 (add-hook 'c-mode-hook

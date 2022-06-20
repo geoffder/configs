@@ -19,6 +19,8 @@ application/pdf=epdfview.desktop
 application/x-bittorrent=deluge.desktop
 image/gif=viewnior.desktop
 video/webm=firefox.desktop
+video/mp4=vlc.desktop
+image/svg+xml=org.inkscape.Inkscape.desktop
 
 [Added Associations]
 x-scheme-handler/http=userapp-Firefox.desktop;firefox.desktop;userapp-Pale Moon.desktop;
@@ -41,3 +43,5 @@ application/pdf=epdfview.desktop;
 application/x-bittorrent=deluge.desktop;
 image/gif=viewnior.desktop;
 video/webm=firefox.desktop;
+video/mp4=vlc.desktop;
+image/svg+xml=org.inkscape.Inkscape.desktop;

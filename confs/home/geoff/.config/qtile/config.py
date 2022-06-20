@@ -11,7 +11,7 @@ from libqtile.lazy import lazy
 from libqtile.log_utils import logger
 from typing import List  # noqa: F401
 
-#from custom_popups import Confirm, ShowGroupName
+# from custom_popups import Confirm, ShowGroupName
 
 
 def focus_master(qtile):
@@ -88,8 +88,8 @@ confirm_exit = None
 # assertion in the Popup class that I was getting when passing in the global qtile
 # object at the top-level. It seems that the Popup objects were being instantiated
 # before qtile was given a value.
-#@hook.subscribe.startup_complete
-#def instantiate_popups():
+# @hook.subscribe.startup_complete
+# def instantiate_popups():
 #    global group_shower, confirm_exit
 #
 #    group_shower = ShowGroupName(
@@ -253,6 +253,12 @@ keys = [
     Key([mod, alt], "d", lazy.spawn("discord"), desc="Discord"),
     Key([mod], "v", lazy.spawn(term_exec + "nvim"), desc="Neovim"),
     Key([mod, "shift"], "o", lazy.spawn(term_exec + "htop"), desc="Htop"),
+    Key(
+        [mod, alt],
+        "p",
+        lazy.spawn("/home/geoff/.config/qtile/picom_toggle.sh"),
+        desc="Toggle Picom",
+    ),
     ### RANDR Layouts
     Key([mod, alt], "h", lazy.function(load_randr_layout("right_hdmi"))),
     Key([mod, alt], "w", lazy.function(load_randr_layout("work_right_hdmi"))),
@@ -300,7 +306,7 @@ def init_widgets_list():
         widget.Sep(linewidth=0, padding=6, foreground=colors[2], background=colors[0]),
         widget.Image(
             filename="~/.config/qtile/icons/python.png",
-            mouse_callbacks={"Button1": lambda : qtile.cmd_spawn("rofi -show drun")},
+            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("rofi -show drun")},
         ),
         widget.GroupBox(
             font="FiraCode",
@@ -370,9 +376,7 @@ def init_widgets_list():
         widget.Memory(
             foreground=colors[2],
             background=colors[5],
-            mouse_callbacks={
-                "Button1": lambda : qtile.cmd_spawn(term_exec + "htop")
-            },
+            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(term_exec + "htop")},
             padding=5,
         ),
         widget.TextBox(
@@ -396,7 +400,7 @@ def init_widgets_list():
             update_interval=1800,
             foreground=colors[2],
             mouse_callbacks={
-                "Button1": lambda : qtile.cmd_spawn(term_exec + "sudo pacman -Syyu")
+                "Button1": lambda: qtile.cmd_spawn(term_exec + "sudo pacman -Syyu")
             },
             background=colors[5],
         ),

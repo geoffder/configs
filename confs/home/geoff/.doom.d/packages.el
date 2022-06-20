@@ -55,3 +55,6 @@
 (package! company-lsp)
 (package! evil-markdown)
 (package! dune-format)
+(package! org-bullets)
+; https://github.com/hlissner/doom-emacs/issues/6280 (temp fix for centaur - project.el bug)
+(package! project :pin "125a1a8d15f998cd495ef6a6b981b1a0e201bd2f") ; Feb 23

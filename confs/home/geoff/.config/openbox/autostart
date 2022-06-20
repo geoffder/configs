@@ -31,7 +31,7 @@ flameshot &
 xautolock -time 10 -locker blurlock &
 
 # colour temperature modulation
-redshift-gtk -t 6500:4000 &
+#redshift-gtk -t 6500:4000 &
 
 # launch polybar
 polybar -c /home/geoff/.config/polybar/config "main" &
