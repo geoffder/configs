@@ -82,24 +82,30 @@
 
 (add-to-list 'auto-mode-alist '("\\.mld\\'" . tuareg-mode))
 
-;; TODO: check if the wrap already exists, since I might need to add the advice to
-;; some additional functions to make sure this happens more reliably (avoid nested wrapping)
 (defun is-mld ()
   (string-equal "mld" (file-name-extension buffer-file-name)))
 
+(defun is-doc-wrapped ()
+  (and (string-equal (buffer-substring-no-properties 1 5) "(** ")
+     (let* ((end (point-max)))
+      (string-equal (buffer-substring-no-properties (- end 3) end) " *)"))))
+
 (defun doc-wrap ()
-  (save-excursion
-    (goto-char (point-min))
-    (insert "(** ")
-    (goto-char (point-max))
-    (insert " *)")))
+  (unless (is-doc-wrapped)
+    (save-excursion
+      (goto-char (point-min))
+      (insert "(** ")
+      (goto-char (point-max))
+      (insert " *)"))))
 
 (defun doc-unwrap ()
-  (save-excursion
-    (goto-char (point-min))
-    (delete-char 4)
-    (goto-char (point-max))
-    (delete-char -3)))
+  (let* ((end (point-max)))
+    (when (is-doc-wrapped)
+      (save-excursion
+        (goto-char (point-min))
+        (delete-char 4)
+        (goto-char (point-max))
+        (delete-char -3)))))
 
 (defun doc-wrapping-advice (fontify &rest args)
   (if (is-mld)
