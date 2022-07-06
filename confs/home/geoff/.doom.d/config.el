@@ -86,24 +86,24 @@
   (string-equal "mld" (file-name-extension buffer-file-name)))
 
 (defun is-doc-wrapped ()
-  (and (string-equal (buffer-substring-no-properties 1 5) "(** ")
+  (and (string-equal (buffer-substring-no-properties 1 4) "(**")
      (let* ((end (point-max)))
-      (string-equal (buffer-substring-no-properties (- end 3) end) " *)"))))
+      (cl-search "*)" (buffer-substring-no-properties (- end 3) end)))))
 
 (defun doc-wrap ()
   (unless (is-doc-wrapped)
     (save-excursion
       (goto-char (point-min))
-      (insert "(** ")
+      (insert "(**")
       (goto-char (point-max))
-      (insert " *)"))))
+      (insert "*)"))))
 
 (defun doc-unwrap ()
   (let* ((end (point-max)))
     (when (is-doc-wrapped)
       (save-excursion
         (goto-char (point-min))
-        (delete-char 4)
+        (delete-char 3)
         (goto-char (point-max))
         (delete-char -3)))))
 
@@ -121,12 +121,26 @@
                        (not (is-mld)))
               (ocamlformat))))
 
+(add-hook 'before-save-hook
+          (lambda ()
+            (when (and (eq major-mode 'tuareg-mode)
+                       (is-mld))
+              (doc-unwrap))))
+
+(add-hook 'after-save-hook
+          (lambda ()
+            (when (and (eq major-mode 'tuareg-mode)
+                       (is-mld))
+              (doc-wrap))))
+
 (add-hook 'lsp-mode-hook
           (lambda ()
             (when (and (eq major-mode 'tuareg-mode)
                       lsp-mode
                       (is-mld))
-              (lsp-disconnect))))
+              (progn
+                (lsp-disconnect)
+                (doc-wrap)))))
 
 (add-hook! '(tuareg-mode-hook)
            '((lambda ()
@@ -136,7 +150,8 @@
                (setq-local fill-prefix "   ")
                (setq-local comment-multi-line t)
                ;; (advice-add 'font-lock-fontify-region :around #'doc-wrapping-advice)
-               (advice-add 'jit-lock--run-functions :around #'doc-wrapping-advice))))
+               ;; (advice-add 'jit-lock--run-functions :around #'doc-wrapping-advice)
+               )))
 
 (use-package org-tempo
   :ensure nil) ;; tell use-package not to try to install org-tempo since it's already there.
