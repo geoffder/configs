@@ -93,11 +93,17 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+# deactivate by default to avoid funny business with system packages (pacman / AUR)
+# conda deactivate
+
 # Add NEURON to path
 export PATH=$PATH:/home/geoff/neuron/nrn/x86_64/bin
 
 # opam configuration
 test -r /home/geoff/.opam/opam-init/init.zsh && . /home/geoff/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
+# add cargo binaries to path
+export PATH=$PATH:/home/geoff/.cargo/bin
 
 source <("/bin/starship" init zsh --print-full-init)
 

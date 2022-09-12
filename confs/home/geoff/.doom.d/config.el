@@ -61,9 +61,9 @@
              sh-mode-hook
              tuareg-mode-hook
              reason-mode-hook)
-           '((lambda () (text-scale-set 1))           ;; zoom one level
+           '(;(lambda () (text-scale-set 1))           ;; zoom one level
              (lambda () (size-indication-mode -1))    ;; de-clutter from modeline
-             display-fill-column-indicator-mode  ;; vertical rule
+             ;display-fill-column-indicator-mode  ;; vertical rule
              trim-prettify-rules))               ;; remove some symbols
 
 ;; Reminder to keep lines short. (display-fill-column-indicator-mode)
@@ -315,7 +315,14 @@
     :server-id 'reason-lsp-server))
 
   ;; (add-hook 'tuareg-mode-hook (lambda () (lsp-lens-mode -1))))
-  (setq lsp-lens-enable nil))
+  (setq lsp-lens-enable nil)
+  (setq lsp-ui-sideline-diagnostic-max-lines 5)
+  (setq lsp-ui-sideline-diagnostic-max-line-length 60)
+  (setq lsp-ui-sideline-delay 0.1)
+  (setq lsp-ui-doc-show-with-cursor nil)
+  (setq lsp-ui-doc-show-with-mouse nil)
+  (setq lsp-ui-doc-delay 0.1)
+  )
 
 
 ;; prevent auto-format in qmk configs

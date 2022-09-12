@@ -1,5 +1,6 @@
 (defun victor-font-settings ()
-  (setq doom-font (font-spec :name "VictorMono Nerd Font" :size 14 :weight 'semi-bold))
+  ;; (setq doom-font (font-spec :name "VictorMono Nerd Font" :size 17 :weight 'semi-bold))
+  (setq doom-font (font-spec :name "VictorMono Nerd Font" :size 17))
   (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
   (set-face-attribute 'font-lock-keyword-face nil :weight 'bold :slant 'italic)
   (add-hook 'tuareg-mode-hook
@@ -7,7 +8,7 @@
                     'tuareg-font-lock-governing-face nil :slant 'italic))))
 
 (defun fira-font-settings ()
-  (setq doom-font (font-spec :family "Fira Code" :size 14))
+  (setq doom-font (font-spec :family "Fira Code" :size 16))
   (set-face-attribute 'font-lock-keyword-face nil :weight 'semi-bold))
 
 ;; (fira-font-settings)

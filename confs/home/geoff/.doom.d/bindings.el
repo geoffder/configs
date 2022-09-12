@@ -62,6 +62,7 @@
   (copy-region-as-kill (point-min) (point-max))
   (kill-buffer-and-window))
 
+
 (map! :leader
         (:prefix-map ("z" . "folding")
          :desc "open all" "o" #'+fold/open-all
@@ -75,7 +76,8 @@
           :desc "Yank All" "y" #'copy-whole-buffer)
         (:prefix-map ("c" . "code")
           :desc "LSP -> Describe At Point" "p" #'lsp-describe-thing-at-point
-          :desc "LSP -> Copy Description" "y" #'lsp-copy-signature)
+          :desc "LSP -> Copy Description" "y" #'lsp-copy-signature
+          :desc "LSP -> Doc Glance At Point" "g" #'lsp-ui-doc-glance)
         (:prefix-map ("o" . "open")
           :desc "sudo into shake" "s" #'connect-shake-sudo))
 
