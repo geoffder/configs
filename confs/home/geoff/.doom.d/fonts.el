@@ -5,10 +5,10 @@
   (set-face-attribute 'font-lock-keyword-face nil :weight 'bold :slant 'italic)
   (add-hook 'tuareg-mode-hook
             '(lambda () (set-face-attribute
-                    'tuareg-font-lock-governing-face nil :slant 'italic))))
+                    'tuareg-font-lock-governing-face nil :slant 'italic :foreground "wheat"))))
 
 (defun fira-font-settings ()
-  (setq doom-font (font-spec :family "Fira Code" :size 16))
+  (setq doom-font (font-spec :family "FiraCode" :size 17))
   (set-face-attribute 'font-lock-keyword-face nil :weight 'semi-bold))
 
 ;; (fira-font-settings)

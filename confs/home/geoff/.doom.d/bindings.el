@@ -18,6 +18,7 @@
 ;; documentation of it.
 (set-quit-char "C-c")
 
+
 ;; Shift-key page scrolling in Normal Mode (like nvim)
 (define-key evil-normal-state-map (kbd "S-<up>") 'scroll-down-command)
 (define-key evil-normal-state-map (kbd "S-<down>") 'scroll-up-command)
@@ -79,7 +80,8 @@
           :desc "LSP -> Copy Description" "y" #'lsp-copy-signature
           :desc "LSP -> Doc Glance At Point" "g" #'lsp-ui-doc-glance)
         (:prefix-map ("o" . "open")
-          :desc "sudo into shake" "s" #'connect-shake-sudo))
+          :desc "sudo into shake" "s" #'connect-shake-sudo)
+        (:desc "Find file in project" "SPC" #'project-find-file))
 
 ;; Close auto-complete suggestions without selecting one.
 (define-key key-translation-map (kbd "S-<return>") 'company-abort)
