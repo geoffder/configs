@@ -1,7 +1,7 @@
 ;;; C-c as general purpose escape key sequence. (From evil wiki)
 ;;;
 (defun my-esc (prompt)
-  "Functionality for escaping generally.  Includes exiting Evil insert state and C-g binding. "
+  "Functionality for escaping generally. Includes exiting Evil insert state and C-g binding."
   (cond
    ;; If we're in one of the Evil states that defines [escape] key, return [escape] so as
    ;; Key Lookup will use it.
@@ -10,13 +10,13 @@
    ;; Note: As long as I return [escape] in normal-state, I don't need this.
    ;;((eq overriding-terminal-local-map evil-read-key-map) (keyboard-quit) (kbd ""))
    (t (kbd "C-g"))))
-(define-key key-translation-map (kbd "C-c") 'my-esc)
+;; (define-key key-translation-map (kbd "C-c") 'my-esc)
 ;; Works around the fact that Evil uses read-event directly when in operator state, which
 ;; doesn't use the key-translation-map.
-(define-key evil-operator-state-map (kbd "C-c") 'keyboard-quit)
+;; (define-key evil-operator-state-map (kbd "C-c") 'keyboard-quit)
 ;; Not sure what behavior this changes, but might as well set it, seeing the Elisp manual's
 ;; documentation of it.
-(set-quit-char "C-c")
+;; (set-quit-char "C-c")
 
 
 ;; Shift-key page scrolling in Normal Mode (like nvim)
@@ -36,8 +36,9 @@
 ;; avoid accidental killing (evil (z x) bound to kill-current-buffer by default)
 (define-key evil-normal-state-map (kbd "z x") nil)
 
-(defun fold-given-level () (interactive)
+(defun fold-given-level ()
   "Wait for a number, then recursively fold at that level (rel to curr block)."
+  (interactive)
   (let ((level (- (read-char) 48)))
     (if (and (>= level 0) (< level 10))
         (+fold/close-all level))))
@@ -51,13 +52,13 @@
 ;; have toggline actually behave like it does in NVim.
 
 (defun copy-whole-buffer ()
-  (interactive)
   "Select and copy the entire content of a buffer."
+  (interactive)
   (copy-region-as-kill (point-min) (point-max)))
 
 (defun lsp-copy-signature ()
-  (interactive)
   "Copy the results of lsp-describe-thing-point (type signature)."
+  (interactive)
   (lsp-describe-thing-at-point)
   (other-popup)
   (copy-region-as-kill (point-min) (point-max))
@@ -81,7 +82,15 @@
           :desc "LSP -> Doc Glance At Point" "g" #'lsp-ui-doc-glance)
         (:prefix-map ("o" . "open")
           :desc "sudo into shake" "s" #'connect-shake-sudo)
-        (:desc "Find file in project" "SPC" #'project-find-file))
+        (:prefix-map ("p" . "project")
+          :desc "Switch project" "p" #'project-switch-project)
+        (:prefix-map ("b" . "buffer")
+          :desc "Open new buffer" "N" #'evil-buffer-new
+          :desc "Kill this buffer" "k" #'kill-this-buffer)
+        (:prefix-map ("f" . "file")
+          :desc "Save file as" "s" #'evil-save)
+        (:desc "Find file in project" "SPC" #'project-find-file)
+        (:desc "Find file" "." #'find-file))
 
 ;; Close auto-complete suggestions without selecting one.
 (define-key key-translation-map (kbd "S-<return>") 'company-abort)

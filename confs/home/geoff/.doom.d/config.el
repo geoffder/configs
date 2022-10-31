@@ -194,9 +194,9 @@
 (add-hook! 'before-save-hook '(delete-trailing-whitespace))
 (add-hook 'dune-mode-hook 'dune-format-on-save-mode)
 
-(after! projectile
-  (setq projectile-globally-ignored-directories
-        (append '("**/_build/" "*_build") projectile-globally-ignored-directories)))
+;; (after! projectile
+;;   (setq projectile-globally-ignored-directories
+;;         (append '("**/_build/" "*_build") projectile-globally-ignored-directories)))
 
 ;; (require 'eglot-fsharp)  ;; if lsp is not working.
 ;; (add-hook 'fsharp-mode-hook 'eglot-ensure)

@@ -8,6 +8,7 @@ autoload -U compinit; compinit
 _comp_options+=(globdots) # With hidden files
 source $ZDOTDIR/completion.zsh
 source $ZDOTDIR/aliases.zsh
+source $ZDOTDIR/.env.zsh
 
 zmodload zsh/complist
 bindkey -M menuselect 'h' vi-backward-char
@@ -108,3 +109,4 @@ export PATH=$PATH:/home/geoff/.cargo/bin
 source <("/bin/starship" init zsh --print-full-init)
 
 ###########################
+
