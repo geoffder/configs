@@ -1,6 +1,6 @@
 #! /bin/bash
 # lxsession &
-picom --experimental-backends &
+picom &
 nitrogen --restore &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 # urxvtd -q -o -f &
