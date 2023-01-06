@@ -2,5 +2,5 @@
 #use "topfind";;
 (* ## end of OPAM user-setup addition for ocamltop / base ## keep this line *)
 #thread;;
-#require "core.top";;
-open Core;;
+(* #require "core.top";; *)
+(* open Core;;           *)
