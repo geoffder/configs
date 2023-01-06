@@ -95,7 +95,7 @@ unset __conda_setup
 # <<< conda initialize <<<
 
 # deactivate by default to avoid funny business with system packages (pacman / AUR)
-# conda deactivate
+conda deactivate
 
 # Add NEURON to path
 export PATH=$PATH:/home/geoff/neuron/nrn/x86_64/bin
@@ -110,3 +110,5 @@ source <("/bin/starship" init zsh --print-full-init)
 
 ###########################
 
+# Add CUDA tools to path
+export PATH=$PATH:/opt/cuda/bin
