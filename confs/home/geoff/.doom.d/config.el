@@ -74,8 +74,8 @@
 ;;              ;; text-mode-hook
 ;;              latex-mode-hook)
 ;;            '(lambda () (auto-fill-mode t)))
-(add-hook 'markdown-mode-hook '(lambda () (auto-fill-mode t)))
-(add-hook 'text-mode-hook '(lambda () (auto-fill-mode t)))
+(add-hook 'markdown-mode-hook #'(lambda () (auto-fill-mode t)))
+(add-hook 'text-mode-hook #'(lambda () (auto-fill-mode t)))
 ;; (add-hook 'org-mode-hook '(lambda () (auto-fill-mode t)))
 
 ;; might make this pair a defun and add to the general coding mode hooks above
@@ -99,13 +99,12 @@
       (insert "*)"))))
 
 (defun doc-unwrap ()
-  (let* ((end (point-max)))
     (when (is-doc-wrapped)
       (save-excursion
         (goto-char (point-min))
         (delete-char 3)
         (goto-char (point-max))
-        (delete-char -3)))))
+        (delete-char -3))))
 
 (defun doc-wrapping-advice (fontify &rest args)
   (if (is-mld)
@@ -207,7 +206,7 @@
 ;; those actions triggering redraws.
 ;; Disabling column-number-mode and line-number-mode restores speed in normal
 ;; mode navigation, but this fixes both normal and insert modes.
-(add-hook 'fsharp-mode-hook '(lambda () (setq-local centaur-tabs-set-icons nil)))
+(add-hook 'fsharp-mode-hook #'(lambda () (setq-local centaur-tabs-set-icons nil)))
 
 ;; Add match! to font-lock's keyword list for F#
 (add-hook 'fsharp-mode-hook

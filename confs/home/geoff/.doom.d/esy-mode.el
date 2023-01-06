@@ -30,7 +30,7 @@
                    "https://github.com/prometheansacrifice/esy-mode"))
 
 (defvar esy-command "esy"
-  "The 'esy' command. Can be full path to the esy binary.")
+  "The \\='esy\\=' command. Can be full path to the esy binary.")
 
 (defvar esy-mode-callback (lambda ())
   "The callback that can be run once an esy project is initialised. Common use case is to enable ask lsp client to connect to the server (since this can only be done after the esy project is ready)")
@@ -47,7 +47,7 @@
 
 (defun esy/internal--project--get-manifest-file-path
     (esy-status-json)
-  "Given the json object of 'esy status' output,
+  "Given the json object of \\='esy status\\=' output,
 it returns the manifest file"
   (gethash "rootPackageConfigPath" esy-status-json))
 
@@ -100,7 +100,7 @@ later be used to obtain more info about the esy project"
 
 (defun esy/project--ready-p (project)
   "Returns if a given project is ready for
-development ie. if the tools can be looked in it's sandbox"
+development ie. if the tools can be looked in it\\='s sandbox"
   (gethash "isProjectReadyForDev" (plist-get project 'json)))
 
 (defun esy/project--p (project)
@@ -133,7 +133,7 @@ command-env"
 
 (defun esy/command-env--to-process-environment (command-env)
   "Given a command-env, it turns it into a list
-that can be assigned to 'process-environment"
+that can be assigned to \\='process-environment"
   (let ((command-env-json
          (plist-get command-env 'command-env))
         (penv '()))
@@ -145,7 +145,7 @@ that can be assigned to 'process-environment"
 
 (defun esy/command-env--get-exec-path (command-env)
   "Given a command-env, it turns it into a list that
-can be assigned to 'exec-path"
+can be assigned to \\='exec-path"
   (let* ((penv
           (esy/command-env--to-process-environment
            command-env))
@@ -204,17 +204,17 @@ for development"
     nil))
 
 (defun esy/setup--opam (project callback)
-  "setup--opam(_): currently doesn't do anything. opam-user-setup works well enough, IMO!"
+  "setup--opam(_): currently doesn\\='t do anything. opam-user-setup works well enough, IMO!"
   (message "Detected an opam project. Staying dormant"))
 
 (defun esy/setup--npm(project callback)
 
-  "setup--npm(project): Although named 'npm', this function uses esy to setup the Reason/OCaml toolchain.
+  "setup--npm(project): Although named \\='npm\\=', this function uses esy to setup the Reason/OCaml toolchain.
 
 npm is incapable of
   a) handling prebuilts correctly
   b) Correctly setup environment for tools that assume they are the only ones running.
-     Eg: merlin expected the correct ocamlmerlin-reason available on it's path. This can be tricky in non-sandboxed setup where a user could have almost any version of ocamlmerlin installed
+     Eg: merlin expected the correct ocamlmerlin-reason available on it\\='s path. This can be tricky in non-sandboxed setup where a user could have almost any version of ocamlmerlin installed
 
 "
 ;;   (if (y-or-n-p "Seems like an npm/bsb project. It is recommended that you we drop and esy.json for you. Go ahead?")
@@ -270,7 +270,7 @@ package.json or not"
 
 (defun esy/package-manager--of-project (project)
   "Detect the package manager of the project. Returns either
-'esy|'opam|'npm"
+\\='esy|\\='opam|\\='npm"
   (let* ((manifest-file-path
           (esy/project--get-manifest-file-path project)))
          (if (esy/manifest--json-p manifest-file-path)

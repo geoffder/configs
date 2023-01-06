@@ -91,7 +91,7 @@ unless SUDO-USER is provided."
 (defun dired-toggle-sudo (&optional sudo-user)
   "Reopen current file or dired buffer with sudo.
 If SUDO-USER is nil assume root.
-If called with `universal-argument' (C-u), ask for username.
+If called with `universal-argument\\=' (C-u), ask for username.
 "
   (interactive "P")
   (let* ((fname (or buffer-file-name
