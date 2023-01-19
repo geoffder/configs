@@ -214,25 +214,30 @@
             (font-lock-add-keywords nil
                                     '(("match!" (0 font-lock-keyword-face))))))
 
-(custom-set-variables
- '(conda-anaconda-home "/home/geoff/miniconda3"))
+(after! conda
+  (setq conda-anaconda-home (expand-file-name "~/miniconda3"))
+  (setq conda-env-home-directory (expand-file-name "~/miniconda3")))
 
 ;; Add python buffer directories to import path vector of the mspy lsp
-(setq lsp-python-ms-extra-paths [])
 (defun get-dir () (substring default-directory 0 -1))
+;; (setq lsp-python-ms-extra-paths [])
 (add-hook 'python-mode-hook
           (lambda ()
-            (setq lsp-python-ms-extra-paths
-                  (vconcat lsp-python-ms-extra-paths (vector (get-dir))))))
+            ;; (setq lsp-python-ms-extra-paths
+            ;;       (vconcat lsp-python-ms-extra-paths (vector (get-dir))))))
+            (setq lsp-pyright-extra-paths
+                  (vconcat lsp-pyright-extra-paths (vector (get-dir))))))
 
 ;; Qtile does not live in conda, so adding the system-wide packages to path
 ;; when working on it's config
 (add-hook 'python-mode-hook
           (lambda ()
             (if (string-equal (get-dir) "/home/geoff/.config/qtile")
-                (setq lsp-python-ms-extra-paths
+                ;; (setq lsp-python-ms-extra-paths
+                (setq lsp-pyright-extra-paths
                       (vconcat
-                       lsp-python-ms-extra-paths
+                       ;; lsp-python-ms-extra-paths
+                       lsp-pyright-extra-paths
                        (vector "/usr/lib/python3.9/site-packages"))))))
 
 ;; Replace the hs-special-modes-alist entry that python-mode creates.
@@ -251,11 +256,10 @@
 (add-hook! 'python-mode-hook 'replace-python-hs-rules)
 
 ;; autoformatting for python
-;; (set-formatter! 'yapf '("yapf" "-q"
-;;   "--style={\
+;; (set-formatter! 'yapf "yapf -q --style={\
 ;; based_on_style: facebook,\
 ;; column_limit: 90,\
-;; }"))
+;; }" :modes '(python-mode))
 ;; (after! format-all (advice-add 'format-all-buffer :around #'envrc-propagate-environment))
 ;; (setq-hook! 'python-mode-hook +format-with 'yapf)
 
