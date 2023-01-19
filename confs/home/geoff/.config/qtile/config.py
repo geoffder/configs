@@ -294,14 +294,12 @@ colors = [
     ["#6df1d8", "#6df1d8"],  # window name
 ]
 
-prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
-
 ##### DEFAULT WIDGET SETTINGS #####
 widget_defaults = dict(font="FiraCode", fontsize=12, padding=2, background=colors[2])
 extension_defaults = widget_defaults.copy()
 
 
-def init_widgets_list():
+def init_widgets_list(tray = True):
     widgets_list = [
         widget.Sep(linewidth=0, padding=6, foreground=colors[2], background=colors[0]),
         widget.Image(
@@ -327,13 +325,6 @@ def init_widgets_list():
             other_screen_border=colors[0],
             foreground=colors[2],
             background=colors[0],
-        ),
-        widget.Prompt(
-            prompt=prompt,
-            font="FiraCode",
-            padding=10,
-            foreground=colors[3],
-            background=colors[1],
         ),
         widget.Sep(linewidth=1, padding=15, foreground=colors[2], background=colors[0]),
         widget.WindowName(
@@ -394,13 +385,13 @@ def init_widgets_list():
             fontsize=14,
         ),
         widget.CheckUpdates(
-            distro="Arch",
+            distro="Arch_checkupdates",
             no_update_string="Fresh ",
             display_format="Updates: {updates}",
             update_interval=1800,
             foreground=colors[2],
             mouse_callbacks={
-                "Button1": lambda: qtile.cmd_spawn(term_exec + "sudo pacman -Syyu")
+                "Button1": lambda: qtile.cmd_spawn(term_exec + "yay -Syyu")
             },
             background=colors[5],
         ),
@@ -409,23 +400,27 @@ def init_widgets_list():
         ),
         widget.Clock(
             foreground=colors[2], background=colors[4], format="%A, %B %d  [ %H:%M ]"
+
         ),
-        widget.TextBox(
-            text="", background=colors[4], foreground=colors[0], padding=0, fontsize=37
-        ),
-        widget.Systray(background=colors[0], padding=5),
     ]
+
+    if tray:
+        widgets_list.append(
+            widget.TextBox(
+                text="", background=colors[4], foreground=colors[0], padding=0, fontsize=37
+            )
+        )
+        widgets_list.append(widget.Systray(background=colors[0], padding=5))
+
     return widgets_list
 
 
 def init_widgets_screen1():
-    widgets_screen1 = init_widgets_list()
-    return widgets_screen1  # Slicing removes unwanted widgets on Monitors 1,3
+    return init_widgets_list()
 
 
 def init_widgets_screen2():
-    widgets_screen2 = init_widgets_list()
-    return widgets_screen2  # Monitor 2 will display all widgets in widgets_list
+    return init_widgets_list(tray = False)
 
 
 def init_screens():
