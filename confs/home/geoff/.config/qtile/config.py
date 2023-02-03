@@ -266,12 +266,38 @@ keys = [
 
 group_names = [
     ("WWW", {"layout": "monadtall", "layouts": [www_tall, default_max]}),
-    ("DEV", {"layout": "monadtall",}),
+    (
+        "DEV",
+        {
+            "layout": "monadtall",
+        },
+    ),
     ("SCI", {"layout": "monadtall"}),
-    ("DIR", {"layout": "monadtall",}),
-    ("SYS", {"layout": "monadtall",}),
-    ("GAME", {"layout": "monadtall", "matches": [Match(wm_class=["Steam"])],}),
-    ("PRV", {"layout": "monadtall",}),
+    (
+        "DIR",
+        {
+            "layout": "monadtall",
+        },
+    ),
+    (
+        "SYS",
+        {
+            "layout": "monadtall",
+        },
+    ),
+    (
+        "GAME",
+        {
+            "layout": "monadtall",
+            "matches": [Match(wm_class=["Steam"])],
+        },
+    ),
+    (
+        "PRV",
+        {
+            "layout": "monadtall",
+        },
+    ),
     ("8", {"layout": "monadtall"}),
     ("9", {"layout": "monadtall"}),
 ]
@@ -299,7 +325,7 @@ widget_defaults = dict(font="FiraCode", fontsize=12, padding=2, background=color
 extension_defaults = widget_defaults.copy()
 
 
-def init_widgets_list(tray = True):
+def init_widgets_list(tray=True):
     widgets_list = [
         widget.Sep(linewidth=0, padding=6, foreground=colors[2], background=colors[0]),
         widget.Image(
@@ -331,7 +357,12 @@ def init_widgets_list(tray = True):
             foreground=colors[6], background=colors[0], padding=0, fontsize=13
         ),
         widget.TextBox(
-            text="", background=colors[0], foreground=colors[5], padding=0, fontsize=37
+            # text="",
+            text="\ue0b2",
+            background=colors[0],
+            foreground=colors[5],
+            padding=-5,
+            fontsize=37,
         ),
         widget.CurrentLayoutIcon(
             custom_icon_paths=[os.path.expanduser("~/.config/qtile/icons")],
@@ -342,7 +373,12 @@ def init_widgets_list(tray = True):
         ),
         widget.CurrentLayout(foreground=colors[2], background=colors[5], padding=5),
         widget.TextBox(
-            text="", background=colors[5], foreground=colors[4], padding=0, fontsize=37
+            # text="",
+            text="\ue0b2",
+            background=colors[5],
+            foreground=colors[4],
+            padding=-5,
+            fontsize=37,
         ),
         widget.TextBox(
             text=" 🌡",
@@ -355,7 +391,12 @@ def init_widgets_list(tray = True):
             foreground=colors[2], background=colors[4], threshold=90, padding=5
         ),
         widget.TextBox(
-            text="", background=colors[4], foreground=colors[5], padding=0, fontsize=37
+            # text="",
+            text="\ue0b2",
+            background=colors[4],
+            foreground=colors[5],
+            padding=-5,
+            fontsize=37,
         ),
         widget.TextBox(
             text=" 🖬",
@@ -371,11 +412,21 @@ def init_widgets_list(tray = True):
             padding=5,
         ),
         widget.TextBox(
-            text="", background=colors[5], foreground=colors[4], padding=0, fontsize=37
+            # text="",
+            text="\ue0b2",
+            background=colors[5],
+            foreground=colors[4],
+            padding=-5,
+            fontsize=37,
         ),
         widget.CPU(foreground=colors[2], background=colors[4], padding=5),
         widget.TextBox(
-            text="", background=colors[4], foreground=colors[5], padding=0, fontsize=37
+            # text="",
+            text="\ue0b2",
+            background=colors[4],
+            foreground=colors[5],
+            padding=-5,
+            fontsize=37,
         ),
         widget.TextBox(
             text=" ⟳",
@@ -396,18 +447,26 @@ def init_widgets_list(tray = True):
             background=colors[5],
         ),
         widget.TextBox(
-            text="", background=colors[5], foreground=colors[4], padding=0, fontsize=37
+            # text="",
+            text="\ue0b2",
+            background=colors[5],
+            foreground=colors[4],
+            padding=-5,
+            fontsize=37,
         ),
         widget.Clock(
             foreground=colors[2], background=colors[4], format="%A, %B %d  [ %H:%M ]"
-
         ),
     ]
 
     if tray:
         widgets_list.append(
             widget.TextBox(
-                text="", background=colors[4], foreground=colors[0], padding=0, fontsize=37
+                text="",
+                background=colors[4],
+                foreground=colors[0],
+                padding=-5,
+                fontsize=37,
             )
         )
         widgets_list.append(widget.Systray(background=colors[0], padding=5))
@@ -420,7 +479,7 @@ def init_widgets_screen1():
 
 
 def init_widgets_screen2():
-    return init_widgets_list(tray = False)
+    return init_widgets_list(tray=False)
 
 
 def init_screens():
@@ -494,12 +553,24 @@ def refresh_wallpaper():
 
 
 auto_spawns = {
-    "WWW": {"spawn": ["firefox", "element-desktop"],},
-    "DEV": {"spawn": ["emacs", "firefox", "kitty -d ~/git"],},
-    "DIR": {"spawn": ["pcmanfm", term_exec + "ranger", my_term],},
-    "SYS": {"spawn": [term_exec + "htop", term_exec + "btm", my_term],},
-    "GAME": {"spawn": ["steam"],},
-    "PRV": {"spawn": ["firefox -private-window"],},
+    "WWW": {
+        "spawn": ["firefox", "element-desktop"],
+    },
+    "DEV": {
+        "spawn": ["emacs", "firefox", "kitty -d ~/git"],
+    },
+    "DIR": {
+        "spawn": ["pcmanfm", term_exec + "ranger", my_term],
+    },
+    "SYS": {
+        "spawn": [term_exec + "htop", term_exec + "btm", my_term],
+    },
+    "GAME": {
+        "spawn": ["steam"],
+    },
+    "PRV": {
+        "spawn": ["firefox -private-window"],
+    },
 }
 
 
