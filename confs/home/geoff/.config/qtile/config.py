@@ -560,7 +560,7 @@ auto_spawns = {
         "spawn": ["emacs", "firefox", "kitty -d ~/git"],
     },
     "DIR": {
-        "spawn": ["pcmanfm", term_exec + "ranger", my_term],
+        "spawn": ["pcmanfm", term_exec + "joshuto", my_term],
     },
     "SYS": {
         "spawn": [term_exec + "htop", term_exec + "btm", my_term],

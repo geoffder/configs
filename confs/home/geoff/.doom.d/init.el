@@ -193,3 +193,15 @@
 
 (tool-bar-mode 0)
 (menu-bar-mode 0)
+
+;; (let ((opam-share (ignore-errors (car (process-lines "opam" "config" "var" "share")))))
+;;    (when (and opam-share (file-directory-p opam-share))
+;;      ;; Register Gopcaml mode
+;;      (add-to-list 'load-path (expand-file-name "emacs/site-lisp" opam-share))
+;;         (autoload 'merlin-mode "merlin" "Merlin mode" t)
+;;      ;; Automatically start it in OCaml buffers
+;;      (setq auto-mode-alist
+;;            (append '(("\\.ml[ily]?$" . gopcaml-mode)
+;;                      ("\\.topml$" . gopcaml-mode))
+;;                    auto-mode-alist))
+;;      ))

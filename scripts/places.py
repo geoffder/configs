@@ -34,6 +34,7 @@ files = [
     home + ".config/mimeapps.list",
     home + ".config/ranger/rc.conf",
     home + ".config/ranger/rifle.conf",
+    home + ".config/joshuto",
     home + ".config/rofi",
     home + ".config/flameshot/flameshot.conf",
     home + ".config/firefox",
