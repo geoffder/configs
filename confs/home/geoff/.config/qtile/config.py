@@ -172,6 +172,7 @@ keys = [
     ### The essentials
     Key([mod], "Return", lazy.spawn(my_term), desc="Launches Terminal"),
     Key([mod], "space", lazy.spawn("rofi -show drun"), desc="Run Launcher"),
+    Key([mod], "w", lazy.spawn("rofi -show window"), desc="Run Window Picker"),
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle through layouts"),
     Key([mod, "shift"], "q", lazy.window.kill(), desc="Kill active window"),
     Key([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
@@ -543,8 +544,10 @@ def start_once():
 
 
 @hook.subscribe.screen_change
-def restart_on_randr(qtile, event):
+def restart_on_randr(qtile):
     qtile.cmd_restart()
+# def restart_on_randr(qtile, event):
+#     qtile.cmd_restart()
 
 
 @hook.subscribe.startup_complete
