@@ -62,3 +62,4 @@
 (package! tree-sitter-langs)
 
 (package! scad-mode)
+(package! clang-format)

@@ -263,6 +263,16 @@
 ;; (after! format-all (advice-add 'format-all-buffer :around #'envrc-propagate-environment))
 ;; (setq-hook! 'python-mode-hook +format-with 'yapf)
 
+(defun manifold-js-clang ()
+  (interactive)
+  (when (string-match-p (regexp-quote "manifold") (file-name-directory buffer-file-name))
+      (setq-local +format-with-lsp nil
+                  +format-with :none)
+      (add-hook 'before-save-hook 'clang-format-buffer nil t)
+      ))
+
+(add-hook! '(js-mode-hook typescript-mode-hook) 'manifold-js-clang)
+
 ;; OCaml automatic block closing pairs.
 (use-package! smartparens-config
   :config
@@ -333,3 +343,7 @@
   (lambda () (if (string-match-p (regexp-quote "qmk_firmware") (file-name-directory buffer-file-name))
       (setq-local +format-with-lsp nil
                   +format-with :none))))
+
+(load! "glsl-mode")
+(add-to-list 'auto-mode-alist '("\\.vert\\'" . glsl-mode))
+(add-to-list 'auto-mode-alist '("\\.frag\\'" . glsl-mode))
