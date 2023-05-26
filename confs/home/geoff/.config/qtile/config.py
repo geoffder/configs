@@ -56,7 +56,8 @@ def load_randr_layout(name):
 
     def load(qtile):
         qtile.cmd_spawn(cmd)
-        qtile.call_later(0.075, qtile.cmd_restart)
+        # qtile.call_later(0.075, qtile.cmd_restart)
+        qtile.call_later(0.075, lazy.restart)
 
     return load
 
@@ -545,10 +546,11 @@ def start_once():
 
 @hook.subscribe.screen_change
 def restart_on_randr(qtile):
-    qtile.cmd_restart()
+    # qtile.cmd_restart()
+    lazy.restart()
+
 # def restart_on_randr(qtile, event):
 #     qtile.cmd_restart()
-
 
 @hook.subscribe.startup_complete
 def refresh_wallpaper():
@@ -589,6 +591,7 @@ def finished_restarting():
     TODO: Perhaps make a class that offers a more clean solution."""
     flags.restarting = False
     group_spawn(qtile.current_group)
+    qtile.cmd_spawn("nitrogen --restore")
 
 
 @hook.subscribe.setgroup
