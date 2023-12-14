@@ -112,3 +112,6 @@ source <("/bin/starship" init zsh --print-full-init)
 
 # Add CUDA tools to path
 export PATH=$PATH:/opt/cuda/bin
+
+# Add emacs bin (for doom) to path
+export PATH=$PATH:/home/geoff/.config/emacs/bin

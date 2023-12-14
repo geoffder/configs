@@ -14,3 +14,5 @@ xautolock -time 10 -locker "i3lock-fancy-rapid 5 3" &
 flameshot &
 xfce4-power-manager &
 udiskie &
+xinput set-prop "pointer:ELECOM TrackBall Mouse HUGE TrackBall" 'libinput Button Scrolling Button' 9 &
+xinput set-prop "pointer:ELECOM TrackBall Mouse HUGE TrackBall" 'libinput Scroll Method Enabled' 0 0 1 &
