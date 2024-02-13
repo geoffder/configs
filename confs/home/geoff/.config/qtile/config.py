@@ -22,7 +22,7 @@ def focus_master(qtile):
         c = grp.layout.clients.focus_first()
         grp.focus(c, True)
     elif grp.layout.clients.current_index == 0 and len(grp.layout.clients.clients) > 0:
-        grp.layout.cmd_down()
+        grp.layout.down()
 
 
 def swap_master(qtile):
@@ -30,9 +30,9 @@ def swap_master(qtile):
     with the next window, placing focus on the new Master."""
     grp = qtile.current_group
     if grp.layout.clients.current_index > 0:
-        grp.layout.cmd_swap_main()
+        grp.layout.swap_main()
     elif grp.layout.clients.current_index == 0 and len(grp.layout.clients.clients) > 0:
-        grp.layout.cmd_shuffle_down()
+        grp.layout.shuffle_down()
         c = grp.layout.clients.focus_first()
         grp.focus(c, True)
 
@@ -41,7 +41,7 @@ def float_to_front(qtile):
     """Bring all floating windows of the group to front."""
     for window in qtile.current_group.windows:
         if window.floating:
-            window.cmd_bring_to_front()
+            window.bring_to_front()
 
 
 def sink_floats(qtile):
@@ -55,8 +55,8 @@ def load_randr_layout(name):
     cmd = "sh /home/geoff/.screenlayout/%s.sh" % name
 
     def load(qtile):
-        qtile.cmd_spawn(cmd)
-        # qtile.call_later(0.075, qtile.cmd_restart)
+        qtile.spawn(cmd)
+        # qtile.call_later(0.075, qtile.restart)
         qtile.call_later(0.075, lazy.restart)
 
     return load
@@ -64,9 +64,9 @@ def load_randr_layout(name):
 
 def grab_cursor(qtile):
     current_win = qtile.current_group.layout.clients.current_client
-    x, y = current_win.cmd_get_position()
-    w, h = current_win.cmd_get_size()
-    qtile.cmd_spawn("xdotool mousemove %i %i" % (x + w / 2, y + h / 2))
+    x, y = current_win.get_position()
+    w, h = current_win.get_size()
+    qtile.spawn("xdotool mousemove %i %i" % (x + w / 2, y + h / 2))
 
 
 # globals (flags, and placeholder Nones)
@@ -109,7 +109,7 @@ confirm_exit = None
 #    confirm_exit = Confirm(
 #        qtile,
 #        "exit",
-#        qtile.cmd_shutdown,
+#        qtile.shutdown,
 #        font="FiraCode",
 #        font_size=40,
 #        x_incr=25,
@@ -181,7 +181,7 @@ keys = [
     ### Switch focus to specific monitor (out of three)
     Key([mod], "z", lazy.to_screen(0), desc="Keyboard focus to monitor 1"),
     Key([mod], "x", lazy.to_screen(1), desc="Keyboard focus to monitor 2"),
-    Key([mod], "c", lazy.to_screen(2), desc="Keyboard focus to monitor 3"),
+    # Key([mod], "c", lazy.to_screen(2), desc="Keyboard focus to monitor 3"),
     ### Window controls
     Key([mod], "j", lazy.layout.down(), desc="Move focus down in current stack pane"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up in current stack pane"),
@@ -332,7 +332,7 @@ def init_widgets_list(tray=True):
         widget.Sep(linewidth=0, padding=6, foreground=colors[2], background=colors[0]),
         widget.Image(
             filename="~/.config/qtile/icons/python.png",
-            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("rofi -show drun")},
+            mouse_callbacks={"Button1": lambda: qtile.spawn("rofi -show drun")},
         ),
         widget.GroupBox(
             font="FiraCode",
@@ -410,7 +410,7 @@ def init_widgets_list(tray=True):
         widget.Memory(
             foreground=colors[2],
             background=colors[5],
-            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(term_exec + "htop")},
+            mouse_callbacks={"Button1": lambda: qtile.spawn(term_exec + "htop")},
             padding=5,
         ),
         widget.TextBox(
@@ -437,17 +437,34 @@ def init_widgets_list(tray=True):
             background=colors[5],
             fontsize=14,
         ),
-        widget.CheckUpdates(
-            distro="Arch_checkupdates",
-            no_update_string="Fresh ",
-            display_format="Updates: {updates}",
-            update_interval=1800,
-            foreground=colors[2],
-            mouse_callbacks={
-                "Button1": lambda: qtile.cmd_spawn(term_exec + "yay -Syyu")
-            },
-            background=colors[5],
-        ),
+        # TODO: troubleshoot after updating. Currently this causes a failure on restart
+        # due to an error in the pango cffi:
+        #
+        # 2024-02-13 10:30:45,968 ERROR libqtile base.py:on_done():L857 Failed to reschedule timer for checkupdates.
+        # Traceback (most recent call last):
+        #   File "/usr/lib/python3.11/site-packages/libqtile/widget/base.py", line 851, in on_done
+        #     self.update(result)
+        #   File "/usr/lib/python3.11/site-packages/libqtile/widget/base.py", line 755, in update
+        #     old_width = self.layout.width
+        #                 ^^^^^^^^^^^^^^^^^
+        #   File "/usr/lib/python3.11/site-packages/libqtile/backend/base/drawer.py", line 421, in width
+        #     return self.layout.get_pixel_size()[0]
+        #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        #   File "/usr/lib/python3.11/site-packages/libqtile/pangocffi.py", line 137, in get_pixel_size
+        #     pango.pango_layout_get_pixel_size(self._pointer, width, height)
+        # TypeError: initializer for ctype 'PangoLayout *' must be a cdata pointer, not NoneType
+        #
+        # widget.CheckUpdates(
+        #     distro="Arch_checkupdates",
+        #     no_update_string="Fresh ",
+        #     display_format="Updates: {updates}",
+        #     update_interval=1800,
+        #     foreground=colors[2],
+        #     mouse_callbacks={
+        #         "Button1": lambda: qtile.spawn(term_exec + "yay -Syyu")
+        #     },
+        #     background=colors[5],
+        # ),
         widget.TextBox(
             # text="",
             text="\ue0b2",
@@ -544,17 +561,16 @@ def start_once():
     subprocess.call([home + "/.config/qtile/autostart.sh"])
 
 
-@hook.subscribe.screen_change
-def restart_on_randr(qtile):
-    # qtile.cmd_restart()
-    lazy.restart()
+# @hook.subscribe.screen_change
+# def restart_on_randr(qtile):
+#     lazy.restart()
 
 # def restart_on_randr(qtile, event):
-#     qtile.cmd_restart()
+#     qtile.restart()
 
 @hook.subscribe.startup_complete
 def refresh_wallpaper():
-    qtile.cmd_spawn("nitrogen --restore")
+    qtile.spawn("nitrogen --restore")
 
 
 auto_spawns = {
@@ -582,7 +598,7 @@ auto_spawns = {
 def group_spawn(grp):
     if grp.name in auto_spawns and len(grp.windows) == 0:
         for s in auto_spawns[grp.name]["spawn"]:
-            qtile.cmd_spawn(s)
+            qtile.spawn(s)
 
 
 @hook.subscribe.startup_complete
@@ -591,7 +607,7 @@ def finished_restarting():
     TODO: Perhaps make a class that offers a more clean solution."""
     flags.restarting = False
     group_spawn(qtile.current_group)
-    qtile.cmd_spawn("nitrogen --restore")
+    qtile.spawn("nitrogen --restore")
 
 
 @hook.subscribe.setgroup
@@ -600,7 +616,7 @@ def auto_spawner():
         grp = qtile.current_group
         if grp.name in auto_spawns and len(grp.windows) == 0:
             for s in auto_spawns[grp.name]["spawn"]:
-                qtile.cmd_spawn(s)
+                qtile.spawn(s)
 
 
 @hook.subscribe.client_managed
@@ -616,7 +632,7 @@ def dev_term_shrinker(c):
                 term_idx = is_term.index(True)
                 grp.focus(clients[term_idx], True)
                 for _ in range(n - term_idx):
-                    grp.layout.cmd_shuffle_down()
+                    grp.layout.shuffle_down()
                 grp.layout._shrink_secondary(grp.layout.change_size * 15)
 
 
