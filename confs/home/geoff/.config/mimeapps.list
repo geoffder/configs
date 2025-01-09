@@ -23,6 +23,7 @@ video/mp4=vlc.desktop
 image/svg+xml=org.inkscape.Inkscape.desktop
 x-scheme-handler/etcher=balena-etcher.desktop
 video/x-matroska=vlc.desktop
+text/csv=libreoffice-calc.desktop
 
 [Added Associations]
 x-scheme-handler/http=userapp-Firefox.desktop;firefox.desktop;userapp-Pale Moon.desktop;
@@ -41,10 +42,12 @@ image/png=viewnior.desktop;gpicview.desktop;
 text/plain=mousepad.desktop;
 x-scheme-handler/mailto=userapp-Thunderbird.desktop;
 message/rfc822=userapp-Thunderbird.desktop;
-application/pdf=epdfview.desktop;
+application/pdf=libreoffice-impress.desktop;epdfview.desktop;
 application/x-bittorrent=deluge.desktop;
 image/gif=viewnior.desktop;
 video/webm=firefox.desktop;
 video/mp4=firefox.desktop;vlc.desktop;
 image/svg+xml=org.inkscape.Inkscape.desktop;
 video/x-matroska=vlc.desktop;org.kde.kdenlive.desktop;
+text/csv=libreoffice-calc.desktop;
+image/heif=viewnior.desktop;
