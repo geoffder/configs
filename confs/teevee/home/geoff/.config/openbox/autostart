@@ -1,0 +1,49 @@
+# Programs that will run after Openbox has started.
+
+# volume adjustment
+volumeicon &
+
+# Set wallpaper
+nitrogen --restore &
+
+# Run composite manager
+sleep 1 && picom -b &
+
+# privilege checker
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+
+# network manager
+nm-applet &
+
+# battery / power management
+xfce4-power-manager &
+
+# clipboard manager
+clipit &
+
+# bluetooth
+blueman-applet &
+
+# screenshot tool
+flameshot &
+
+# lock screen timeout
+# xautolock -time 10 -locker blurlock &
+
+# colour temperature modulation
+redshift-gtk -t 6500:4000 &
+
+# launch polybar
+polybar -r -c /home/geoff/.config/polybar/config "main" &
+
+# launch standalone system tray
+# trayer --edge top --align center --widthtype request \
+#        --transparent true --alpha 127 --tint 0x99222222 \
+#        --SetDockType true --SetPartialStrut true \
+#        --expand true --height 52 &
+
+# launch application dock
+plank &
+
+# start mpv shim for jellyfin
+jellyfin-mpv-shim &

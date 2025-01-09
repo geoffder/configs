@@ -11,26 +11,18 @@ def grabber(from_root, dest_root, paths):
             continue
 
         from_path = os.path.join(from_root, pth)
+        dest_path = os.path.join(dest_root, pth)
 
-        # get directories and filename from path
-        parts = pth.split("/")
-        folds, name = parts[:-1], parts[-1]
-
-        # new folders if they don't exist
-        folder = dest_root[:]
-        for fold in folds:
-            folder = os.path.join(folder, fold)
-            if not os.path.isdir(folder):
-                os.mkdir(folder)
-
-        if os.path.isfile(from_path):
-            shutil.copy(from_path, os.path.join(dest_root, pth))
-        else:
-            dest = os.path.join(dest_root, pth)
-            if dest == pth:
-                return "Attempted to delete source configs, aborting..."
-            shutil.rmtree(dest, ignore_errors=True)
-            shutil.copytree(from_path, dest)
+        if os.path.exists(from_path):
+            # new folders if they don't exist
+            os.makedirs(os.path.dirname(dest_path), exist_ok=True)
+            if os.path.isfile(from_path):
+                shutil.copy(from_path, dest_path)
+            elif os.path.isdir(from_path):
+                if dest_path == pth:
+                    return "Attempted to delete source configs, aborting..."
+                shutil.rmtree(dest_path, ignore_errors=True)
+                shutil.copytree(from_path, dest_path)
 
     return "Configuration files copied to %s" % dest_root
 

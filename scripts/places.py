@@ -1,7 +1,8 @@
+import platform
 import os
 
 home = os.path.expanduser("~/")
-base = home + "git/configs/confs/"
+base = home + "git/configs/confs/" + platform.node() + "/"
 
 # full path (or directory) for each config to copy
 files = [
@@ -10,6 +11,9 @@ files = [
     home + ".gtkrc-2.0",
     home + ".config/gtk-3.0/settings.ini",
     home + ".config/qt5ct/qt5ct.conf",
+    home + ".config/gtk-2.0",
+    home + ".config/gtk-3.0",
+    home + ".config/gtk-4.0",
     # TODO: I need to move these, I believe this is the wrong spot.
     home + ".themes/Adapta-DeepPurple-Nokto-Eta",
     home + ".themes/Papirus-Dark-Places-Violet",
@@ -38,6 +42,8 @@ files = [
     home + ".config/rofi",
     home + ".config/flameshot/flameshot.conf",
     home + ".config/firefox",
+    home + ".config/dunst",
+    home + ".config/vkBasalt",
     # XMonad
     home + ".xmonad/xmonad.hs",
     home + ".xmonad/xmonad_notes.md",
@@ -66,4 +72,7 @@ files = [
     home + "qmk_firmware/keyboards/handwired/dometyl",
     # OpenSCAD
     home + ".config/OpenSCAD",
+    # mpv
+    home + ".config/mpv",
+    home + ".config/jellyfin-mpv-shim",
 ]

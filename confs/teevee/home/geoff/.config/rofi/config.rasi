@@ -1,0 +1,12 @@
+configuration {
+  modi: "window,run,ssh,drun";
+  fullscreen: "false";
+  lines: 8;
+  width: 30;
+  show-icons: true;
+  font: "Fira Code 24";
+  me-select-entry: "MousePrimary";
+  me-accept-entry: "!MousePrimary";
+  hover-select: true;
+}
+@theme "Monokai_purple"

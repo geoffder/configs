@@ -1,0 +1,11 @@
+#gtk-theme-name="Adapta-Nokto-Eta-Maia"
+gtk-theme-name = "Adapta-DeepPurple-Nokto-Eta"
+#gtk-icon-theme-name="Papirus-Adapta-Nokto-Maia"
+gtk-icon-theme-name = "Papirus-Adapta-Nokto-Violet"
+gtk-font-name = "Roboto 20"
+gtk-cursor-theme-name = "Bibata-Modern-Classic"
+gtk-cursor-theme-size = 64
+gtk-xft-antialias = 1
+gtk-xft-hinting = 1
+gtk-xft-hintstyle = "hintfull"
+gtk-xft-rgba = "rgb"
