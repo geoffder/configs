@@ -229,6 +229,14 @@
       </startupnotify>
     </action>
   </item>
+  <item label="jellyfin-mpv-shim" icon="&icons;/jellyfin.svg">
+    <action name="Execute">
+      <command>jellyfin-mpv-shim</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
   <item label="Clementine" icon="&icons;/clementine.svg">
     <action name="Execute">
       <command>clementine</command>

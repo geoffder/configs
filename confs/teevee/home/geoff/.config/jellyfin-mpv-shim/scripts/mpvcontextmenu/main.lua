@@ -487,7 +487,7 @@ menuList = {
         {CASCADE, "Window", "window_menu", "", "", false},
         {SEP},
         {COMMAND, "Dismiss Menu", "", "", "", false},
-        {COMMAND, "Quit", "", "quit", "", false},
+        --{COMMAND, "Quit", "", "quit", "", false},
     },
 
     open_menu = {
@@ -544,7 +544,7 @@ mp.register_event("file-loaded", function()
             {CASCADE, "Window", "window_menu", "", "", false},
             {SEP},
             {COMMAND, "Dismiss Menu", "", "", "", false},
-            {COMMAND, "Quit", "", "quit", "", false},
+            --{COMMAND, "Quit", "", "quit", "", false},
         },
 
         open_menu = {

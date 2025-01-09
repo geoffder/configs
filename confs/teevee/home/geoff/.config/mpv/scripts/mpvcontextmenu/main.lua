@@ -829,6 +829,7 @@ mp.register_event("file-loaded", function()
             {COMMAND, "Enter Fullscreen", "", "set fullscreen \"yes\"", "", false, true},
             {COMMAND, "Exit Fullscreen", "Escape", "set fullscreen \"no\"", "", false, true},
             {SEP},
+	    --{COMMAND, "Close", "Ctrl+W", "quit", "", false},
             {COMMAND, "Close", "Ctrl+W", "quit", "", false},
         },
 

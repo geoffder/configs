@@ -1022,5 +1022,8 @@
         <monitor>1</monitor>
       </position>
     </application>
+    <application class="mpv">
+      <decor>false</decor>
+    </application>
   </applications>
 </openbox_config>
