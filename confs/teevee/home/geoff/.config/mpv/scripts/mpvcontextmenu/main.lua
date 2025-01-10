@@ -457,6 +457,22 @@ local function  checkProfile(name)
     return p == name
 end
 
+local function checkSVP()
+    -- get svp-enabled custom variable and strip off quotes
+    local p = string.sub(mp.get_property("user-data/svp-enabled", "\"no\""), 2, -2)
+    return p == "yes"
+end
+
+local function activateSVP()
+    if checkSVP() then
+	-- there is currently no way to deactivate SVP via mvp config once active
+	-- mp.command("apply-profile NoSVP")
+	mp.osd_message("Cannot turn off SVP through MPV config.")
+    else
+	mp.command("apply-profile SVP")
+    end
+end
+
 --[[ ************ CONFIG: start ************ ]]--
 
 local menuList = {}
@@ -621,10 +637,13 @@ mp.register_event("file-loaded", function()
             {CASCADE, "Screen Position", "screenpos_menu", "", "", false},
             {CASCADE, "Screen Alignment", "screenalign_menu", "", "", false},
             {SEP},
-            {CASCADE, "Deband", "deband_menu", "", "", false},
+            --{CASCADE, "Deband", "deband_menu", "", "", false},
             {CASCADE, "Deinterlacing", "deint_menu", "", "", false},
             {CASCADE, "Filter", "filter_menu", "", "", false},
             {CASCADE, "Adjust Color", "color_menu", "", "", false},
+            {SEP},
+            {CHECK, "Deband", "b", "no-osd cycle deband", function() return stateDeband(true) end, false},
+	    {CHECK, "SVP", "", function() activateSVP() end, function() return checkSVP() end, false},
         },
 
         -- Use function to return list of Video Tracks
@@ -808,6 +827,7 @@ mp.register_event("file-loaded", function()
 		{RADIO, "FSRCNNX", "", "apply-profile FSRCNNX", function() return checkProfile("FSRCNNX") end, false},
 		{RADIO, "FSRCNNX+", "", "apply-profile FSRCNNX+", function() return checkProfile("FSRCNNX+") end, false},
 		{RADIO, "Shaderless", "", "apply-profile Shaderless", function() return checkProfile("Shaderless") end, false},
+		--{RADIO, "SVP", "", "apply-profile SVP", function() return checkProfile("SVP") end, false},
 	},
 
         tools_menu = {
