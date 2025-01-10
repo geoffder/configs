@@ -360,6 +360,12 @@ local function stateDeInt(deIntVal)
     return deIntState
 end
 
+local function stateDeband(debandVal)
+    local debandState, debandCur = false, propNative("deband")
+    if (debandVal == debandCur) then debandState = true end
+    return debandState
+end
+
 local function stateFlip(flipVal)
     local vfState, vfVals = false, propNative("vf")
     for i, vf in pairs(vfVals) do
@@ -482,8 +488,8 @@ menuList = {
     file_loaded_menu = false,
 
     context_menu = {
-        {CASCADE, "Open", "open_menu", "", "", false},
-        {SEP},
+        --{CASCADE, "Open", "open_menu", "", "", false},
+        --{SEP},
         {CASCADE, "Window", "window_menu", "", "", false},
         {SEP},
         {COMMAND, "Dismiss Menu", "", "", "", false},
@@ -532,8 +538,8 @@ mp.register_event("file-loaded", function()
         file_loaded_menu = true,
 
         context_menu = {
-            {CASCADE, "Open", "open_menu", "", "", false},
-            {SEP},
+            --{CASCADE, "Open", "open_menu", "", "", false},
+            --{SEP},
             {CASCADE, "Play", "play_menu", "", "", false},
             {CASCADE, "Video", "video_menu", "", "", false},
             {CASCADE, "Audio", "audio_menu", "", "", false},
@@ -555,7 +561,7 @@ mp.register_event("file-loaded", function()
 
         play_menu = {
             {COMMAND, "Play/Pause", "Space", "cycle pause", "", false, true},
-            {COMMAND, "Stop", "Ctrl+Space", "stop", "", false},
+            --{COMMAND, "Stop", "Ctrl+Space", "stop", "", false},
             {SEP},
             {COMMAND, "Previous", "<", "playlist-prev", "", false, true},
             {COMMAND, "Next", ">", "playlist-next", "", false, true},
@@ -615,6 +621,7 @@ mp.register_event("file-loaded", function()
             {CASCADE, "Screen Position", "screenpos_menu", "", "", false},
             {CASCADE, "Screen Alignment", "screenalign_menu", "", "", false},
             {SEP},
+            {CASCADE, "Deband", "deband_menu", "", "", false},
             {CASCADE, "Deinterlacing", "deint_menu", "", "", false},
             {CASCADE, "Filter", "filter_menu", "", "", false},
             {CASCADE, "Adjust Color", "color_menu", "", "", false},
@@ -688,6 +695,13 @@ mp.register_event("file-loaded", function()
             {SEP},
             {RADIO, "Off", "", "no-osd set deinterlace \"no\"", function() return stateDeInt(false) end, false, true},
             {RADIO, "On", "", "no-osd set deinterlace \"yes\"", function() return stateDeInt(true) end, false, true},
+        },
+
+        deband_menu = {
+            {COMMAND, "Toggle", "b", "cycle deband", "", false, true},
+            {SEP},
+            {RADIO, "Off", "", "no-osd set deband \"no\"", function() return stateDeband(false) end, false, true},
+            {RADIO, "On", "", "no-osd set deband \"yes\"", function() return stateDeband(true) end, false, true},
         },
 
         filter_menu = {

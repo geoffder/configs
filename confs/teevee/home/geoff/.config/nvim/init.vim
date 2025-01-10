@@ -59,7 +59,7 @@ call plug#end()
 
 " ##### General Vim Stuff #####
 " Start in GitRepos (parent of code directories)
-cd ~/GitRepos
+cd ~/git
 " Write buffers when window focus is lost
 au FocusLost * silent! wa
 " Write buffer when switching to another buffer
