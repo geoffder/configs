@@ -488,8 +488,8 @@ menuList = {
     file_loaded_menu = false,
 
     context_menu = {
-        --{CASCADE, "Open", "open_menu", "", "", false},
-        --{SEP},
+        {CASCADE, "Open", "open_menu", "", "", false},
+        {SEP},
         {CASCADE, "Window", "window_menu", "", "", false},
         {SEP},
         {COMMAND, "Dismiss Menu", "", "", "", false},
@@ -538,8 +538,8 @@ mp.register_event("file-loaded", function()
         file_loaded_menu = true,
 
         context_menu = {
-            --{CASCADE, "Open", "open_menu", "", "", false},
-            --{SEP},
+            {CASCADE, "Open", "open_menu", "", "", false},
+            {SEP},
             {CASCADE, "Play", "play_menu", "", "", false},
             {CASCADE, "Video", "video_menu", "", "", false},
             {CASCADE, "Audio", "audio_menu", "", "", false},
