@@ -91,8 +91,17 @@ modules-right = cpu memory yay-updates date tray
 override-redirect = false
 
 ;; mouse scroll switches between workspaces
+; NOTE: click-right doesn't work for some reason
 ;scroll-down = xdotool key alt+Tab
+scroll-down = sh ~/.config/polybar/resize.sh -30 1
+scroll-up = sh ~/.config/polybar/resize.sh 30 1
 double-click-left = rofi -show window -sidebar-mode -no-fixed-num-lines -modi "window,drun"
+;click-middle = xdotool key super+ctrl+return
+;click-middle = xdotool key alt+space
+click-middle = sh ~/.config/polybar/client_menu.sh 0
+click-right = sh ~/.config/polybar/grab.sh
+double-click-middle = xdotool key super+ctrl+f
+click-left = sh ~/.config/polybar/slop_resize.sh 8 "1,1,1,0.5"
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -142,6 +151,7 @@ format = <label>
 ;format-foreground = #000
 format-padding = 2
 label = %{T4}[ %title:0:80:...% ]%{T-}
+;label = %{T4}%{A3:xdotool key alt+space:}[ %title:0:80:...% ]%{A}%{T-}
 
 [module/xkeyboard]
 type = internal/xkeyboard

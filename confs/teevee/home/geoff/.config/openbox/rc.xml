@@ -94,7 +94,7 @@
     </font>
     <font place="ActiveOnScreenDisplay">
       <name>Roboto</name>
-      <size>24</size>
+      <size>24</size>polybar mouse
       <!-- font size in points -->
       <weight>Bold</weight>
       <!-- 'bold' or 'normal' -->
@@ -283,6 +283,9 @@
     </keybind>
     <keybind key="W-f">
       <action name="ToggleFullscreen"/>
+    </keybind>
+    <keybind key="W-C-f">
+      <action name="ToggleMaximize"/>
     </keybind>
     <keybind key="W-C-Return">
       <action name="Move"/>
@@ -495,6 +498,9 @@
       <mousebind button="W-Left" action="Drag">
         <action name="Move"/>
       </mousebind>
+      <mousebind button="W-A-Right" action="Drag">
+        <action name="Move"/>
+      </mousebind>
       <mousebind button="A-Right" action="Press">
         <action name="Focus"/>
         <action name="Raise"/>
@@ -549,6 +555,22 @@
           <menu>root-menu</menu>
         </action>
       </mousebind>
+      <mousebind button="W-C-Right" action="Press">
+        <action name="ShowMenu">
+          <menu>client-menu</menu>
+        </action>
+      </mousebind>
+      <mousebind button="W-Left" action="DoubleClick">
+	<action name="ToggleMaximize"/>
+      </mousebind>
+	<!--     <mousebind button="Middle" action="DoubleClick">-->
+	<!--<action name="ToggleMaximize"/>-->
+	<!--     </mousebind>-->
+      <!--<mousebind button="Middle" action="Drag">-->
+      <!--  <action name="Focus"/>-->
+      <!--  <action name="Raise"/>-->
+      <!--  <action name="Move"/>-->
+      <!--</mousebind>-->
     </context>
     <context name="Titlebar">
       <mousebind button="Left" action="Drag">
@@ -583,6 +605,12 @@
         <action name="Focus"/>
         <action name="Raise"/>
         <action name="Unshade"/>
+      </mousebind>
+      <mousebind button="Left" action="DoubleClick">
+        <action name="Focus"/>
+        <action name="Raise"/>
+        <action name="Unshade"/>
+	<action name="ToggleMaximize"/>
       </mousebind>
       <mousebind button="Middle" action="Click">
         <action name="Lower"/>
@@ -781,10 +809,10 @@
         <action name="Focus"/>
         <action name="Raise"/>
       </mousebind>
-      <mousebind button="Right" action="Press">
-        <action name="Focus"/>
-        <action name="Raise"/>
-      </mousebind>
+      <!--<mousebind button="Right" action="Press">-->
+      <!--  <action name="Focus"/>-->
+      <!--  <action name="Raise"/>-->
+      <!--</mousebind>-->
     </context>
     <context name="Root">
       <!-- Menus -->
@@ -945,6 +973,9 @@
     <!-- <application class="trayer"> -->
     <!--   <layer>below</layer> -->
     <!-- </application> -->
+    <application class="*">
+      <decor>no</decor>
+    </application>
     <application class="Polybar">
       <layer>below</layer>
     </application>
