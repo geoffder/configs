@@ -14,6 +14,7 @@ files = [
     home + ".config/gtk-2.0",
     home + ".config/gtk-3.0",
     home + ".config/gtk-4.0",
+    home + ".config/Kvantum",
     # TODO: I need to move these, I believe this is the wrong spot.
     home + ".themes/Adapta-DeepPurple-Nokto-Eta",
     home + ".themes/Papirus-Dark-Places-Violet",

@@ -234,3 +234,34 @@ URxvt.keysym.Shift-Control-Down:  \033[1;6B
 ! -xos4-terminus-bold-r-normal--24-240-72-72-c-120-iso10646-1
 ! -xos4-terminus-bold-r-normal--28-280-72-72-c-140-iso10646-1
 ! -xos4-terminus-bold-r-normal--32-320-72-72-c-160-iso10646-1
+
+!svkbd.background:
+!svkbd.foreground:
+!svkbd.shiftforeground:
+!svkbd.shiftbackground:
+!svkbd.ABCforeground:
+!svkbd.ABCbackground:
+!svkbd.ABCshiftforeground:
+!svkbd.ABCshiftbackground:
+!svkbd.pressbackground:
+!svkbd.pressforeground:
+!svkbd.pressshiftbackground:
+!svkbd.pressshiftforeground:
+!svkbd.highlightbackground:
+!svkbd.highlightforeground:
+!svkbd.highlightshiftbackground:
+!svkbd.highlightshiftforeground:
+!svkbd.overlaybackground:
+!svkbd.overlayforeground:
+!svkbd.overlayshiftbackground:
+!svkbd.overlayshiftforeground:
+!svkbd.windowbackground:
+!svkbd.windowforeground:
+
+!svkbd.shiftforeground: #971cee
+!svkbd.shiftforeground: #673AB7
+!svkbd.shiftforeground: #8906e6
+!svkbd.ABCbackground: #402454
+!svkbd.ABCbackground: #290940
+!svkbd.ABCbackground: #231030
+!svkbd.ABCforeground: #ffffff

@@ -28,6 +28,16 @@ primary = #8240f7
 secondary = #e60053
 alert = #bd2c40
 
+[sh]
+grab = ~/.config/polybar/grab.sh
+client_menu = ~/.config/polybar/client_menu.sh 0
+slop = ~/.config/polybar/slop_resize.sh 8 "1,1,1,0.5"
+shrink = ~/.config/polybar/resize.sh -30 1
+grow = ~/.config/polybar/resize.sh 30 1
+max = xdotool key super+ctrl+f
+prev = xdotool key alt+shift+Tab
+next = xdotool key alt+Tab
+
 [settings]
 screenchange-reload = true
 pseudo-transparency = false
@@ -91,17 +101,13 @@ modules-right = cpu memory yay-updates date tray
 override-redirect = false
 
 ;; mouse scroll switches between workspaces
-; NOTE: click-right doesn't work for some reason
-;scroll-down = xdotool key alt+Tab
-scroll-down = sh ~/.config/polybar/resize.sh -30 1
-scroll-up = sh ~/.config/polybar/resize.sh 30 1
+scroll-down = ${sh.shrink}
+scroll-up = ${sh.grow}
 double-click-left = rofi -show window -sidebar-mode -no-fixed-num-lines -modi "window,drun"
-;click-middle = xdotool key super+ctrl+return
-;click-middle = xdotool key alt+space
-click-middle = sh ~/.config/polybar/client_menu.sh 0
-click-right = sh ~/.config/polybar/grab.sh
-double-click-middle = xdotool key super+ctrl+f
-click-left = sh ~/.config/polybar/slop_resize.sh 8 "1,1,1,0.5"
+click-middle = ${sh.client_menu}
+click-right = ${sh.grab}
+double-click-middle = ${sh.max}
+click-left = ${sh.slop}
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -144,14 +150,19 @@ label-urgent-foreground = ${colors.alert}
 label-urgent-underline = ${colors.alert}
 label-empty-foreground = ${colors.foreground}
 
+[test]
+x = %{A1:notify-send "test":}
 [module/xwindow]
 type = internal/xwindow
 format = <label>
 ;format-background = #f00
 ;format-foreground = #000
 format-padding = 2
-label = %{T4}[ %title:0:80:...% ]%{T-}
-;label = %{T4}%{A3:xdotool key alt+space:}[ %title:0:80:...% ]%{A}%{T-}
+;label = %{T4}[ %title:0:80:...% ]%{T-}
+label = %{T4}%{A1:xdotool key alt+shift+Tab:}⇦ [%{A1} %title:0:80:...% %{A1:xdotool key alt+shift+Tab:}] ⇨%{A1}%{T-}
+
+;label = %{T4}%{A1:xdotool key alt+shift+Tab:}⇦ [%{A2:~/.config/polybar/client_menu.sh 0:}%{A5:xdotool keysuper+ctrl+f:} %title:0:80:...% %{A5}%{A2}%{A1:xdotool key alt+shift+Tab:}] ⇨%{A1}%{T-}
+;label = %{T4}%{A1:${sh.prev}:}⇦ [%{A1} %title:0:80:...% %{A1:${sh.next}:}] ⇨%{A1}%{T-}
 
 [module/xkeyboard]
 type = internal/xkeyboard
