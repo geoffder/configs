@@ -25,7 +25,7 @@ files = [
     home + ".config/zsh/.zshrc",
     home + ".config/zsh/completion.zsh",
     home + ".config/zsh/setup.sh",
-    home + ".config/zsh/aliases.sh",
+    home + ".config/zsh/aliases.zsh",
     home + ".config/fsh/monokai.ini",
     home + ".config/fish",
     home + ".config/starship.toml",
